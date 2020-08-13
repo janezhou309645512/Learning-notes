@@ -4,12 +4,16 @@
 
 
 
-2.git命令 (https://www.jianshu.com/p/bf7b09e234c8)
+2.使用git
+
+
+
+
+3.git命令 (https://www.jianshu.com/p/bf7b09e234c8)
 
 git init：初始化仓库
 
 git clone ：拷贝一个 Git 仓库到本地：git clone [url]
-
 
 git add ：命令可将该文件添加到缓冲
 
