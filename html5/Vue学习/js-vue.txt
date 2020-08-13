@@ -1,0 +1,44 @@
+﻿旧版：Knockout.js
+1） var myViewModel = {}；
+2） data-bind="text:Name"
+3） ko.applyBindings(myViewModel);
+4） 监控属性ko.observable("Lilei"),
+
+5）ko.mapping.fromJS():自动将data里所有的属性创建成observable类型的属性
+6）ko.toJS(data):JavaScript简单对象
+
+ 
+ 
+ 
+ 
+改进版：vue.js
+
+1）定义View
+2）定义Model
+3）创建一个Vue实例或"ViewModel"，它用于连接View和Model
+4）指令
+    v-if指令
+    v-show指令
+    v-else指令
+    v-for指令
+    v-bind指令
+    v-on指令
+5）用法：
+1.先在html样式中设置{{}}
+2. var vm = new Vue({
+        el: '#vue_det',//元素
+        data: {   //值
+            site: "vue",
+            url: "www.baidu.com",
+            alexa: "10000",
+            message: 'Hello World!'
+        },
+        methods: {//方法
+            details: function() {
+                return  this.site + " - ---";
+            }
+        }
+    })
+
+
+

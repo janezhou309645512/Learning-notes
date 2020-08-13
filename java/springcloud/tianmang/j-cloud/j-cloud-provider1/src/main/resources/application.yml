@@ -1,0 +1,17 @@
+# 应用端口
+server:
+  port: 8002
+spring:
+  application:
+    # 应用名称
+    name: provider-user
+
+# eureka 配置
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8001/eureka
+
+logging:
+  level:
+    root: INFO

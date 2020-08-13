@@ -1,0 +1,17 @@
+1.if else 
+
+
+
+2.begin .... end 
+嵌套在if语句中
+
+3.多条件判断
+case 
+when    then
+when    then
+end
+
+4.while
+
+
+

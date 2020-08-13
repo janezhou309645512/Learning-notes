@@ -1,0 +1,2 @@
+1. @Configuration 注解介绍
+指示一个类声明一个或多个@Bean方法，并且可以由Spring容器处理，以便在运行时为这些bean生成BeanDefinition和服务请求

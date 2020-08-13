@@ -1,0 +1,49 @@
+1.定义变量
+局部变量
+环境变量
+ a="janezhou"
+ 
+2.设置只读变量
+readonly myUrl
+
+3.删除变量
+unset variable_name
+注：变量被删除后不能再次使用。unset变量被删除后不能再次使用。unset 命令不能删除只读变量 
+ 
+4.使用变量（单引号和双引号都可以）
+${a}
+1） 使用双引号拼接
+greeting="hello, "$your_name" !"
+greeting_1="hello, ${your_name} !"
+echo $greeting  $greeting_1
+2）字符串长度
+   ${#string}
+3）提取子字符串
+${string:1:4}
+
+
+5.设置数组
+
+定义数组：array_name=(value0 value1 value2 value3)
+
+读取数组值：valuen=${array_name[n]}
+
+数组元素长度  length =${#array_name[n]}
+
+
+6.脚本注释：
+
+以 # 开头的行就是注释，会被解释器忽略。
+
+通过每一行加一个 # 号设置多行注释
+
+多行注释：
+:<<EOF
+注释内容...
+注释内容...
+注释内容...
+EOF
+
+
+
+

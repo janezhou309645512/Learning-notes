@@ -1,0 +1,22 @@
+1.引用maven 
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-redis</artifactId>
+</dependency>
+
+2.加配置
+spring:
+  redis:
+    #地址
+    host: localhost
+    #端口
+    port: 6379
+    #索引库
+    database: 1
+    #密码
+    password: 
+    #超时时间
+    timeout: 5000ms
+    #其他配置
+	
+3.代码工具类：（参考https://www.jianshu.com/p/b9154316227e）

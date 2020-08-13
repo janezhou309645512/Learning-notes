@@ -1,0 +1,38 @@
+1.注释：
+与Java一致
+
+2.简单的事件点击
+区分
+<input type="button"/> 与<button/>的点击区别
+button可以随便命名
+
+3.弹出自定义对话框
+
+4.函数命名function
+1）函数声明
+function sum(num1,num2){
+  return num1+num2;
+}
+2）函数表达式：定义一个表达式
+var sum=function(num1,num2){
+ return num1+num2;
+};
+
+5.对象命名
+
+6.注意格式：不如方法之前要“，”与“；”的使用
+一般用；（与Java同）参数用，
+
+7.
+
+
+
+
+
+
+
+
+
+
+
+

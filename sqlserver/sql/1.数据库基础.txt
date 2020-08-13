@@ -1,0 +1,59 @@
+1.数据库字段类型
+数值：
+----CHAR(size):保存固定长度的字符串（可包含字母、数字以及特殊字符）最多 255 个字符。
+----VARCHAR(size):保存可变长度的字符串（可包含字母、数字以及特殊字符）最多 255 个字符(如果值的长度大于 255，则被转换为 TEXT 类型)。
+TINYTEXT:存放最大长度为 255 个字符的字符串。
+----TEXT:存放最大长度为 65,535 个字符的字符串。
+blob:用于 BLOBs (Binary Large OBjects)。存放最多 65,535 字节的数据。
+MEDIUMTEXT:存放最大长度为 16,777,215 个字符的字符串。
+MEDIUMBLOB:用于 BLOBs (Binary Large OBjects)。存放最多 16,777,215 字节的数据。
+LONGTEXT:存放最大长度为 4,294,967,295 个字符的字符串。
+LONGBLOB:用于 BLOBs (Binary Large OBjects)。存放最多 4,294,967,295 字节的数据。
+字符：
+tinyint(size)	-128 到 127 常规。0 到 255 无符号*。
+smallint(size)	-32768 到 32767 常规。0 到 65535 无符号*。
+MEDIUMINT(size)	-8388608 到 8388607 普通。0 to 16777215 无符号*。
+----INT(size)	-2147483648 到 2147483647 常规。0 到 4294967295 无符号*。
+bigint(size)	-9223372036854775808 到 9223372036854775807 常规。0 到 18446744073709551615 无符号*。
+FLOAT(size,d)	带有浮动小数点的小数字。在括号中规定最大位数。在 d 参数中规定小数点右侧的最大位数。
+----DOUBLE(size,d)	带有浮动小数点的大数字。在括号中规定最大位数。在 d 参数中规定小数点右侧的最大位数。
+DECIMAL(size,d)	作为字符串存储的 DOUBLE 类型，允许固定的小数点
+
+日期：
+---DATE//YYYY-MM-DD
+---DATETIME//YYYY-MM-DD HH:MM:SS
+---TIME	//HH:MM:SS 
+
+
+
+
+2.操作数据库的指令
+show databases ;//展示所有数据库
+create database 数据库名 character set gbk//创建数据库
+use 数据库名    //对选定的数据库进行操作
+drop databases  //删除数据库
+GO:批处理 结果互不影响
+
+
+
+3.操作表
+
+create table 表名( id int not null auto_increment primary key,
+ 字段一 数据类型 约束条件)
+
+
+
+4.对表中的数据进行添删改查
+--增
+INSERT INTO 表名（字段1，字段2）VALUES(值1，值2）
+--删
+DELETE FROM 表名 where 字段的条件 and 另一字段条件
+--改
+UPDATE 表名 SET 字段赋值 WHERE 字段值
+--查
+SELECT 字段列表  FROM  表名 WHERE 字段值 ORDER BY 
+字段(空格）ASC(升序）/DESC（降序）
+ 注意的点：SQL语句不管大小写区分以及空格数，但是不管拆分怎样写，
+最后拼接起来的字符串一定是最原始的SQL语句
+
+

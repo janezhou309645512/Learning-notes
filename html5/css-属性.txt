@@ -1,0 +1,19 @@
+基本常见属性
+width:px
+height:px
+font-size:字体大小
+backgroud:
+position:定位（一般文档流）
+left:
+top:
+margin : 0 atuo :在正常文档流时居中
+display:none：不占空间 隐藏
+display:block：块元素
+display:inline：行内元素
+display:inline-block ：行内块元素
+字体居中：
+line-height:高度
+z-index：值的大小代表在上面
+
+清除浮动：
+

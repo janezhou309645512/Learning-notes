@@ -1,0 +1,85 @@
+1. if语句
+if []
+then
+fi
+
+2.if else 语句
+if []
+then
+else
+fi
+
+3.if elif语句(多层判断）
+if []
+then 
+elif
+then 
+else
+fi
+
+4.for循环
+for loop in 1 2 3 4 5
+do
+    echo "The value is: $loop"
+done
+
+5.while 语句 
+
+while condition
+do
+    command
+done
+
+6.until 循环
+until condition
+do
+    command
+done
+
+7.case
+echo '输入 1 到 4 之间的数字:'
+echo '你输入的数字为:'
+read aNum
+case $aNum in
+    1)  echo '你选择了 1'
+    ;;
+    2)  echo '你选择了 2'
+    ;;
+    3)  echo '你选择了 3'
+    ;;
+    4)  echo '你选择了 4'
+    ;;
+    *)  echo '你没有输入 1 到 4 之间的数字'
+    ;;
+esac
+
+8.跳出循环:break命令
+
+
+9.continue
+continue命令与break命令类似，只有一点差别，它不会跳出所有循环，仅仅跳出当前循环。
+
+
+10.case ... esac
+case ... esac 与其他语言中的 switch ... case 语句类似
+case "$site" in
+   "runoob") echo "菜鸟教程"
+   ;;
+   "google") echo "Google 搜索"
+   ;;
+   "taobao") echo "淘宝网"
+   ;;
+esac
+
+
+
+
+
+
+
+
+
+
+
+
+

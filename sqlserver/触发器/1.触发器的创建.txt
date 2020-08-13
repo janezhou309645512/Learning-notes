@@ -1,0 +1,21 @@
+1.点击表展开，新建触发器
+2.格式：
+
+CREATE TRIGGER T_updateProcessName   1
+   ON  dbo.T_MES_ModuleInfo   2
+   for insert   3
+AS 
+BEGIN
+declare @id int  --申明变量
+select @id=id from inserted （插入的标示）
+update T_MES_ModuleInfo set MQProcessName=(select Fname from T_MES_ModuleInfo M INNER join dbo.T_MES_ProcessEntry  P on p.FID=M.MQProcessName where Id=@id) WHERE Id=@id
+
+END
+GO
+
+
+
+1后面写上触发器名称，
+2写上所操作的表名，
+3处写上当对表有“何种操作（insert，delete，update）时触发
+begin  后开始写触发后执行何种操作。

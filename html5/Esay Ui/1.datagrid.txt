@@ -1,0 +1,78 @@
+1.datagrid加载数据js加载法：
+1）记载数据
+<table id="dg"></table>
+$('#dg').datagrid({
+    url:'datagrid_data.json',
+    columns:[[
+		{field:'code',title:'Code',width:100},
+		{field:'name',title:'Name',width:100},
+		{field:'price',title:'Price',width:100,align:'right'}
+    ]]
+});
+2）通过参数加载数据
+$('#dg').datagrid('load', {
+    name: 'easyui',
+    address: 'ho'
+});
+3）重新更新数据
+$('#dg').datagrid('reload'); 
+---------------------------------------------
+2.datagrid属性：
+1）工具栏
+ toolbar:'#dg'
+ <div id="tb"></div>
+2）url
+3）data
+4）loadMsg：加载消息提示框
+5）分页
+pagination: 分页工具
+pagePosition:分页位置
+pageNumber: 页码
+pageSize: 页码尺寸
+pageList: 页码list
+6）rownumbers
+
+7)singleSelect: 只能选择单行
+8）queryParams: {
+		name: 'easyui',
+		subject: 'datagrid'
+	}
+	附加请求参数传递给服务
+	
+9)rowStyler:function(index,row){}
+获取行的数据
+
+10)loader:
+
+---------------------
+3.datagrid列属性
+1）title：
+2）field：
+3）sortable：
+4）order:desc/esc
+5）formatter：function(value,row,index){}：单元格格式化
+6）styler: function(value,row,index){
+return 'background-color:#ffee00;color:red;';}：单元格的样式函数
+7）sorter:function(a,b){ }：排序
+8）editor（string,object)
+
+
+----
+4.datagrid 事件 
+1）onClickRow：点击一行
+2）onDblClickRow：双击一行
+3）onSelect：选中一行
+4）onSelectAll：选中所有
+
+
+
+
+
+
+
+
+
+
+
+
+  

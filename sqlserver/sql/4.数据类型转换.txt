@@ -1,0 +1,5 @@
+﻿1.时间与日期的转换
+CONVERT(varchar(100), WA.FProductionTime, 23) --转换为 yyyy-DD-mm
+2.字符串转数字
+convent(demical(18,2),varchar(20))
+

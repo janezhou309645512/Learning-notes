@@ -1,0 +1,24 @@
+1.在系统中设置全屏加载（增加my.desktop文件）
+cd /home/pi/.config
+mkdir autostart
+cd autostart
+vi my.desktop
+内容：
+[Desktop Entry]
+Type=Application
+Exec=chromium-browser  --disable-popup-blocking --no-first-run --disable-desktop-notifications  --kiosk "http://www.baidu.com" 
+
+
+2.在Iframe中加载网址设置
+
+    $(window).resize(function() {
+           $("#framdid").height((document.documentElement.clientHeight - 5));
+           $("#framdid").width(document.documentElement.clientWidth);
+
+          });
+ 
+ 刷新页面重新加载时也设置：
+  $("#framdid").height((document.documentElement.clientHeight - 5));
+           $("#framdid").width(document.documentElement.clientWidth);
+ 
+

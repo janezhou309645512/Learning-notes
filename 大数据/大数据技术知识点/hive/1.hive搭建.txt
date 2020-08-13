@@ -1,0 +1,4 @@
+1.安装配置hive 
+https://blog.51cto.com/taoismli/2289792
+
+https://blog.csdn.net/pucao_cug/article/details/71773665

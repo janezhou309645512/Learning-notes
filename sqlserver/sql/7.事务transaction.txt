@@ -1,0 +1,28 @@
+﻿事务执行两种方式：（判断是执行错误与执行为0）
+第一种方法：（根据@@error变量来判断）
+begin tran
+update tbl_test set name='名字2' where id='001';
+update tbl_test set name='名字超过5字' where id='001';
+if @@error <> 0
+    begin
+        rollback transaction
+    end
+else
+    begin
+        commit transaction 
+    end
+	
+
+	
+第二种方法：（根据try....catch)
+begin try
+    begin transaction
+        update tbl_test set name='名字2' where id='001';
+        update tbl_test set name='名字超过5字' where id='001';
+        commit transaction 
+end try
+begin catch
+    --select ERROR_NUMBER() as 错误代码 
+    rollback transaction 
+end catch
+

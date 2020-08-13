@@ -1,0 +1,6 @@
+1.linux安装
+
+
+2.Linux启动过程
+
+ BIOS硬盘自检（/boot)--->进程启动(读取配置文件/etc/inittab)--->登录

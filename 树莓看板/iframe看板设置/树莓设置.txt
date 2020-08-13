@@ -1,0 +1,40 @@
+1.在系统中设置全屏加载（增加my.desktop文件）
+cd /home/pi/.config
+mkdir autostart
+cd autostart
+vi my.desktop
+内容：
+[Desktop Entry]
+Type=Application
+Exec=chromium-browser   --kiosk "http://www.baidu.com" 
+// Exec=chromium-browser  --kiosk  --app=http://www.baidu.com (避免弹出框）
+
+2.在/etc/profiled中放入screen.sh文件
+
+
+3.在Iframe中加载网址一定要设置
+
+    $(window).resize(function() {
+           $("#framdid").height((document.documentElement.clientHeight - 5));
+           $("#framdid").width(document.documentElement.clientWidth);
+
+          });
+ 
+ 刷新页面重新加载时也设置：
+  $("#framdid").height((document.documentElement.clientHeight - 5));
+           $("#framdid").width(document.documentElement.clientWidth);
+
+
+4.注意4k屏幕无法加载全屏的(周围有黑边的）
+root权限下 ----打开/boot/config.txt 文件---将disable_overscan=1前的#去掉
+
+
+
+
+
+
+
+
+
+
+ 

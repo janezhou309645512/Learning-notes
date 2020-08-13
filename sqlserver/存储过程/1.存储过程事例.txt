@@ -1,0 +1,292 @@
+--------------------------------------------------------------------------
+-------------------------------存储过程Study------------------------------
+--------------------------------------------------------------------------
+--删除表
+drop table student
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--创建用户信息数据表
+create table student
+(
+	id int identity(1,1),--递增1,
+	stuNo varchar(50) primary key, --唯一键
+	stuName varchar(50),
+	stuAge datetime,
+	stuSex varchar(5)		
+)
+ 
+--创建用户分数数据表
+create table course
+(
+	id int identity(1,1),--递增1,
+	stuNo varchar(50),
+	courseName varchar(50),
+	courseScore decimal	
+)
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--插入数据
+--插入单条数据
+insert into student(stuNo,stuName,stuAge,stuSex) values('01','王男','1996-08-27 09:00:00.000','男')
+ 
+--多数量插入数据
+--SQL Server2008特有的插入
+insert into student values('02','杨幂','1995-4-20 6:0:0','女'),
+						  ('03','程峰','1988-9-17 15:30:0','男')
+						  
+insert into course values('02','思想政治','85.5'),
+						 ('02','数学','70'),
+						 ('02','语文','80'),
+						 ('02','物理','90'),
+						 ('02','化学','65'),
+						 ('02','英语','96')
+						 
+insert into course values('03','思想政治','60'),
+						 ('03','数学','65'),
+						 ('03','语文','84'),
+						 ('03','物理','70'),
+						 ('03','化学','76'),
+						 ('03','英语','54')						 
+						  
+ 
+--使用UNION ALL来进行插入
+insert into student 
+select '04','wangan','1895-5-27 14:30:28','女'
+union all 	
+select '05','zhangnan','1990-1-20 19:0:0','女'
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--修改数据
+update student set stuSex='男',stuAge='2016-5-9 8:0:0' where stuName='王男' 
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--删除数据
+delete from student where stuNo=01
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--存储过程查询所有数据
+--begin...end 类似编程语言中的{}
+create proc stu1
+as
+begin
+	select * from student;
+end
+go
+ 
+exec stu1
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--存储过程根据条件用户名查询用户信息
+create proc stu2
+@sname varchar(50)   --声明全局变量
+as
+begin
+	select * from student s where s.stuName=@sname;
+end
+go
+ 
+exec stu2 '王男'
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--存储过程内部设定用户名查询用户信息
+create proc stu3
+@sname varchar(50)='王男'
+as 
+begin
+	select * from student s where s.stuName=@sname; 
+end
+go
+ 
+exec stu3 
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--存储过程根据用户名查询是否存在这个用户信息
+create proc stu4
+@sname varchar(50),
+@result varchar(8) output --输出参数
+as
+begin
+	 if (select COUNT(1) from student s where s.stuName=@sname)>0
+	 --if exists (select COUNT(1) from student s where s.stuName=@sname)
+	 set 
+		@result='存在!'
+	 else
+	 set 
+		@result='不存在!'
+end
+go
+ 
+ 
+declare @result varchar(8)
+exec stu4 '王男1',@result output
+print @result
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--存储过程内部设定局部变量用户名来查询用户信息
+create proc stu5
+as
+declare @sname varchar(50)  --局部变量声明
+set @sname='杨幂'
+begin
+	select * from student s where s.stuName=@sname
+end
+go
+ 
+exec stu5
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--存储过程根据条件用户学号查询用户名
+create proc stu6
+@stuNo varchar(50)
+as
+declare @sname varchar(50)
+set @sname=(select s.stuName from student s where s.stuNo=@stuNo)
+select @sname
+go
+ 
+exec stu6 '01'
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--存储过程插入用户信息
+create proc stu7
+@stuNo varchar(50),
+@stuName varchar(50),
+@stuAge datetime,
+@stuSex varchar(5)
+as 
+begin
+	insert into student 
+		(stuNo,stuName,stuAge,stuSex)
+	values 
+		(@stuNo,@stuName,@stuAge,@stuSex) 
+end
+go
+ 
+exec stu7 '07','王莽','2000-9-9 9:9:9','女'
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--存储过程根据用户名来删除对应的用户信息
+--@@rowcount返回操作条数
+--return返回信息，终止下面的操作
+create proc stu8
+@stuName varchar(50)
+as
+begin
+	delete from student where stuName=@stuName
+	return @@rowcount
+end
+go
+ 
+declare @result varchar(50)
+exec @result=stu8 '王莽'
+select @result as '删除条数'
+--print @result
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--存储过程根据用户学号来查询他的平均分
+create proc stu9
+@stuNo varchar(50),
+@avg int output
+as 
+begin
+	set @avg=(select AVG(courseScore) from course where stuNo=@stuNo)
+	--等同
+	--select @avg=AVG(courseScore) from course where stuNo=@stuNo
+end
+go
+ 
+declare @avg int
+exec stu9 '02',@avg output
+print @avg
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--存储过程根据用户学号来联合查询用户信息和课程信息
+create proc stu10
+@stuNo varchar(50)
+as
+	select c.stuNo,s.stuName,s.stuAge,s.stuSex,c.courseName,c.courseScore from student s join course c on s.stuNo=c.stuNo where s.stuNo=@stuNo
+go
+ 
+exec stu10 '02'
+go
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--存储过程判断学号是否存在，不存在，插入用户信息，返回消息；存在，返回信息
+create proc stu11
+@stuNo varchar(50),
+@stuName varchar(50),
+@stuAge datetime,
+@stuSex varchar(5),
+@result varchar(50) output
+as
+	if exists (select * from student where stuNo=@stuNo)
+		begin
+			set @result='对不起，学号已存在!'
+		end		
+	else
+		begin
+			insert into student 
+				(stuNo,stuName,stuAge,stuSex)
+			values 
+				(@stuNo,@stuName,@stuAge,@stuSex)
+			set @result='恭喜你，用户信息插入成功!'	 
+		end
+go
+ 
+declare @result varchar(50)
+exec stu11 '06','王忠磊','1980-8-8 8:9:0','男',@result output
+print @result
+ 
+--------------------------------------------------------------------------
+--------------------------------------------------------------------------
+--存储过程查询当前用户的平均成绩与总的平均成绩之间的关系
+create proc stu12
+@stuNo varchar(50)
+as
+declare @curAvg decimal(18,2)
+declare @totalAvg decimal(18,2)
+if exists(select * from course where stuNo=@stuNo)
+	begin
+		set @totalAvg=(select AVG(courseScore) from course)
+		select @curAvg=AVG(courseScore) from course where stuNo=@stuNo
+		print ('总的平均分:'+convert(varchar(18),@totalAvg))
+		print ('该生的平均分:'+convert(varchar(18),@curAvg))
+		if @curAvg>@totalAvg
+			print '高于平均水平!'
+		else 
+			print '低于平均水平!'	
+	end
+else
+	print '该生对应的分数信息不存在,请重新查询!'
+go
+ 
+exec stu12 '03'
+go

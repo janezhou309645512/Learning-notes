@@ -1,0 +1,18 @@
+# 应用端口
+server:
+  port: 8005
+spring:
+  application:
+    # 应用名称
+    name: j-cloud-consumer-feign
+
+# eureka 配置
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8001/eureka
+
+logging:
+  level:
+    root: INFO
+

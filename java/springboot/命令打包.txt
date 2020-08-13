@@ -1,0 +1,10 @@
+1.参考：https://www.cnblogs.com/mingzhanghui/p/9412862.html
+
+
+编译
+mvn clean compile
+打包
+mvn clean package
+
+
+

@@ -1,0 +1,24 @@
+1.常用：自动登录，记住用户名
+
+2.定义：
+计算机访问服务网页的
+
+3.创建cookie:键值对
+document.cookie='name=35'
+
+4.设置cookie的过期时间 
+expires=day(day为设置过期时间，可前可后）
+
+5.创建cookie函数：
+fuction  setCookie(key,value,expires){
+
+}
+
+
+
+
+
+
+
+
+

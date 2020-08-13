@@ -1,0 +1,38 @@
+﻿1.核心：
+1）HDFS:分布式文件系统，存储海量的数据
+2）MapReduce:并行处理框架，实现任务分解和调度
+2.安装hadoop
+1)jdk 
+2)下载hadoop 安装
+3）修改配置文件
+
+3.HDFS
+1）数据块
+2）namenode
+3)
+
+
+4.创建文件语法：
+文件夹权限：hadoop fs -chown -R  lyadmin:hdfs  /warehouse/
+查看：hadoop fs -ls /
+创建目录：hadoop fs -mkdir /
+删除文件：hadoop fs -rm /
+删除目录：hadoop fs -rm -r -skipTrash /folder_name（永久删除）
+hadoop fs -rmr /warehouse/test/ods/ODS_test_report_T_sys_hr_user/*
+放进文件夹：hadoop fs -put  /home/jane.zhou1/ODS_SAP_ZMMR008_SHOW.txt  /warehouse/sap/ods/ODS_SAP_ZMMR008_SHOW/day=2020-02-15/
+
+
+5.hdfs文件集群互迁
+hadoop distcp -skipcrccheck -update hdfs://mycluster/warehouse/sap/ods/ODS_SAP_ZFMM_044   hdfs://10.0.24.205:8020/apps/hive/warehouse/test.db/ly_test3
+
+MSCK REPAIR TABLE 库名.表名;(不需要分区的一种）
+
+
+
+
+
+
+
+
+
+

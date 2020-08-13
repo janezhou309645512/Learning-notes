@@ -1,0 +1,36 @@
+﻿1.字符串函数
+CHARINDEX (目标字符串,查找的字符串,开始位置) -- 查找字符串，返回字符串,否则返回0
+LEN()-- 字符长度
+LOWER()/UPPER() --转小写
+substring(string,start_position,length) --截取字符串
+
+----字符串与数字互转：
+convent(要转换的类型,待转的类型)
+例：
+convert(demical(18,2),varchar(20))
+
+
+2.日期函数
+GETDATE() --获取当前时间
+DATEDD(dd,1,getdate())-- 增加与减少日期
+DATEDIFF(dd,前时间，后时间)--获取两个时间差
+
+----日期转化为字符串：
+CONVERT(varchar(100), GETDATE(), 23)： 2006-05-16  --标准日期
+CONVERT(varchar(100), GETDATE(), 111):  2006/05/16  --日期
+CONVERT(varchar(100), GETDATE(), 24): 10:57:47   --标准时间
+CONVERT(varchar(100), GETDATE(), 120): 2006-05-16 10:57:49 --标准日期，时间
+
+3，聚合函数
+SUM() 求和
+Avg() 平均值
+count() 求行数
+
+4.row_number() over()函数，给只添加id序号
+1)不加分组
+排序
+2）加上分组
+去重字段（多字段）   
+
+语法格式：row_number() over(partition by 分组列 order by 排序列 desc)
+over()里头的分组以及排序的执行晚于 where 、group by、  order by 的执行

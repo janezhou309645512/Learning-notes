@@ -1,0 +1,33 @@
+windows准备工具
+1) xshell工具，用于远程连接服务器，执行命令操作
+2）winscp工具，用于传输文件
+-------------------------------------------------------------
+1.看是否需要挂载数据盘
+用“fdisk -l”命令查看，没有 /dev/xvdb 标明您的云服务无数据盘，无需挂载格式化以及分区
+https://blog.csdn.net/azhangyi188/article/details/51462713（必看）
+https://www.jianshu.com/p/2604e53a7f6a?from=singlemessage
+2.安装centos6.8的linux系统 
+https://blog.csdn.net/taotao12312/article/details/72357371（参考这篇文章）
+3.jdk的安装
+1）安装jdk
+进入文件夹：cd /usr
+默认安装路径：/usr/java/jdk-8u171-linux-x64
+tar -zxvf jdk-8u171-linux-x64.tar.gz
+2）jdk的环境变量设置
+
+a. 进入编辑状态：vim  /etc/profile 
+b. 在文件最下方增加：
+export JAVA_HOME=/usr/local/java/jdk1.8.0_201
+export JRE_HOME=${JAVA_HOME}/jre
+export CLASSPATH=.:${JAVA_HOME}/lib:${JRE_HOME}/lib
+export PATH=$PATH:${JAVA_HOME}/bin
+c. 保存退出：先esc ,在":wq"命令保存退出
+d. 使配置生效： source/etc/profile
+e. jdk验证：java -version命令 可以看到版本号即可
+3)
+
+
+
+
+
+ 

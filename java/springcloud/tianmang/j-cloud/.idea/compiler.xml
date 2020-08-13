@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="j-cloud" />
+        <module name="j-cloud-consumer-feign" />
+        <module name="j-cloud-consumer-feign-hystrix" />
+        <module name="j-cloud-provider1" />
+        <module name="j-cloud-provider2" />
+        <module name="j-cloud-server-eureka" />
+        <module name="j-cloud-sonsumer" />
+        <module name="j-cloud-zuul" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="j-cloud" target="1.8" />
+      <module name="j-cloud-consumer-feign" target="1.8" />
+      <module name="j-cloud-consumer-feign-hystrix" target="1.8" />
+      <module name="j-cloud-provider1" target="1.8" />
+      <module name="j-cloud-provider2" target="1.8" />
+      <module name="j-cloud-server-eureka" target="1.8" />
+      <module name="j-cloud-sonsumer" target="1.8" />
+      <module name="j-cloud-zuul" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

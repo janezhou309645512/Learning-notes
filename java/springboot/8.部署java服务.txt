@@ -1,0 +1,36 @@
+
+1.部署jar服务 
+查找jar服务端口：ps -ef |grep jane-0.0.1-SNAPSHOT.jar  
+kill掉服务：kill -9 13307
+删除服务：rm -rf jane-0.0.1-SNAPSHOT.jar 
+重新上传服务：
+服务部署：nohup java -jar jane-0.0.1-SNAPSHOT.jar > log.txt &
+查看服务返回日志：tail -1000f log.txt 
+清除日志：echo >log.txt
+
+查看日志后 退出ctrl+c
+
+
+2.linux 脚本定时执行
+1）创建脚本：
+vim test.sh
+脚本命令语法：
+#!/bin/bash
+
+echo "test" >> /home/lstech/project/test.log
+
+
+
+2)定时任务语句
+crontab -e
+查看 crontab -l
+定时语句
+例子：*/1 * * * * /home/lstech/project/test.sh
+
+3）文件生效
+chmod 755 test.sh 
+
+  
+
+
+

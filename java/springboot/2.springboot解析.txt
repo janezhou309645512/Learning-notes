@@ -1,0 +1,74 @@
+了解spring boot( http://c.biancheng.net/spring_boot/)
+
+1.springboot创建web项目
+https://github.com/WinterChenS/my-site
+https://github.com/WinterChenS/springboot2-mybatis-demo
+https://blog.csdn.net/gebitan505/article/details/54929287
+
+
+2.目录结构
+src/main/java：目录下放置所有java文件（源代码文件）；
+
+src/main/resources：放置所有的配置文件、页面文件、静态资源文件；
+
+src/main/resources/static：是静态资源文件目录，在这个目录中的所有文件将可以被直接访问，如果没有这个文件夹可自行创建；
+
+src/main/resources/public：作用和src/main/resources/static目录一样。
+
+
+注意：每创建一个新项目都要重新配置maven,以及编码格式
+
+2.注解
+1）Action：
+----类中
+@Controller
+@RequestMapping(value = "/user")
+
+
+-----方法：
+@RequestMapping("/index")：（使用请求方法、请求参数及请求头映射请求） 可以： @RequestMapping(value = "/fetch/{id}", method = RequestMethod.GET)  
+@getMapping("/add"):get请求
+@PostMapping("/add")： post请求
+@ResponseBody ：返回值，不加默认返回页面
+
+
+
+2）Service （注册：@Service）
+
+3)Dao层（注册:@Mapper)
+a.在application哪里引入扫描@MapperScan("com.example.mybatisdemo.dao")
+b.接口：UserMapper：配置数据库操作
+
+
+        @Select 是查询类的注解，所有的查询均使用这个
+        @Result 修饰返回的结果集，关联实体类属性和数据库字段一一对应，如果实体类属性和数据库属性名保持一致，就不需要这个属性来修饰。
+        @Insert 插入数据库使用，直接传入实体类会自动解析属性到对应的值
+        @Update 负责修改，也可以直接传入对象
+        @delete 负责删除
+	例如：
+	public interface UserMapper {
+
+    List<UserEntity> getAll();
+
+    
+    UserEntity getOne(Long id);
+
+   
+    void insert(UserEntity user);
+
+  
+    void update(UserEntity user);
+
+  
+    void delete(Long id);
+
+}
+4) 引用bean： @Autowired
+ 
+ 
+
+
+
+
+
+

@@ -1,0 +1,4 @@
+1.表单控件的赋值：
+$("input[name='password']").val('Abcd.1234');
+                       //对密码进行MD5加密
+$("input[name='keepLogin[]']").attr("checked", 'true');

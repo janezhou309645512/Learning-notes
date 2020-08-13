@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/j-cloud.iml" filepath="$PROJECT_DIR$/j-cloud.iml" />
+      <module fileurl="file://$PROJECT_DIR$/j-cloud-consumer-feign/j-cloud-consumer-feign.iml" filepath="$PROJECT_DIR$/j-cloud-consumer-feign/j-cloud-consumer-feign.iml" />
+      <module fileurl="file://$PROJECT_DIR$/j-cloud-consumer-feign-hystrix/j-cloud-consumer-feign-hystrix.iml" filepath="$PROJECT_DIR$/j-cloud-consumer-feign-hystrix/j-cloud-consumer-feign-hystrix.iml" />
+      <module fileurl="file://$PROJECT_DIR$/j-cloud-provider1/j-cloud-provider1.iml" filepath="$PROJECT_DIR$/j-cloud-provider1/j-cloud-provider1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/j-cloud-provider2/j-cloud-provider2.iml" filepath="$PROJECT_DIR$/j-cloud-provider2/j-cloud-provider2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/j-cloud-server-eureka/j-cloud-server-eureka.iml" filepath="$PROJECT_DIR$/j-cloud-server-eureka/j-cloud-server-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/j-cloud-sonsumer/j-cloud-sonsumer.iml" filepath="$PROJECT_DIR$/j-cloud-sonsumer/j-cloud-sonsumer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/j-cloud-zuul/j-cloud-zuul.iml" filepath="$PROJECT_DIR$/j-cloud-zuul/j-cloud-zuul.iml" />
+    </modules>
+  </component>
+</project>

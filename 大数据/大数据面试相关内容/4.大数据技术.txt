@@ -1,0 +1,6 @@
+1.hadoop ,Hive,spark,Hbase
+2.python
+
+
+kettle ---->HDFS ---->spark(数据清洗）----->hive（过程数据）------>Hbase(最终数据)
+

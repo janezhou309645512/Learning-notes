@@ -1,0 +1,173 @@
+							
+清屏：clear
+u 撤销上次操作
+ctrl+r 恢复撤销
+
+1.账号
+切换账号：  su  root
+添加普通账号： useradd  tt
+
+2.目录文件详情：
+查看当前目录:  pwd
+显示目录下内容：ls
+-a 显示所有文件及目录
+-l 文件详细信息
+
+3.目录切换：cd
+cd [dirName] (要切换的目标目录)
+..  上一层目录 
+
+
+4.文件创建
+mkdir：创建一个新的目录
+rmdir：删除一个空的目录
+cp: 复制文件或目录
+rm -rf : 移除文件或目录
+mv: 移动文件与目录，或修改文件与目录的名称
+例子：将目录A重命名为B
+mv A B
+例子：将/a目录移动到/b下，并重命名为c
+mv /a /b/c
+
+
+
+
+5.文件本地上传下载及压缩
+rz  上传
+ra  下载
+tar -zxvf 压缩.gz文件
+压缩其他文件：
+
+
+
+
+6.Vim编辑(less:查看文件不修改 ,q退出)
+
+               输入：             输入i
+ 指令列模式<---------命令模式--------------->输入模式
+                             <--------------
+                                 输入ESC
+
+进入指令列模式后的命令如下:（后面加!属于强制性)
+命令模式下搜索：/搜索内容
+
+--保存不退出：
+
+:w 保存文件但不退出vi 编辑
+
+:w! 强制保存，不退出vi 编辑
+
+--不保存并退出：
+
+:q 不保存文件并退出vi 编辑
+
+:q! 不保存文件并强制退出vi 编辑
+
+--保存并退出：
+
+:wq 保存文件并退出vi 编辑
+
+:wq! 强制保存文件并退出vi 编辑
+
+
+7.nohup 命令
+nohup /root/test.sh  >log.txt &
+Command：要执行的命令。
+Arg：一些参数，可以指定输出文件。
+&：让命令在后台执行，终端退出后命令仍旧执行。
+
+8.grep 命令
+|grep  管道“|bai” 用来将前一个命令的标准输出传递到下一个命令的标准输入
+grep "字符串" {文件名} :根据用户指定的文本模式对目标文件进行逐行搜索，显示能够被模式所匹配到的行。
+
+
+9.yum常用命令
+1.列出所有可更新的软件清单命令：yum check-update
+2.更新所有软件命令：yum update
+3.仅安装指定的软件命令：yum install <package_name>
+4.仅更新指定的软件命令：yum update <package_name>
+5.列出所有可安裝的软件清单命令：yum list
+6.删除软件包命令：yum remove <package_name>
+7.查找软件包 命令：yum search <keyword>
+8.清除缓存命令:
+yum clean packages: 清除缓存目录下的软件包
+yum clean headers: 清除缓存目录下的 headers
+yum clean oldheaders: 清除缓存目录下旧的 headers
+yum clean, yum clean all (= yum clean packages; yum clean oldheaders) :清除缓存目录下的软件包及旧的headers
+
+10.查看防火墙状态：
+firewall-cmd --state
+关闭防火墙
+systemctl stop firewalld.service            #停止firewall
+systemctl disable firewalld.service        #禁止firewall开机启动
+重启防火墙
+
+firewall-cmd --reload
+
+11.查看端口
+netstat命令
+[root@localhost ~]# netstat -ntulp |grep 3306   //查看所有80端口使用情况·
+
+12.wget命令
+使用wget下载单个文件:
+wget http://cn.wordpress.org/wordpress-3.1-zh_CN.zip 
+使用wget -c断点续传 
+
+
+13.文件搜索
+
+1).find命令
+
+例如：find / -name mysql 这句命令的意思是在根目录下按名字查找文件夹名叫mysql的文件夹。
+
+find /usr/local/mysql -name \*.bin 这句命令的意思是在目录“/usr/local/mysql”中搜索以.bin结尾的所有文件。说明：当mysql开启增量备份的时候，会生成很多.bin结尾的文件。
+
+2).locate命令
+
+例如：locate \*.log 这句命令的意思是查找后缀为.log的文件
+
+locate /etc/my 搜索etc目录下所有以my开头的文件
+
+注意：locate命令要比find -name快得多，原因在于它不搜索具体目录，而是搜索一个数据库/var/lib/mlocate/mlocate.db 。为了避免mlocate.db数据库因为更新操作（如添加修改删除）没来得及更新，在使用该命令前应执行一次“updatedb”。
+
+3).whereis命令
+
+例如：whereis tomcat 显示结果“/usr/local/tomcat”通过这句命令可以显示tomcat的位置。
+
+4)grep -r "{关键字}"  {路径}
+例如：
+grep -r "test"  /data/reports
+
+
+
+
+14.向配置文件写配置
+echo 'export PATH=$PATH:/usr/local/rabbitmq/sbin' >> /etc/profile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

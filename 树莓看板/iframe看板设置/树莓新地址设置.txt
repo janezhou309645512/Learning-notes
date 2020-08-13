@@ -1,0 +1,7 @@
+
+
+
+切换为Root用户：
+1.替换原来的etc/profiled/目录下的screen.sh文件，并设置权限为anyone
+2.将my.desktop文件放入 /home/pi/.config/autostart/ 目录下（如果没有autostart目录，则新建），并设置权限为anyone
+3.将my.desktop文件里“”里的地址换成自己要配置的地址

@@ -1,0 +1,24 @@
+
+1.centos7.0搭建GitLab(参考https://www.cnblogs.com/934827624-qq-com/p/10964722.html)
+
+
+
+
+2.git命令 (https://www.jianshu.com/p/bf7b09e234c8)
+
+git init：初始化仓库
+
+git clone ：拷贝一个 Git 仓库到本地：git clone [url]
+
+
+git add ：命令可将该文件添加到缓冲
+
+
+
+
+
+
+
+
+
+

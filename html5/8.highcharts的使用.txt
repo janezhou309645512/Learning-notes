@@ -1,0 +1,5 @@
+1.X,Y抽的数据  均为data数组（字符数组，数字数组）
+2. tooltip//鼠标移到图形上时显示的提示框  
+3 plotOptions:
+ 数据标签
+        dataLabels :

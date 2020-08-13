@@ -1,0 +1,62 @@
+﻿查询语句进阶：
+1.字段别名    as或者空格
+
+
+2.Where(条件查询）
+1）where -比较符
+select name,age from emp where name='jane';(文本值用单引号，日期要注意格式）
+select name,age from emp where age<=10;
+2）where -in//  用于字段可以接受的值
+where age in(10,12,13);
+where name not in('jane','zhou')
+3）where-between//字段值的范围
+where age between 1000 and 1500;
+where age not between 1000 and 1500;
+4)where -is null//除去空值
+5）where -逻辑查询
+where age>=1100 and name='jane';//且
+where age>=1100 or name='jane';//或
+6)where -like //模糊查询
+两种通配符
+"_" 代表任意一个字符
+"%" 代表任意多个字符
+
+
+
+3.order by子句//指定顺序进行查询
+select name,age from emp order by age;
+order by age DESC;//降序
+order by age ASC;//降序
+
+
+
+4.分组查询
+----Group by 子句//分组
+1）配合Having by 用于分组结果后的条件
+2）查询的结果集只能分组的字段和聚合函数（AVG,MAX,MIN,SUM，COUNT）
+ 
+
+5.子查询
+1）单行子查询
+2）多行子查询
+--IN(子查询） //在那个范围
+--ANY(子查询）//比较最小的
+--ALL（子查询）//比较最小的
+
+
+----------------------------------------------------
+6.多表查询：
+原理：返回的数据集是两张表相乘（A*B）后按条件刷选的
+1) 内连接INNER JOIN(默认为join)
+TableA INNER JOIN TableB 
+ON TableA.name = TableB.name
+Inner join//产生的是表A和表B的交集
+2）内连接
+-----左外连接，left  join ... on
+把LEFT左边的表中的所有记录保留，右边表只保留相关联的记录
+-----右外连接，right  join ... on 
+
+ 
+
+
+

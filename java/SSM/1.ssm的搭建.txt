@@ -1,0 +1,7 @@
+基本的java
+1.后台是基于ssm框架（Spring MVC+Spring+Mybatis）；
+2.使用mysql数据库；
+3.前端使用easyUI+freeMark。
+4.项目使用maven构建，Eclipse开发；
+5.dao、model、mapper使用mybatis-generator自动生成
+6.创建一个名为“treedemo”的数据库及名为“dept”的表，sql语句如下：

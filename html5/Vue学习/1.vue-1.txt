@@ -1,0 +1,35 @@
+语法：
+
+1.一个Vue对象只在id元素中受影响（外部不受影响）
+el:元素   id
+data:值   {{site}}
+methods:方法 {{details()}}
+
+var vm = new Vue({
+        el: '#vue_det',
+        data: {
+            site: "菜鸟教程",
+            url: "www.runoob.com",
+            alexa: "10000"
+        },
+        methods: {
+            details: function() {
+                return  this.site + " - 学的不仅是技术，更是梦想！";
+            }
+        }
+    })
+	
+
+2.基本指令：
+
+
+
+
+
+
+3，循环
+
+
+
+
+

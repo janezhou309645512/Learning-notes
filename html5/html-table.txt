@@ -1,0 +1,32 @@
+1.正确的格式：头部，体部，尾部（没有则默认为体部）
+<table>
+ <thread>
+ 
+ </thread>
+ <tbody>
+ 
+ <tr>
+<td >
+
+
+</td>
+
+<td>
+
+
+</td>
+<td>
+
+
+</td>
+ </tr>
+ </tbody>
+ 
+ 
+ 
+ <tfoot>
+ </tfoot>
+ 
+ </table>
+ 1)<thread>, <tbody>, <tfoot>不要嵌套样式
+ 2）<table>是整个表的样式，tr,td 是各个行与单元格的样式

@@ -1,0 +1,121 @@
+﻿---创建临时表
+1)：常用（可以两张表同时输出）
+select * from INTO #A1
+最后一定要删除删除表DROP TABLE #A1
+
+2）搭配union输出
+with a1 as(),
+b1  as()
+
+
+
+
+
+--联合两张表的数据
+1)union 
+2)union all 不重复
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----参数判断是否为空
+  isnull(value1,value2)
+
+  1）、value1与value2的数据类型必须一致。
+
+  2）、如果value1的值不为null，结果返回value1。
+
+  3）、如果value1为null，结果返回vaule2的值。vaule2是你设定的值
+
+
+
+
+
+
+
+--------查询参数的判断
+CASE WHEN 
+FClass='1' 
+THEN '白班' 
+ELSE '晚班' 
+END Fclass 
+
+
+
+
+--------查询时间条件的一天
+方法一：DateDiff(dd,McreateTime,getdate())=0 （0为今天，1为昨天）
+
+
+
+---------循环
+while @a<=100 
+begin
+    set @sum+=@a 
+    set @a+=1 
+end
+
+
+
+------------条件语句
+--if,else条件分支 
+if(1+1=2) 
+begin
+    print '对'
+end
+else
+begin
+    print '错'
+end
+
+---------when then  条件分支
+set @week=case
+    when @today=1 then '星期一'
+    when @today=2 then '星期二'
+
+
+
+
+
+
+
+
+-----------报表的传值（1=1）
+
+--普通条件（‘’查询所有）
+(@Factroy='' OR k.Fctory=@Factroy)
+--时间条件
+AND (@startTime = '' OR CONVERT(varchar(100), QCC.FProductionTime, 23) >= @startTime)
+AND (@endTime = '' OR CONVERT(varchar(100), QCC.FProductionTime, 23) <= @endTime)
+
+
+
+
+
+
+
+
+
+-----------常见数据的转换
+CONVERT 函数是把日期转换为新数据类型的通用函数。
+CONVERT(varchar(100), WA.FProductionTime, 23) --转换为 yyyy-DD-mm
+
+
+
+
+----------常见存储过程写法
+1）先将需要的参数值放入临时表
+2）最终连接查询（left jion  #临时表 on 条件） 
+3）清除临时表 （DROP TABLE #TotalNum）
+
+
+

@@ -1,0 +1,2 @@
+1.新建mvc项目(参考学习http://www.cnblogs.com/powertoolsteam/p/MVC_one.html)
+2.

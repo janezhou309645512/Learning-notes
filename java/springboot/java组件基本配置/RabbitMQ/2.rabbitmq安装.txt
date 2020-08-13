@@ -1,0 +1,11 @@
+安装RabbitMQ（https://www.cnblogs.com/fengyumeng/p/11133924.html）
+
+1)安装erlang
+2)安装RabbitMQ,启动服务
+开启服务时注意：rabbitmq-server -detached   换成在当时目录下执行 ./rabbitmq-server
+3)安装插件并访问：rabbitmq-plugins enable rabbitmq_management 
+       http://127.0.0.1:15672/
+4）添加用户
+
+
+

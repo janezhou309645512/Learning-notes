@@ -1,0 +1,48 @@
+安装参考（https://www.cnblogs.com/haoliyou/p/8716624.html）
+
+
+1.下载redis (https://redis.io/download)
+
+2.安装Redis(问题解决：升级gcc版本https://www.cnblogs.com/liu2-/p/6914159.html)
+查看gcc版本：gcc -v
+更新gcc版本：
+yum -y install centos-release-scl
+yum -y install devtoolset-9-gcc devtoolset-9-gcc-c++ devtoolset-9-binutils
+scl enable devtoolset-9 bash
+echo "source /opt/rh/devtoolset-9/enable" >>/etc/profile
+
+redis目录下：
+make 编译
+进入src 执行 make install
+
+3.部署后台
+打开etc 里redis.conf配置：
+1）绑定本机ip：bind 127.0.0.1
+2）后台启动：daemonize yes
+
+启动服务：./redis-server
+启动redis服务，并指定启动服务配置文件：./redis-server  ./redis.conf 
+
+
+4.客户端连接：
+bin目录：./redis-cli 
+
+远程连接  ./redis-cli -h 10.0.40.233 -p 6379
+查看密码：config get requirepass
+修改密码：config set requirepass kwz
+
+
+5.查看服务进程
+netstat -ntulp|grep  6379
+
+
+
+
+
+
+
+
+
+
+
+

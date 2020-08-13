@@ -1,0 +1,34 @@
+
+1.客户端：
+--kettle Spoon.bat闪退解决办法！
+1、Java环境配置问题：
+
+java_home：D:\Program Files\Java\jdk1.7.0_25（安装jdk路径）
+
+classpath：.;%java_home%\lib\dt.jar;%java_home%\lib\tools.jar
+
+path：在path路径中添加%java_home%\bin;%java_home%\jre\bin;
+
+kettle_home：D:\Program Files\data-integration(安装kettle路径)
+
+ 
+
+2、Java版本太低了，jdk1.6以上版本才行，具体的可以查看spoon.bat配置文件。
+
+3、Java环境配置对了，但是双击spoon.bat后一闪就没了，修改一下spoon.bat里内存配置：
+
+if "%PENTAHO_DI_JAVA_OPTIONS%"=="" set PENTAHO_DI_JAVA_OPTIONS="-Xms2058m" "-Xmx1024m" "-XX:MaxPermSize=256m"
+
+改为
+
+if "%PENTAHO_DI_JAVA_OPTIONS%"=="" set PENTAHO_DI_JAVA_OPTIONS="-Xms512m" "-Xmx512m" "-XX:MaxPermSize=256m"
+
+修改之后保存，重新启动spoon.bat即可解决问题。
+
+2.提高数据读写速度 
+https://blog.csdn.net/qq_37124304/article/details/82664665
+
+3.问题1.
+ 1.执行SQL脚本文件（删除）出错
+2.同步数据太慢（32条/s)
+3.

@@ -1,0 +1,12 @@
+1.cron 
+包含 6 个域的 Cron 表达式语法格式：
+
+Seconds Minutes Hours DayofMonth Month DayofWeek
+
+包含 7 个域的 Cron 表达式语法格式：
+
+Seconds Minutes Hours DayofMonth Month DayofWeek Year
+
+
+
+

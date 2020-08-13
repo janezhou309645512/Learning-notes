@@ -1,0 +1,44 @@
+框架必备：
+1.1.log 4j日志(自动，手动（OK））
+2.JUNIT 程序调试
+3.git
+4.ssm
+5.shiro验证
+6.拦截器(OK)
+7.登录
+8.热部署（OK）
+9.权限
+表：人员  菜单 角色
+
+
+重要的框架：
+RabbitMQ,Redis,nginx，springcloud,集群分布式部署
+
+
+
+
+
+
+
+kettle地址：
+https://www.cnblogs.com/unrulywind/p/9714151.html
+java地址：
+https://blog.csdn.net/CharJay_Lin/article/details/80774319
+hadoop学习：
+https://www.cnblogs.com/binarylei/p/8903601.html
+处理场景：
+https://www.cnblogs.com/zuolun2017/p/8026575.html
+
+
+
+
+java学习项目：
+https://gitee.com/52itstyle/spring-boot-seckill
+https://github.com/macrozheng/mall
+
+
+
+
+
+
+

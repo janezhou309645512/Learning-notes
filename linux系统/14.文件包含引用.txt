@@ -1,0 +1,30 @@
+1. 文件相互引用
+创建两个 shell 脚本文件。
+
+test1.sh 代码如下：
+
+#!/bin/bash
+# author:菜鸟教程
+# url:www.runoob.com
+
+url="http://www.runoob.com"
+test2.sh 代码如下：
+
+#!/bin/bash
+# author:菜鸟教程
+# url:www.runoob.com
+
+#使用 . 号来引用test1.sh 文件
+. ./test1.sh
+
+# 或者使用以下包含文件代码
+# source ./test1.sh
+
+echo "菜鸟教程官网地址：$url"
+
+
+接下来，我们为 test2.sh 添加可执行权限并执行：
+
+$ chmod +x test2.sh 
+$ ./test2.sh 
+菜鸟教程官网地址：http://www.runoob.com

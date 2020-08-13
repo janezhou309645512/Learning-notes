@@ -1,0 +1,6 @@
+﻿1.在数据库HrSystem中为表Employees创建基于IDCard列的唯一索引IX_Employees
+CREATE UNIQUE NONCLUSTERED INDEX [IX_Employees]ONdbo.Employees(IdCard)
+注意：
+1）数据量小的表不要使用索引
+2）最好使用唯一列为索引
+

@@ -1,0 +1,52 @@
+1.元素属性（select，insert，update,delete)
+id :dao方法名称
+parameterType：参数名称（对象，java.util.List）
+resultType：返回参数（对象，int,long）
+
+2.参数 
+格式：#{empNo} 
+1）对象
+2）多字符串 
+3）单个字符串（value)
+
+
+3.各个标签的含义 
+
+1）for each 标签：
+　collection ：collection属性的值有三个分别是list、array、map三种，分别对应的参数类型为：List、数组、map集合，我在上面传的参数为数组，所以值为array
+
+　　　　item ： 表示在迭代过程中每一个元素的别名
+
+　　　　index ：表示在迭代过程中每次迭代到的位置（下标）
+
+　　　　open ：前缀
+
+　　　　close ：后缀
+
+　　　　separator ：分隔符，表示迭代时每个元素之间以什么分隔
+
+ <update id="updateStatus" parameterType="java.util.Map">
+    UPDATE INFO_TERMINALPRIVILEGES SET STATUS = #{status}
+    WHERE ID IN
+    <foreach item="item" collection="list" separator="," open="(" close=")">
+      #{item,jdbcType=DECIMAL}
+    </foreach>
+  </update>
+
+
+
+2）choose 标签的使用 
+when 
+    <otherwise>     
+                      
+            </otherwise>    
+3）set if 标签的使用 
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,45 @@
+1.理解spring-boot-starter-parent（spring boot 快速创建启动）
+通过继承spring-boot-starter-parent，默认具备了如下功能：
+
+Java版本（Java8）
+源码的文件编码方式（UTF-8）
+依赖管理
+打包支持
+动态识别资源
+识别插件配置
+识别不同的配置，如：application-dev.properties 和 application-dev.yml
+
+
+2.spring-boot-starter
+核心Spring Boot starter，包括自动配置支持，日志和YAML
+
+
+3.spring-boot-starter-web
+对全栈web开发的支持， 包括Tomcat和spring-webmvc
+
+
+4.dependencymanagement 用法
+dependencies里的dependency自己没有声明version元素，那么maven就
+会到dependencyManagement里面去找有没有对该artifactId和groupId进行过版本声明
+ //版本管理，不引入jar 包
+<dependencyManagement>  
+      <dependencies>  
+            <dependency>  
+                <groupId>org.springframework</groupId>  
+                <artifactId>spring-core</artifactId>  
+                <version>3.2.7</version>  
+            </dependency>  
+    </dependencies>  
+</dependencyManagement>  
+
+5.<modules> </modules>
+聚合所有子模块   一次构建  运行
+
+6.Lombok的基本使用
+通过一些注解，消除样板式代码
+
+
+
+
+
+
