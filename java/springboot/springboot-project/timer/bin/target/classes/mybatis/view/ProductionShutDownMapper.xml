@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.system.dao.ProductionShutDownDao">
+
+    <select id="productionShutDownView" resultType="com.bootdo.system.domain.ProductionShutDownDO">
+        <choose>
+            <when test="gdbhs != null and gdbhs !=''">
+                select 工单编号 gdbh,单据状态 djzt,关闭时间 gbsj,关闭人实名 gbrsm,主制部门 zzbm,业务日期 ywrq,组织 zz,物料编码 wlbm,计划数量 jhsl,计量单位
+                jldw,入库数量 rksl from NEW_EAS75.kenpre
+                where 1=1
+                <!-- 				(INSTR(工单编号,'S',1,1) = 1 or INSTR(工单编号,'W',1,1) = 1) -->
+                <if test="wlbm != null and wlbm != ''">and 物料编码 = #{wlbm}</if>
+                <if test="gdbh != null and gdbh != ''">and 工单编号 = #{gdbh}</if>
+                <if test="starttime != null and starttime != ''">and 关闭时间 <![CDATA[>=]]> #{starttime}</if>
+                <if test="endtime != null and endtime != ''">and 关闭时间 <![CDATA[<=]]> #{endtime}</if>
+                <if test="zzfws != null and zzfws != ''">
+                    and 组织 in
+                    <foreach collection="zzfws" item="item" index="index" open="(" separator="," close=")">
+                        #{item}
+                    </foreach>
+                </if>
+            </when>
+            <otherwise>
+                select 工单编号 gdbh,单据状态 djzt,关闭时间 gbsj,关闭人实名 gbrsm,主制部门 zzbm,业务日期 ywrq,组织 zz,物料编码 wlbm,计划数量 jhsl,计量单位
+                jldw,入库数量 rksl from NEW_EAS75.kenpre
+                <where>1=1
+                    <if test="wlbm != null and wlbm != ''">and 物料编码 = #{wlbm}</if>
+                    <if test="gltj != null and gltj != ''">and substr(工单编号,0,1)!= 'Z' and substr(工单编号,0,1)!= 'B' and
+                        substr(工单编号,0,1)!= 'D'
+                    </if>
+                    <if test="zzbms != null and zzbms != ''">
+                        and 主制部门 in
+                        <foreach collection="zzbms" item="item" index="index" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+                    <if test="gdbh != null and gdbh != ''">and 工单编号 = #{gdbh}</if>
+                    <if test="starttime != null and starttime != ''">and 关闭时间  <![CDATA[>=]]> #{starttime}</if>
+                    <if test="endtime != null and endtime != ''">and 关闭时间  <![CDATA[<=]]> #{endtime}</if>
+                    <if test="zzfws != null and zzfws != ''">
+                        and 组织 in
+                        <foreach collection="zzfws" item="item" index="index" open="(" separator="," close=")">
+                            #{item}
+                        </foreach>
+                    </if>
+                </where>
+            </otherwise>
+        </choose>
+    </select>
+
+
+</mapper>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.system.dao.GrossSalesDao">
+
+    <select id="grossSaleView" resultType="com.bootdo.system.domain.GrossSalesDO" parameterType="Map">
+        SELECT * FROM
+        (
+        SELECT A.*, ROWNUM RN
+        FROM (
+        select decode(t.djlx,'销售发票',10001,'销售免费发票',10002,'应收借贷项调整单',10003) djbm,t.* from(
+        select
+        org.fnumber gsbm,
+        org.FNAME_L2 zz,
+        obill.FNUMBER ysdh,
+        oentry.FSEQ ysdhh ,
+        to_char(obill.FBIZDATE,'YYYY-MM-DD') ysrq,
+        customer.fnumber khbm,
+        customer.fname_l2 khmc,
+        material.FNUMBER wlbm ,
+        oentry.FMaterialName wlmc,
+        warehouse.fnumber ckbm,
+        warehouse.FNAME_L2 ckmc,
+        salebill.FNUMBER xsckdh,
+        saleentry.FSEQ xsckdhh,
+        to_char(salebill.FBizDate,'YYYY-MM-DD') ckrq,
+        saleentry.FQty cksl,
+        unit2.fname_l2 ckdw,
+        saleentry.FBaseQty ckjbsl,
+        unit3.fname_l2 ckjbdw,
+        user1.fname_l2 zdr,
+        oentry.FAmount je,
+        decode(obill.FBillType,101,'其他应收单',102,'销售发票',103,'销售免费发票',104,'应收借贷项调整单') djlx,
+        BizType.Fname_L2 ywlx,
+        currency.fname_l2 bb,
+        obill.cfinvoiceno fph,
+        obill.fabstractname zy,
+        obill.FVOUCHERNUMBER pzh,
+        oentry.ftaxrate sl,
+        saleentry.FUNITACTUALCOST dwsjcb,
+        saleentry.FACTUALCOST sjcb,
+        oentry.FAmount ysje,
+        oentry.FAmountLocal ysjebwb,
+        oentry.FQUANTITY fpsl,
+        unit.fname_l2 fpjldw,
+        oentry.FBaseQty fpjbsl,
+        unit1.fname_l2 fpjbjldw,
+        round(saleentry.FUNITACTUALCOST * oentry.FQUANTITY,2) fpcb,
+        saleentry.FQty-oentry.FQUANTITY wkpsl,
+        round((saleentry.FQty-oentry.FQUANTITY)*saleentry.FUNITACTUALCOST,2) wkpcb,
+        obill.FBillDate djrq
+        from new_eas75.t_ar_otherbillentry oentry
+        join new_eas75.T_AR_OtherBill obill on obill.fid = oentry.fparentid
+        join new_eas75.T_IM_SaleIssueEntry saleentry on saleentry.fid = oentry.FSOURCEBILLENTRYID
+        join new_eas75.T_IM_SaleIssueBill salebill on salebill.fid = saleentry.fparentid
+        join new_eas75.T_BD_material material on oentry.FMATERIALID = material.fid
+        join new_eas75.T_ORG_BASEUNIT org on obill.FSaleOrgID = org.fid
+        join new_eas75.T_BD_MeasureUnit unit on oentry.FMeasureUnitID = unit.fid
+        join new_eas75.T_BD_MeasureUnit unit1 on oentry.FBaseUnitID= unit1.fid
+        join new_eas75.T_BD_MeasureUnit unit2 on saleentry.FUnitID= unit2.fid
+        join new_eas75.T_BD_MeasureUnit unit3 on saleentry.FBaseUnitID= unit3.fid
+        join new_eas75.T_BD_Customer customer on obill.FAsstActID = customer.fid
+        join new_eas75.T_DB_WAREHOUSE warehouse on saleentry.FWarehouseID = warehouse .fid
+        join new_eas75.T_BD_Currency currency on obill.FCurrencyID = currency.fid
+        JOIN new_eas75.T_PM_User user1 ON obill.FCreatorID = user1.fid
+        JOIN new_eas75.T_SCM_BizType BizType ON obill.FBizTypeID =BizType.Fid
+        where obill.FBillStatus = 3
+        <if test="zzfws != null and zzfws != ''">
+            and org.FNAME_L2 in
+            <foreach collection="zzfws" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="starttime != null and starttime != ''">and to_char(obill.FBillDate,'YYYY-MM-DD hh:mi:ss')
+            <![CDATA[>=]]> #{starttime,jdbcType=VARCHAR}
+        </if>
+        <if test="endtime != null and endtime != ''">and to_char(obill.FBillDate,'YYYY-MM-DD hh:mi:ss') <![CDATA[<=]]>
+            #{endtime,jdbcType=VARCHAR}
+        </if>
+        and oentry.CFSrcBillNumber = salebill.fnumber
+        and oentry.CFSrcBillEntrySeq = saleentry.FSeq
+        <!-- 		and org.FNAME_L2 in (#companyname#) -->
+        <!-- 		and customer.fnumber  LIKE '%'||#{fcustomer,jdbcType=VARCHAR }||'%'  -->
+        <!-- 		and obill.FNUMBER LIKE '%'||#{billfnumer,jdbcType=VARCHAR }||'%'   -->
+        <!-- 		and material.FNUMBER LIKE '%'||#{fnumber,jdbcType=VARCHAR }||'%' -->
+        ) t
+        ) A
+        <choose>
+            <when test="page != null and limit.trim() != ''">
+                WHERE ROWNUM&lt;=#{page}*#{limit }
+                )
+                WHERE RN>(#{page}-1)*#{limit }
+            </when>
+            <otherwise>
+                )
+            </otherwise>
+        </choose>
+
+    </select>
+
+
+    <select id="grossSaleViewCount" resultType="int">
+
+        select count(1) from(
+        select
+        org.fnumber gsbm,
+        org.FNAME_L2 zz,
+        obill.FNUMBER ysdh,
+        oentry.FSEQ ysdhh ,
+        to_char(obill.FBIZDATE,'YYYY-MM-DD') ysrq,
+        customer.fnumber khbm,
+        customer.fname_l2 khmc,
+        material.FNUMBER wlbm ,
+        warehouse.fnumber ckbm,
+        warehouse.FNAME_L2 ckmc,
+        salebill.FNUMBER xsckdh,
+        saleentry.FSEQ xsckdhh,
+        to_char(salebill.FBizDate,'YYYY-MM-DD') ckrq,
+        saleentry.FQty cksl,
+        unit2.fname_l2 ckdw,
+        saleentry.FBaseQty ckjbsl,
+        unit3.fname_l2 ckjbdw,
+        user1.fname_l2 zdr,
+        oentry.FAmount je,
+        decode(obill.FBillType,101,'其他应收单',102,'销售发票',103,'销售免费发票',104,'应收借贷项调整单') djlx,
+        BizType.Fname_L2 ywlx,
+        currency.fname_l2 bb,
+        obill.cfinvoiceno fph,
+        obill.fabstractname zy,
+        obill.FVOUCHERNUMBER pzh,
+        oentry.ftaxrate sl,
+        saleentry.FUNITACTUALCOST dwsjcb,
+        saleentry.FACTUALCOST sjcb,
+        oentry.FAmount ysje,
+        oentry.FAmountLocal ysjebwb,
+        oentry.FQUANTITY fpsl,
+        unit.fname_l2 fpjldw,
+        oentry.FBaseQty fpjbsl,
+        unit1.fname_l2 fpjbjldw,
+        round(saleentry.FUNITACTUALCOST * oentry.FQUANTITY,2) fpcb,
+        saleentry.FQty-oentry.FQUANTITY wkpsl,
+        round((saleentry.FQty-oentry.FQUANTITY)*saleentry.FUNITACTUALCOST,2) wkpcb,
+        obill.FBillDate djrq
+        from new_eas75.t_ar_otherbillentry oentry
+        join new_eas75.T_AR_OtherBill obill on obill.fid = oentry.fparentid
+        join new_eas75.T_IM_SaleIssueEntry saleentry on saleentry.fid = oentry.FSOURCEBILLENTRYID
+        join new_eas75.T_IM_SaleIssueBill salebill on salebill.fid = saleentry.fparentid
+        join new_eas75.T_BD_material material on oentry.FMATERIALID = material.fid
+        join new_eas75.T_ORG_BASEUNIT org on obill.FSaleOrgID = org.fid
+        join new_eas75.T_BD_MeasureUnit unit on oentry.FMeasureUnitID = unit.fid
+        join new_eas75.T_BD_MeasureUnit unit1 on oentry.FBaseUnitID= unit1.fid
+        join new_eas75.T_BD_MeasureUnit unit2 on saleentry.FUnitID= unit2.fid
+        join new_eas75.T_BD_MeasureUnit unit3 on saleentry.FBaseUnitID= unit3.fid
+        join new_eas75.T_BD_Customer customer on obill.FAsstActID = customer.fid
+        join new_eas75.T_DB_WAREHOUSE warehouse on saleentry.FWarehouseID = warehouse .fid
+        join new_eas75.T_BD_Currency currency on obill.FCurrencyID = currency.fid
+        JOIN new_eas75.T_PM_User user1 ON obill.FCreatorID = user1.fid
+        JOIN new_eas75.T_SCM_BizType BizType ON obill.FBizTypeID =BizType.Fid
+        where obill.FBillStatus = 3
+        <if test="zzfws != null and zzfws != ''">
+            and org.FNAME_L2 in
+            <foreach collection="zzfws" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        <if test="starttime != null and starttime != ''">and to_char(obill.FBillDate,'YYYY-MM-DD hh:mi:ss')
+            <![CDATA[>=]]> #{starttime,jdbcType=VARCHAR}
+        </if>
+        <if test="endtime != null and endtime != ''">and to_char(obill.FBillDate,'YYYY-MM-DD hh:mi:ss') <![CDATA[<=]]>
+            #{endtime,jdbcType=VARCHAR}
+        </if>
+        and oentry.CFSrcBillNumber = salebill.fnumber
+        and oentry.CFSrcBillEntrySeq = saleentry.FSeq
+        <!-- 		and org.FNAME_L2 in (#companyname#) -->
+        <!-- 		and customer.fnumber  LIKE '%'||#{fcustomer,jdbcType=VARCHAR }||'%'  -->
+        <!-- 		and obill.FNUMBER LIKE '%'||#{billfnumer,jdbcType=VARCHAR }||'%'   -->
+        <!-- 		and material.FNUMBER LIKE '%'||#{fnumber,jdbcType=VARCHAR }||'%' -->
+        ) t
+
+    </select>
+</mapper>

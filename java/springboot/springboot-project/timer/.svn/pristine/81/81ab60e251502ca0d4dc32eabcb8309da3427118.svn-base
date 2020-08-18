@@ -1,0 +1,299 @@
+package com.bootdo.system.controller;
+
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.ibatis.annotations.Param;
+import org.apache.shiro.authc.AuthenticationException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSONObject;
+import com.bootdo.common.annotation.Log;
+import com.bootdo.common.utils.R;
+import com.bootdo.system.domain.FmaterialJobDO;
+import com.bootdo.system.domain.PurchasePriceDO;
+import com.bootdo.system.domain.PurchasePriceTmpDO;
+import com.bootdo.system.service.PurchasePriceService;
+
+@Controller
+@RequestMapping("/purchase")
+public class PurchaseController {
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+
+	@Autowired
+	PurchasePriceService downService;
+	@Log("查询采购单价表")
+	@PostMapping("/purchasePriceview")
+	@ResponseBody
+	R salePriceview(@Param("starttime") String starttime,@Param("endtime") String endtime,@Param("xdlist") String xdlist,@Param("zz") String zz,@Param("flag") String flag,@Param("cklist") String cklist,@Param("page") String page,@Param("limit") String limit,@Param("materialNumber") String materialNumber) {
+
+		try {
+			Map<String,Object> map = new HashMap<>();
+			map.put("flag", flag);
+			map.put("materialNumber", materialNumber);
+			map.put("starttime", starttime);
+			map.put("endtime", endtime);
+			map.put("page", page);
+			map.put("limit", limit);
+			if(xdlist!=""&&xdlist!=null) {
+				String[] dos = xdlist.split("@");
+	        	map.put("xdlist", dos);
+			}
+			if(cklist!=""&&cklist!=null) {
+				String[] dos = cklist.split("@");
+				map.put("cklist", dos);
+			}
+//			
+			if(StringUtils.isNotBlank(zz)&&!"null".equals(zz)) {
+				String[] dos = zz.split("@");
+	        	map.put("zzfws", dos);
+			}
+			
+			List<PurchasePriceDO> gs = downService.purchasePriceView(map);
+			Map<String,Object> maps = new HashMap<>();
+			maps.put("data", gs);
+			return R.ok(maps);
+		} catch (AuthenticationException e) {
+			return R.error("查询失败");
+		}
+	}
+	@Log("查询采购单价表总条数")
+	@PostMapping("/purchasePriceCount")
+	@ResponseBody
+	R purchasePriceCount(@Param("starttime") String starttime,@Param("endtime") String endtime,@Param("xdlist") String xdlist,@Param("zz") String zz,@Param("flag") String flag,@Param("cklist") String cklist) {
+
+		try {
+			Map<String,Object> map = new HashMap<>();
+			map.put("flag", flag);
+			map.put("starttime", starttime);
+			map.put("endtime", endtime);
+			if(xdlist!=""&&xdlist!=null) {
+				String[] dos = xdlist.split("@");
+	        	map.put("xdlist", dos);
+			}
+			if(cklist!=""&&cklist!=null) {
+				String[] dos = cklist.split("@");
+				map.put("cklist", dos);
+			}
+//			
+			if(StringUtils.isNotBlank(zz)&&!"null".equals(zz)) {
+				String[] dos = zz.split("@");
+	        	map.put("zzfws", dos);
+			}
+			
+			int  count = downService.purchasePriceCount(map);
+			Map<String,Object> maps = new HashMap<>();
+			maps.put("count", count);
+			return R.ok(maps);
+		} catch (AuthenticationException e) {
+			return R.error("查询失败");
+		}
+	}
+	
+	
+	@Log("查询采购单价同步表")
+	@PostMapping("/purchasePriceJob")
+	@ResponseBody
+	R purchasePriceJob(@Param("starttime") String starttime,@Param("endtime") String endtime,@Param("xdlist") String xdlist,@Param("flag") String flag) {
+		try {
+			Map<String,Object> map = new HashMap<>();
+			map.put("starttime", starttime);
+			map.put("endtime", endtime);
+			if(xdlist!=""&&xdlist!=null) {
+				String[] dos = xdlist.split("@");
+	        	map.put("xdlist", dos);
+			}
+			map.put("flag", flag);
+			List<PurchasePriceDO> gs = downService.purchasePriceJob(map);
+			Map<String,Object> maps = new HashMap<>();
+			maps.put("data", gs);
+			return R.ok(maps);
+		} catch (AuthenticationException e) {
+			return R.error("查询失败");
+		}
+	}
+	
+	@Log("查询冲压周结采购单价同步表")
+	@PostMapping("/punchingPurchasePriceJob")
+	@ResponseBody
+	R punchingPurchasePriceJob(@Param("starttime") String starttime,@Param("endtime") String endtime,@Param("xdlist") String xdlist,@Param("flag") String flag,@Param("zz") String zz) {
+		try {
+			Map<String,Object> map = new HashMap<>();
+			map.put("starttime", starttime);
+			map.put("endtime", endtime);
+			if(xdlist!=""&&xdlist!=null) {
+				String[] dos = xdlist.split("@");
+	        	map.put("xdlist", dos);
+			}
+			if(zz!=""&&zz!=null) {
+				String[] dos = zz.split("@");
+	        	map.put("zzfws", dos);
+			}
+			map.put("flag", flag);
+			List<PurchasePriceDO> gs = downService.punchingPurchasePriceJob(map);
+			Map<String,Object> maps = new HashMap<>();
+			maps.put("data", gs);
+			return R.ok(maps);
+		} catch (AuthenticationException e) {
+			return R.error("查询失败");
+		}
+	}
+	
+	@Log("导出采购单价表EXCEL")
+	@GetMapping("/purchasePriceExport")
+//	@RequiresPermissions("system:grossSalesView:grossSalesView")
+	public void purchasePriceExport(String param,HttpServletResponse response) throws Exception{
+		//查询列表数据
+		param = URLDecoder.decode(param, "UTF-8");
+		JSONObject  jasonObject = JSONObject.parseObject(param);
+		Map<String,Object> params = (Map<String,Object>)jasonObject;
+		
+		if(StringUtils.isNotBlank((String) params.get("zz"))&&params.get("zz")!="null") {
+			String [] zz = params.get("zz").toString().split("@");
+			params.put("zzfws",String.join("@", zz));
+		}
+		
+		//需要过滤的兄弟供应商
+		List<String> xdlist = new ArrayList<String>();
+		xdlist.add("郑州领胜科技有限公司");
+		xdlist.add("领胜城科技(江苏)有限公司");
+		xdlist.add("成都领益科技有限公司");
+		xdlist.add("领胜科技（苏州）有限公司");
+		xdlist.add("苏州领裕电子科技有限公司");
+		xdlist.add("领镒精密五金制造（无锡）有限公司");
+		xdlist.add("领镒(江苏)精密电子制造有限公司");
+		xdlist.add("领胜电子科技(深圳)有限公司");
+		xdlist.add("领胜电子科技(成都)有限公司");
+		xdlist.add("东莞盛翔精密金属有限公司");
+		xdlist.add("深圳市领略数控设备有限公司");
+		xdlist.add("领胜电子科技(成都)有限公司（旧系统截止2016年6月30日前）");
+		xdlist.add("郑州领胜科技有限公司(旧系统2016年4月1日前）");
+		xdlist.add("苏州领胜电子科技有限公司");
+		xdlist.add("领胜电子科技(廊坊)有限公司");
+		xdlist.add("领胜电子科技(深圳)有限公司（旧系统2015年8月31日前）");
+		xdlist.add("东莞领益精密制造科技有限公司");
+		xdlist.add("东莞市中焱精密电子科技有限公司");
+		xdlist.add("东莞领杰金属精密制造科技有限公司");
+		xdlist.add("广东东方亮彩精密技术有限公司");
+		xdlist.add("深圳市诚悦丰科技有限公司");
+		xdlist.add("东莞领汇精密制造科技有限公司");
+		xdlist.add("领益智造科技(东莞)有限公司");
+		
+		params.put("xdlist", String.join("@", xdlist));
+		//需要过滤的仓库
+		if(params.get("flag")!=null) {
+			List<String> cklist = new ArrayList<String>();
+			cklist.add("SX_DG_JF_保税原材料仓");
+			cklist.add("东莞领益净房保税原材料仓");
+			cklist.add("LL_SZ_LA_BS_RM_保税原材料仓");
+			cklist.add("LL_SZ_LA_1_BS_RM_保税原材料仓");
+			params.put("cklist", String.join("@", cklist));
+			if(StringUtils.isNotBlank(params.get("cklist").toString())) {
+				String[] dos = params.get("cklist").toString().split("@");
+				params.put("cklist", dos);
+			}
+		}
+		
+		if(StringUtils.isNotBlank(params.get("xdlist").toString())) {
+			String[] dos = params.get("xdlist").toString().split("@");
+			params.put("xdlist", dos);
+		}
+		
+		
+		downService.export(params,response);
+	}
+	@Log("查询保税仓集合")
+	@PostMapping("/getWareHouseList")
+	@ResponseBody
+	R salePriceview() {
+		List<PurchasePriceDO> gs = downService.getWareHouseList(null);
+		Map<String,Object> maps = new HashMap<>();
+		maps.put("data", gs);
+		return R.ok(maps);
+	}
+	
+	@Log("查询采购单价表临时表")
+	@PostMapping("/purchasePriceTmp")
+	@ResponseBody
+	R salePriceview(@Param("starttime") String starttime,@Param("endtime") String endtime,@Param("xdlist") String xdlist,@Param("zz") String zz,@Param("zzbms") String zzbms,@Param("findtype") String findtype) {
+
+		try {
+			Map<String,Object> map = new HashMap<>();
+			map.put("starttime", starttime);
+			map.put("endtime", endtime);
+			if(xdlist!=""&&xdlist!=null) {
+				String[] dos = xdlist.split("@");
+	        	map.put("xdlist", dos);
+			}
+			if(zz!=""&&zz!=null) {
+				String[] dos = zz.split("@");
+	        	map.put("zzfws", dos);
+			}
+			if(zzbms!=""&&zzbms!=null) {
+				String[] dos = zzbms.split("@");
+	        	map.put("zzbms", dos);
+			}
+			map.put("findtype", findtype);
+			List<PurchasePriceTmpDO> gs = downService.purchasePriceTmp(map);
+			Map<String,Object> maps = new HashMap<>();
+			maps.put("data", gs);
+			return R.ok(maps);
+		} catch (AuthenticationException e) {
+			return R.error("查询失败");
+		}
+	}
+
+	
+	@Log("查询分切料表")
+	@PostMapping("/fqlview")
+	@ResponseBody
+	R fqlview(@Param("starttime") String starttime,@Param("endtime") String endtime) {
+		try {
+			Map<String,Object> map = new HashMap<>();
+			map.put("starttime", starttime);
+			map.put("endtime", endtime);
+			List<FmaterialJobDO> gs = downService.fmaterialJobView(map);
+			Map<String,Object> maps = new HashMap<>();
+			maps.put("data", gs);
+			return R.ok(maps);
+		} catch (AuthenticationException e) {
+			return R.error("查询失败");
+		}
+	}
+	
+	
+	@Log("查询入库数量")
+	@PostMapping("/findRkslList")
+	@ResponseBody
+	R fqlview(@Param("starttime") String starttime,@Param("endtime") String endtime,@Param("zz") String zz) {
+		try {
+			Map<String,Object> map = new HashMap<>();
+			map.put("starttime", starttime+" 00:00:00");
+			map.put("endtime", endtime+" 23:59:59");
+			if(zz!=""&&zz!=null) {
+				String[] dos = zz.split("@");
+	        	map.put("zzfws", dos);
+			}
+			List<FmaterialJobDO> gs = downService.findRkslList(map);
+			Map<String,Object> maps = new HashMap<>();
+			maps.put("data", gs);
+			return R.ok(maps);
+		} catch (AuthenticationException e) {
+			return R.error("查询失败");
+		}
+	}
+	
+}

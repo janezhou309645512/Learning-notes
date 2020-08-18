@@ -1,0 +1,1764 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.system.dao.PurchasePriceDao">
+	<select id="purchasePriceView" resultType="com.bootdo.system.domain.PurchasePriceDO">
+		<![CDATA[
+		SELECT * FROM 
+		(
+		SELECT A.*, ROWNUM RN 
+		FROM (
+		select * from (
+			SELECT 
+			PURINWAREHSBILL.FNumber AS billfnumber,
+			MATERIAL.FNumber  materialNumber, 
+		    regexp_substr(MATERIAL.FNumber,'[^-]+',1,1) bm1,
+		    regexp_substr(MATERIAL.FNumber,'[^-]+',1,2) bm2,
+		    regexp_substr(MATERIAL.FNumber,'[^-]+',1,3) bm3,
+			MATERIAL.FName_l2 AS materialName,
+			MATERIAL.FModel AS fmodel, 
+			BIZTYPE.FName_l2  bizName, 
+			nvl(to_char(UNIT.FNAME_L2),NULL)  measurename, 
+			nvl(to_char(basemeasure.fname_l2),NULL)  basemeasurename,
+			TRANSACTIONTYPE.FName_l2  tranName, 
+			PURINWAREHSBILL.FBaseStatus  billstatus, 
+			PURINWAREHSBILL.FBizDate  bizdate,
+			ADMINORGUNIT.FName_l2  depName,
+			SUPPLIER.FName_l2  supplierName,
+			CASE  WHEN nvl(PURINWAREHSBILL.FIsInTax, 0) = 0 THEN '否'  WHEN PURINWAREHSBILL.FIsInTax = 1 THEN '是' end  sfhs,
+			CURRENCY.FName_l2  bb, 
+			PURINWAREHSBILL.FExchangeRate  hl, 
+			ENTRY.FQty  entryqty,
+			nvl(entry.FBASEQTY, 0) entrybaseqty,
+			CREATOR.FName_l2  creatorName, 
+			CREATOR.FCreateTime  createTime, 
+			WAREHOUSE.FName_l2  warename, 
+			MODIFIER.FName_l2  modifyName, 
+			PURINWAREHSBILL.FModificationTime  modifyTime,
+			AUDITOR.FName_l2  auditorName, 
+			
+			PURINWAREHSBILL.FAuditTime  auditTime,
+			ENTRY.FRemark  remark, 
+			PURCHASEORGUNIT.FName_L2  purchaseName,
+			PURCHEPERSON.FName_l2  purchasePersion, 
+			ENTRY.FSourceBillNumber  srcnumber,
+			ENTRY.CFDeclaraNumber  declaraNumber,
+			ENTRY.CFPmcRequ  pmcRequ,
+			ENTRY.FPurchaseCost AS purchaseCost,
+			ENTRY.FUnitPurchaseCost AS fUnitPurchaseCost,
+			ENTRY.FIsPresent AS FisPresent
+			
+			FROM new_eas75.T_IM_PurInWarehsBill  PURINWAREHSBILL
+			
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_TransactionType  TRANSACTIONTYPE
+			ON PURINWAREHSBILL.FTransactionTypeID = TRANSACTIONTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_BillType  SOURCEBILLTYPE
+			ON PURINWAREHSBILL.FSourceBillTypeID = SOURCEBILLTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Admin  ADMINORGUNIT
+			ON PURINWAREHSBILL.FAdminOrgUnitID = ADMINORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT
+			ON PURINWAREHSBILL.FStorageOrgUnitID = STORAGEORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Supplier  SUPPLIER
+			ON PURINWAREHSBILL.FSupplierID = SUPPLIER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_IM_PurInWarehsEntry  ENTRY
+			ON PURINWAREHSBILL.FID = ENTRY.FParentID	
+			
+			LEFT OUTER JOIN new_eas75.T_PM_User  CREATOR
+			ON PURINWAREHSBILL.FCreatorID = CREATOR.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_CtrlUnit  CU
+			ON PURINWAREHSBILL.FControlUnitID = CU.FID
+			
+			LEFT OUTER JOIN new_eas75.T_GL_Voucher  VOUCHER
+			ON PURINWAREHSBILL.FVoucherID = VOUCHER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Currency  CURRENCY
+			ON PURINWAREHSBILL.FCurrencyID = CURRENCY.FID
+			
+			LEFT OUTER JOIN new_eas75.T_PM_User  AUDITOR
+			ON PURINWAREHSBILL.FAuditorID = AUDITOR.FID
+			
+			LEFT OUTER JOIN new_eas75.T_PM_User  MODIFIER
+			ON PURINWAREHSBILL.FModifierID = MODIFIER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_BizType  BIZTYPE
+			ON PURINWAREHSBILL.FBizTypeID = BIZTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_PaymentType  PAYMENTTYPE
+			ON PURINWAREHSBILL.FPaymentTypeID = PAYMENTTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_CostCenter  COSTCENTERORGUNIT
+			ON PURINWAREHSBILL.FCostCenterOrgUnitID = COSTCENTERORGUNIT.FID
+			
+			 LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit  UNIT
+			 ON ENTRY.FUnitID = UNIT.FID
+			 
+			join new_eas75.T_BD_MeasureUnit basemeasure 
+			 on entry.fbaseunitid = basemeasure.fid 
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Material  MATERIAL
+			ON ENTRY.FMaterialID = MATERIAL.FID
+			
+			LEFT OUTER JOIN new_eas75.T_DB_LOCATION  LOCATION
+			ON ENTRY.FLocationID = LOCATION.FID
+			
+			LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE  WAREHOUSE
+			ON ENTRY.FWarehouseID = WAREHOUSE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_BillType  BILLTYPE
+			ON ENTRY.FCoreBillTypeID = BILLTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Company  COMPANYORGUNIT
+			ON ENTRY.FCompanyOrgUnitID = COMPANYORGUNIT.FID
+			
+			 LEFT OUTER JOIN new_eas75.T_BD_Person  PURCHEPERSON
+			 ON ENTRY.FPurchasePersonID = PURCHEPERSON.FID
+			
+			 LEFT OUTER JOIN new_eas75.T_ORG_Purchase  PURCHASEORGUNIT
+			 ON ENTRY.FPurchaseOrgUnitID = PURCHASEORGUNIT.FID
+			
+			 LEFT OUTER JOIN new_eas75.T_ORG_Storage  RECEIVESTORAGEORGUNIT
+			 ON ENTRY.FReceiveStorageOrgUnitID = RECEIVESTORAGEORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT1
+			ON ENTRY.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Supplier  BALANCESUPPLIER
+			ON ENTRY.FBalanceSupplierID = BALANCESUPPLIER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_MM_TrackNumber  TRACKNUMBER
+			ON ENTRY.FTrackNumberID = TRACKNUMBER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_MM_Project  PROJECT
+			ON ENTRY.FProjectID = PROJECT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Customer  CUSTOMER
+			ON ENTRY.FCustomerID = CUSTOMER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_MaterialCompanyInfo  MATERIALCOMPANY
+			ON ENTRY.FMaterialID = MATERIALCOMPANY.FMaterialID AND ENTRY.FCompanyOrgUnitID = MATERIALCOMPANY.FCompanyID
+			
+			) t
+			where t.billstatus = 4  and t.tranName !='普通采购退货'  and t.FisPresent = 0]]>
+			<if test="materialNumber != null and materialNumber != ''"> and t.materialNumber like concat(#{materialNumber},'%')</if>
+			<if test="starttime != null and starttime != ''">and t.auditTime <![CDATA[>=]]> to_timestamp(#{starttime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+			<if test="endtime != null and endtime != ''"> and t.auditTime <![CDATA[<=]]> to_timestamp(#{endtime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+			<if test="zzfws != null and zzfws != ''"> 
+			  and t.purchaseName  in 
+			    <foreach collection ="zzfws" item="item" index= "index"  open="(" separator="," close=")">
+			    	 #{item}       
+			    </foreach>	  		  
+		  	</if>
+			<if test="xdlist != null and xdlist != ''">
+				<choose>
+		            <when test="flag == 'XD'">
+		               	and t.supplierName  in 
+					    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+					    	 #{item}       
+					    </foreach>
+		            </when>
+					<otherwise>
+							and t.supplierName not in 
+					    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+					    	 #{item}       
+					    </foreach>
+					</otherwise>
+		        </choose>
+			</if>
+			<if test="cklist != null and cklist != ''">
+				<choose>
+		            <when test="flag == 'BS'">
+		               	and t.warename  in 
+					    <foreach collection ="cklist" item="item" index= "index"  open="(" separator="," close=")">
+					    	 #{item}       
+					    </foreach>
+		            </when>
+					<otherwise>
+							and t.warename not in 
+					    <foreach collection ="cklist" item="item" index= "index"  open="(" separator="," close=")">
+					    	 #{item}       
+					    </foreach>
+					</otherwise>
+		        </choose>
+			</if>
+			 order by 	t.bizdate desc
+		 ) A 
+		 <choose>
+            <when test="page != null and limit.trim() != ''">
+               WHERE ROWNUM&lt;=#{page}*#{limit}
+				)
+				WHERE RN>(#{page}-1)*#{limit}
+            </when>
+			<otherwise>
+                )
+			</otherwise>
+        </choose>
+	</select>
+	
+	
+	<select id="purchasePriceCount" resultType="int">
+		<![CDATA[
+			select count(1) from(
+			
+			SELECT 
+			PURINWAREHSBILL.FNumber AS billfnumber,
+			MATERIAL.FNumber  materialNumber, 
+		    regexp_substr(MATERIAL.FNumber,'[^-]+',1,1) bm1,
+		    regexp_substr(MATERIAL.FNumber,'[^-]+',1,2) bm2,
+		    regexp_substr(MATERIAL.FNumber,'[^-]+',1,3) bm3,
+			MATERIAL.FName_l2 AS materialName,
+			MATERIAL.FModel AS fmodel, 
+			BIZTYPE.FName_l2  bizName, 
+			nvl(to_char(UNIT.FNAME_L2),NULL)  measurename, 
+			nvl(to_char(basemeasure.fname_l2),NULL)  basemeasurename,
+			TRANSACTIONTYPE.FName_l2  tranName, 
+			PURINWAREHSBILL.FBaseStatus  billstatus, 
+			PURINWAREHSBILL.FBizDate  bizdate,
+			ADMINORGUNIT.FName_l2  depName,
+			SUPPLIER.FName_l2  supplierName,
+			CASE  WHEN nvl(PURINWAREHSBILL.FIsInTax, 0) = 0 THEN '否'  WHEN PURINWAREHSBILL.FIsInTax = 1 THEN '是' end  sfhs,
+			CURRENCY.FName_l2  bb, 
+			PURINWAREHSBILL.FExchangeRate  hl, 
+			ENTRY.FQty  entryqty,
+			nvl(entry.FBASEQTY, 0) entrybaseqty,
+			CREATOR.FName_l2  creatorName, 
+			CREATOR.FCreateTime  createTime, 
+			WAREHOUSE.FName_l2  warename, 
+			MODIFIER.FName_l2  modifyName, 
+			PURINWAREHSBILL.FModificationTime  modifyTime,
+			AUDITOR.FName_l2  auditorName, 
+			
+			PURINWAREHSBILL.FAuditTime  auditTime,
+			ENTRY.FRemark  remark, 
+			PURCHASEORGUNIT.FName_L2  purchaseName,
+			PURCHEPERSON.FName_l2  purchasePersion, 
+			ENTRY.FSourceBillNumber  srcnumber,
+			ENTRY.CFDeclaraNumber  declaraNumber,
+			ENTRY.CFPmcRequ  pmcRequ,
+			ENTRY.FPurchaseCost AS purchaseCost,
+			ENTRY.FUnitPurchaseCost AS fUnitPurchaseCost,
+			ENTRY.FIsPresent AS FisPresent
+			
+			FROM new_eas75.T_IM_PurInWarehsBill  PURINWAREHSBILL
+			
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_TransactionType  TRANSACTIONTYPE
+			ON PURINWAREHSBILL.FTransactionTypeID = TRANSACTIONTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_BillType  SOURCEBILLTYPE
+			ON PURINWAREHSBILL.FSourceBillTypeID = SOURCEBILLTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Admin  ADMINORGUNIT
+			ON PURINWAREHSBILL.FAdminOrgUnitID = ADMINORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT
+			ON PURINWAREHSBILL.FStorageOrgUnitID = STORAGEORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Supplier  SUPPLIER
+			ON PURINWAREHSBILL.FSupplierID = SUPPLIER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_IM_PurInWarehsEntry  ENTRY
+			ON PURINWAREHSBILL.FID = ENTRY.FParentID	
+			
+			LEFT OUTER JOIN new_eas75.T_PM_User  CREATOR
+			ON PURINWAREHSBILL.FCreatorID = CREATOR.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_CtrlUnit  CU
+			ON PURINWAREHSBILL.FControlUnitID = CU.FID
+			
+			LEFT OUTER JOIN new_eas75.T_GL_Voucher  VOUCHER
+			ON PURINWAREHSBILL.FVoucherID = VOUCHER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Currency  CURRENCY
+			ON PURINWAREHSBILL.FCurrencyID = CURRENCY.FID
+			
+			LEFT OUTER JOIN new_eas75.T_PM_User  AUDITOR
+			ON PURINWAREHSBILL.FAuditorID = AUDITOR.FID
+			
+			LEFT OUTER JOIN new_eas75.T_PM_User  MODIFIER
+			ON PURINWAREHSBILL.FModifierID = MODIFIER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_BizType  BIZTYPE
+			ON PURINWAREHSBILL.FBizTypeID = BIZTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_PaymentType  PAYMENTTYPE
+			ON PURINWAREHSBILL.FPaymentTypeID = PAYMENTTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_CostCenter  COSTCENTERORGUNIT
+			ON PURINWAREHSBILL.FCostCenterOrgUnitID = COSTCENTERORGUNIT.FID
+			
+			 LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit  UNIT
+			 ON ENTRY.FUnitID = UNIT.FID
+			 
+			join new_eas75.T_BD_MeasureUnit basemeasure 
+			 on entry.fbaseunitid = basemeasure.fid 
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Material  MATERIAL
+			ON ENTRY.FMaterialID = MATERIAL.FID
+			
+			LEFT OUTER JOIN new_eas75.T_DB_LOCATION  LOCATION
+			ON ENTRY.FLocationID = LOCATION.FID
+			
+			LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE  WAREHOUSE
+			ON ENTRY.FWarehouseID = WAREHOUSE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_BillType  BILLTYPE
+			ON ENTRY.FCoreBillTypeID = BILLTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Company  COMPANYORGUNIT
+			ON ENTRY.FCompanyOrgUnitID = COMPANYORGUNIT.FID
+			
+			 LEFT OUTER JOIN new_eas75.T_BD_Person  PURCHEPERSON
+			 ON ENTRY.FPurchasePersonID = PURCHEPERSON.FID
+			
+			 LEFT OUTER JOIN new_eas75.T_ORG_Purchase  PURCHASEORGUNIT
+			 ON ENTRY.FPurchaseOrgUnitID = PURCHASEORGUNIT.FID
+			
+			 LEFT OUTER JOIN new_eas75.T_ORG_Storage  RECEIVESTORAGEORGUNIT
+			 ON ENTRY.FReceiveStorageOrgUnitID = RECEIVESTORAGEORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT1
+			ON ENTRY.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Supplier  BALANCESUPPLIER
+			ON ENTRY.FBalanceSupplierID = BALANCESUPPLIER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_MM_TrackNumber  TRACKNUMBER
+			ON ENTRY.FTrackNumberID = TRACKNUMBER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_MM_Project  PROJECT
+			ON ENTRY.FProjectID = PROJECT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Customer  CUSTOMER
+			ON ENTRY.FCustomerID = CUSTOMER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_MaterialCompanyInfo  MATERIALCOMPANY
+			ON ENTRY.FMaterialID = MATERIALCOMPANY.FMaterialID AND ENTRY.FCompanyOrgUnitID = MATERIALCOMPANY.FCompanyID
+			
+			) t
+			where t.billstatus = 4  and t.tranName !='普通采购退货'  and t.FisPresent = 0]]>
+			<if test="starttime != null and starttime != ''">and t.auditTime <![CDATA[>=]]> to_timestamp(#{starttime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+			<if test="endtime != null and endtime != ''"> and t.auditTime <![CDATA[<=]]> to_timestamp(#{endtime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+			<if test="zzfws != null and zzfws != ''"> 
+			  and t.purchaseName  in 
+			    <foreach collection ="zzfws" item="item" index= "index"  open="(" separator="," close=")">
+			    	 #{item}       
+			    </foreach>	  		  
+		  	</if>
+			<if test="xdlist != null and xdlist != ''">
+				<choose>
+		            <when test="flag == 'XD'">
+		               	and t.supplierName  in 
+					    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+					    	 #{item}       
+					    </foreach>
+		            </when>
+					<otherwise>
+							and t.supplierName not in 
+					    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+					    	 #{item}       
+					    </foreach>
+					</otherwise>
+		        </choose>
+			</if>
+			<if test="cklist != null and cklist != ''">
+				<choose>
+		            <when test="flag == 'BS'">
+		               	and t.warename  in 
+					    <foreach collection ="cklist" item="item" index= "index"  open="(" separator="," close=")">
+					    	 #{item}       
+					    </foreach>
+		            </when>
+					<otherwise>
+							and t.warename not in 
+					    <foreach collection ="cklist" item="item" index= "index"  open="(" separator="," close=")">
+					    	 #{item}       
+					    </foreach>
+					</otherwise>
+		        </choose>
+			</if>
+		 order by 	t.bizdate desc
+			
+	</select>
+	
+	<select id="purchasePriceJob" resultType="com.bootdo.system.domain.PurchasePriceDO">
+		<![CDATA[
+		
+    select t.* from (
+
+      SELECT 
+      row_number() OVER(PARTITION BY PURCHASEORGUNIT.FName_L2,MATERIAL.FNumber,WAREHOUSE.FName_l2 ORDER BY PURINWAREHSBILL.FAuditTime desc) as row_flg , 
+      PURINWAREHSBILL.FNumber AS billfnumber,
+      MATERIAL.FNumber  materialNumber, 
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,1) bm1,
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,2) bm2,
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,3) bm3,
+      MATERIAL.FName_l2 AS materialName,
+      MATERIAL.FModel AS fmodel, 
+      nvl(to_char(UNIT.FNAME_L2),NULL)  measurename, 
+      nvl(to_char(basemeasure.fname_l2),NULL)  basemeasurename,
+      TRANSACTIONTYPE.FName_l2  tranName, 
+      PURINWAREHSBILL.FBaseStatus  billstatus, 
+      SUPPLIER.FName_l2  supplierName,
+      CURRENCY.FName_l2  bb, 
+      ENTRY.FQty  entryqty,
+      nvl(entry.FBASEQTY, 0) entrybaseqty,
+      PURINWAREHSBILL.FAuditTime  auditTime,
+      PURCHASEORGUNIT.FName_L2  purchaseName,
+      WAREHOUSE.FName_l2  warename, 
+      ENTRY.FPurchaseCost AS purchaseCost,
+	  ENTRY.FUnitPurchaseCost AS fUnitPurchaseCost
+
+      
+      FROM new_eas75.T_IM_PurInWarehsBill  PURINWAREHSBILL
+      
+      
+      LEFT OUTER JOIN new_eas75.T_SCM_TransactionType  TRANSACTIONTYPE
+      ON PURINWAREHSBILL.FTransactionTypeID = TRANSACTIONTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_SCM_BillType  SOURCEBILLTYPE
+      ON PURINWAREHSBILL.FSourceBillTypeID = SOURCEBILLTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_Admin  ADMINORGUNIT
+      ON PURINWAREHSBILL.FAdminOrgUnitID = ADMINORGUNIT.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT
+      ON PURINWAREHSBILL.FStorageOrgUnitID = STORAGEORGUNIT.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Supplier  SUPPLIER
+      ON PURINWAREHSBILL.FSupplierID = SUPPLIER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_IM_PurInWarehsEntry  ENTRY
+      ON PURINWAREHSBILL.FID = ENTRY.FParentID  
+      
+      LEFT OUTER JOIN new_eas75.T_PM_User  CREATOR
+      ON PURINWAREHSBILL.FCreatorID = CREATOR.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_CtrlUnit  CU
+      ON PURINWAREHSBILL.FControlUnitID = CU.FID
+      
+      LEFT OUTER JOIN new_eas75.T_GL_Voucher  VOUCHER
+      ON PURINWAREHSBILL.FVoucherID = VOUCHER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Currency  CURRENCY
+      ON PURINWAREHSBILL.FCurrencyID = CURRENCY.FID
+      
+      LEFT OUTER JOIN new_eas75.T_PM_User  AUDITOR
+      ON PURINWAREHSBILL.FAuditorID = AUDITOR.FID
+      
+      LEFT OUTER JOIN new_eas75.T_PM_User  MODIFIER
+      ON PURINWAREHSBILL.FModifierID = MODIFIER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_SCM_BizType  BIZTYPE
+      ON PURINWAREHSBILL.FBizTypeID = BIZTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_PaymentType  PAYMENTTYPE
+      ON PURINWAREHSBILL.FPaymentTypeID = PAYMENTTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_CostCenter  COSTCENTERORGUNIT
+      ON PURINWAREHSBILL.FCostCenterOrgUnitID = COSTCENTERORGUNIT.FID
+      
+       LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit  UNIT
+       ON ENTRY.FUnitID = UNIT.FID
+       
+      join new_eas75.T_BD_MeasureUnit basemeasure 
+       on entry.fbaseunitid = basemeasure.fid 
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Material  MATERIAL
+      ON ENTRY.FMaterialID = MATERIAL.FID
+      
+      LEFT OUTER JOIN new_eas75.T_DB_LOCATION  LOCATION
+      ON ENTRY.FLocationID = LOCATION.FID
+      
+      LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE  WAREHOUSE
+      ON ENTRY.FWarehouseID = WAREHOUSE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_SCM_BillType  BILLTYPE
+      ON ENTRY.FCoreBillTypeID = BILLTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_Company  COMPANYORGUNIT
+      ON ENTRY.FCompanyOrgUnitID = COMPANYORGUNIT.FID
+      
+       LEFT OUTER JOIN new_eas75.T_BD_Person  PURCHEPERSON
+       ON ENTRY.FPurchasePersonID = PURCHEPERSON.FID
+      
+       LEFT OUTER JOIN new_eas75.T_ORG_Purchase  PURCHASEORGUNIT
+       ON ENTRY.FPurchaseOrgUnitID = PURCHASEORGUNIT.FID
+      
+       LEFT OUTER JOIN new_eas75.T_ORG_Storage  RECEIVESTORAGEORGUNIT
+       ON ENTRY.FReceiveStorageOrgUnitID = RECEIVESTORAGEORGUNIT.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT1
+      ON ENTRY.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Supplier  BALANCESUPPLIER
+      ON ENTRY.FBalanceSupplierID = BALANCESUPPLIER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_MM_TrackNumber  TRACKNUMBER
+      ON ENTRY.FTrackNumberID = TRACKNUMBER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_MM_Project  PROJECT
+      ON ENTRY.FProjectID = PROJECT.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Customer  CUSTOMER
+      ON ENTRY.FCustomerID = CUSTOMER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_MaterialCompanyInfo  MATERIALCOMPANY
+      ON ENTRY.FMaterialID = MATERIALCOMPANY.FMaterialID AND ENTRY.FCompanyOrgUnitID = MATERIALCOMPANY.FCompanyID
+      ]]>
+      where PURINWAREHSBILL.FBaseStatus = 4  and TRANSACTIONTYPE.FName_l2 !='普通采购退货'  and ENTRY.FIsPresent = 0 and ENTRY.FPurchaseCost > 0
+      
+      and  instr(WAREHOUSE.FName_l2,'客供')=0 and instr(WAREHOUSE.FName_l2,'废')=0  and instr(WAREHOUSE.FName_l2,'保税S仓')=0   and instr(WAREHOUSE.FName_l2,'非保税S仓')=0
+      <if test="xdlist != null and xdlist != ''">
+		<choose>
+            <when test="flag == 'XD'">
+               	and SUPPLIER.FName_l2  in 
+			    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+			    	 #{item}       
+			    </foreach>
+            </when>
+			<otherwise>
+					and SUPPLIER.FName_l2 not in 
+			    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+			    	 #{item}       
+			    </foreach>
+			</otherwise>
+        </choose>
+	</if>
+      <if test="starttime != null and starttime != ''">and PURINWAREHSBILL.FAuditTime <![CDATA[>=]]> to_timestamp(#{starttime}, 'yyyy-mm-dd hh24:mi:ss')</if>
+      <if test="endtime != null and endtime != ''">and PURINWAREHSBILL.FAuditTime <![CDATA[<=]]> to_timestamp(#{endtime}, 'yyyy-mm-dd hh24:mi:ss')</if>
+      ) t
+      where t.row_flg = 1
+   		
+	
+	</select>
+	
+	
+	<select id="punchingPurchasePriceJob" resultType="com.bootdo.system.domain.PurchasePriceDO">
+	    select t.purchaseName,t.materialNumber,t.materialName,t.basemeasurename,t.auditTime,
+		(CASE when t.basemeasurename='㎡' then avg(t.purchaseCost/t.entrybaseqty)
+		     else  avg(t.fUnitPurchaseCost)
+		       end ) baseUnitPrice,
+		
+		avg(t.fUnitPurchaseCost) dailyPrice,t.measurename from (
+		SELECT 
+		    PURCHASEORGUNIT.FName_L2  purchaseName,
+		    ENTRY.FPurchaseCost AS purchaseCost,
+		    ENTRY.FUnitPurchaseCost AS fUnitPurchaseCost,
+		    nvl(entry.FBASEQTY, 0) entrybaseqty,
+		    nvl(to_char(UNIT.FNAME_L2),NULL)  measurename, 
+		    nvl(to_char(BASEUNIT.fname_l2),NULL)  basemeasurename,
+		    MATERIAL.FNumber AS materialNumber, 
+		    MATERIAL.FName_l2 AS materialName,
+		     to_char(PURINWAREHSBILL.FAuditTime, 'YYYYMM') auditTime
+		    FROM new_eas75.T_IM_PurInWarehsBill PURINWAREHSBILL
+		    
+		    LEFT OUTER JOIN new_eas75.T_SCM_TransactionType   TRANSACTIONTYPE
+		    ON PURINWAREHSBILL.FTransactionTypeID = TRANSACTIONTYPE.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_SCM_BillType   SOURCEBILLTYPE
+		    ON PURINWAREHSBILL.FSourceBillTypeID = SOURCEBILLTYPE.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_ORG_Admin   ADMINORGUNIT
+		    ON PURINWAREHSBILL.FAdminOrgUnitID = ADMINORGUNIT.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_ORG_Storage   STORAGEORGUNIT
+		    ON PURINWAREHSBILL.FStorageOrgUnitID = STORAGEORGUNIT.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_Supplier   SUPPLIER
+		    ON PURINWAREHSBILL.FSupplierID = SUPPLIER.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_IM_PurInWarehsEntry   ENTRY
+		    ON PURINWAREHSBILL.FID = ENTRY.FParentID
+		    
+		    LEFT OUTER JOIN new_eas75.T_PM_User   CREATOR
+		    ON PURINWAREHSBILL.FCreatorID = CREATOR.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_ORG_CtrlUnit   CU
+		    ON PURINWAREHSBILL.FControlUnitID = CU.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_GL_Voucher   VOUCHER
+		    ON PURINWAREHSBILL.FVoucherID = VOUCHER.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_Currency   CURRENCY
+		    ON PURINWAREHSBILL.FCurrencyID = CURRENCY.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_PM_User   AUDITOR
+		    ON PURINWAREHSBILL.FAuditorID = AUDITOR.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_PM_User   MODIFIER
+		    ON PURINWAREHSBILL.FModifierID = MODIFIER.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_SCM_BizType   BIZTYPE
+		    ON PURINWAREHSBILL.FBizTypeID = BIZTYPE.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_PaymentType   PAYMENTTYPE
+		    ON PURINWAREHSBILL.FPaymentTypeID = PAYMENTTYPE.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_ORG_CostCenter   COSTCENTERORGUNIT
+		    ON PURINWAREHSBILL.FCostCenterOrgUnitID = COSTCENTERORGUNIT.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit  UNIT
+		    ON ENTRY.FUnitID = UNIT.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_Material   MATERIAL
+		    ON ENTRY.FMaterialID = MATERIAL.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_DB_LOCATION   LOCATION
+		    ON ENTRY.FLocationID = LOCATION.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE   WAREHOUSE
+		    ON ENTRY.FWarehouseID = WAREHOUSE.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_AsstAttrValue   ASSISTPROPERTY
+		    ON ENTRY.FAssistPropertyID = ASSISTPROPERTY.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_SCM_BillType   BILLTYPE
+		    ON ENTRY.FCoreBillTypeID = BILLTYPE.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_ORG_Company   COMPANYORGUNIT
+		    ON ENTRY.FCompanyOrgUnitID = COMPANYORGUNIT.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_PurchaseGroup   PURCHASEGROUP
+		    ON ENTRY.FPurchaseGroupID = PURCHASEGROUP.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_Person   PURCHASEPERSON
+		    ON ENTRY.FPurchasePersonID = PURCHASEPERSON.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_ORG_Purchase   PURCHASEORGUNIT
+		    ON ENTRY.FPurchaseOrgUnitID = PURCHASEORGUNIT.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_ORG_Storage   RECEIVESTORAGEORGUNIT
+		    ON ENTRY.FReceiveStorageOrgUnitID = RECEIVESTORAGEORGUNIT.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_ORG_Storage   STORAGEORGUNIT1
+		    ON ENTRY.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_Supplier   BALANCESUPPLIER
+		    ON ENTRY.FBalanceSupplierID = BALANCESUPPLIER.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_MM_TrackNumber   TRACKNUMBER
+		    ON ENTRY.FTrackNumberID = TRACKNUMBER.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_MM_Project   PROJECT
+		    ON ENTRY.FProjectID = PROJECT.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_Customer   CUSTOMER
+		    ON ENTRY.FCustomerID = CUSTOMER.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit   ASSISTUNIT
+		    ON ENTRY.FAssistUnitID = ASSISTUNIT.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit   BASEUNIT
+		    ON ENTRY.FBaseUnitID = BASEUNIT.FID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_MaterialCompanyInfo   MATERIALCOMPANY
+		    ON ENTRY.FMaterialID = MATERIALCOMPANY.FMaterialID AND ENTRY.FCompanyOrgUnitID = MATERIALCOMPANY.FCompanyID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_MultiMeasureUnit  MULTIUNIT
+		    ON ENTRY.FMaterialID = MULTIUNIT.FMaterialID AND ENTRY.FUnitID = MULTIUNIT.FMeasureUnitID
+		    
+		    LEFT OUTER JOIN new_eas75.T_BD_MultiMeasureUnit   BASEMULTIUNIT
+		    ON ENTRY.FMaterialID = BASEMULTIUNIT.FMaterialID AND ENTRY.FBaseUnitID = BASEMULTIUNIT.FMeasureUnitID
+		
+		    where  ENTRY.FIsPresent = 0 and ENTRY.FPurchaseCost > 0 
+		     <if test="zzfws != null and zzfws != ''"> 
+			  and PURCHASEORGUNIT.FName_L2  in 
+			    <foreach collection ="zzfws" item="item" index= "index"  open="(" separator="," close=")">
+			    	 #{item}       
+			    </foreach>	  		  
+		  	</if>  
+		    <if test="starttime != null and starttime != ''">and PURINWAREHSBILL.FAuditTime <![CDATA[>=]]> to_timestamp(#{starttime}, 'yyyy-mm-dd hh24:mi:ss')</if>
+		    <if test="endtime != null and endtime != ''">and PURINWAREHSBILL.FAuditTime <![CDATA[<=]]> to_timestamp(#{endtime}, 'yyyy-mm-dd hh24:mi:ss')</if>
+		   ) t group by t.purchaseName, t.materialNumber,t.materialName,t.basemeasurename,t.measurename,t.auditTime
+		  
+   		
+	
+	</select>
+	
+	
+	<select id="purchasePriceExportView" resultType="com.bootdo.system.domain.PurchasePriceDO">
+		<![CDATA[
+		SELECT A.*, ROWNUM RN 
+		FROM (
+		select * from (
+			SELECT 
+			PURINWAREHSBILL.FNumber AS billfnumber,
+			MATERIAL.FNumber  materialNumber, 
+		    regexp_substr(MATERIAL.FNumber,'[^-]+',1,1) bm1,
+		    regexp_substr(MATERIAL.FNumber,'[^-]+',1,2) bm2,
+		    regexp_substr(MATERIAL.FNumber,'[^-]+',1,3) bm3,
+			MATERIAL.FName_l2 AS materialName,
+			MATERIAL.FModel AS fmodel, 
+			BIZTYPE.FName_l2  bizName, 
+			nvl(to_char(UNIT.FNAME_L2),NULL)  measurename, 
+			nvl(to_char(basemeasure.fname_l2),NULL)  basemeasurename,
+			TRANSACTIONTYPE.FName_l2  tranName, 
+			PURINWAREHSBILL.FBaseStatus  billstatus, 
+			PURINWAREHSBILL.FBizDate  bizdate,
+			ADMINORGUNIT.FName_l2  depName,
+			SUPPLIER.FName_l2  supplierName,
+			CASE  WHEN nvl(PURINWAREHSBILL.FIsInTax, 0) = 0 THEN '否'  WHEN PURINWAREHSBILL.FIsInTax = 1 THEN '是' end  sfhs,
+			CURRENCY.FName_l2  bb, 
+			PURINWAREHSBILL.FExchangeRate  hl, 
+			ENTRY.FQty  entryqty,
+			nvl(entry.FBASEQTY, 0) entrybaseqty,
+			CREATOR.FName_l2  creatorName, 
+			CREATOR.FCreateTime  createTime, 
+			WAREHOUSE.FName_l2  warename, 
+			MODIFIER.FName_l2  modifyName, 
+			PURINWAREHSBILL.FModificationTime  modifyTime,
+			AUDITOR.FName_l2  auditorName, 
+			
+			PURINWAREHSBILL.FAuditTime  auditTime,
+			ENTRY.FRemark  remark, 
+			PURCHASEORGUNIT.FName_L2  purchaseName,
+			PURCHEPERSON.FName_l2  purchasePersion, 
+			ENTRY.FSourceBillNumber  srcnumber,
+			ENTRY.CFDeclaraNumber  declaraNumber,
+			ENTRY.CFPmcRequ  pmcRequ,
+			ENTRY.FPurchaseCost AS purchaseCost,
+			ENTRY.FUnitPurchaseCost AS fUnitPurchaseCost,
+			ENTRY.FIsPresent AS FisPresent
+			
+			FROM new_eas75.T_IM_PurInWarehsBill  PURINWAREHSBILL
+			
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_TransactionType  TRANSACTIONTYPE
+			ON PURINWAREHSBILL.FTransactionTypeID = TRANSACTIONTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_BillType  SOURCEBILLTYPE
+			ON PURINWAREHSBILL.FSourceBillTypeID = SOURCEBILLTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Admin  ADMINORGUNIT
+			ON PURINWAREHSBILL.FAdminOrgUnitID = ADMINORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT
+			ON PURINWAREHSBILL.FStorageOrgUnitID = STORAGEORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Supplier  SUPPLIER
+			ON PURINWAREHSBILL.FSupplierID = SUPPLIER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_IM_PurInWarehsEntry  ENTRY
+			ON PURINWAREHSBILL.FID = ENTRY.FParentID	
+			
+			LEFT OUTER JOIN new_eas75.T_PM_User  CREATOR
+			ON PURINWAREHSBILL.FCreatorID = CREATOR.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_CtrlUnit  CU
+			ON PURINWAREHSBILL.FControlUnitID = CU.FID
+			
+			LEFT OUTER JOIN new_eas75.T_GL_Voucher  VOUCHER
+			ON PURINWAREHSBILL.FVoucherID = VOUCHER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Currency  CURRENCY
+			ON PURINWAREHSBILL.FCurrencyID = CURRENCY.FID
+			
+			LEFT OUTER JOIN new_eas75.T_PM_User  AUDITOR
+			ON PURINWAREHSBILL.FAuditorID = AUDITOR.FID
+			
+			LEFT OUTER JOIN new_eas75.T_PM_User  MODIFIER
+			ON PURINWAREHSBILL.FModifierID = MODIFIER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_BizType  BIZTYPE
+			ON PURINWAREHSBILL.FBizTypeID = BIZTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_PaymentType  PAYMENTTYPE
+			ON PURINWAREHSBILL.FPaymentTypeID = PAYMENTTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_CostCenter  COSTCENTERORGUNIT
+			ON PURINWAREHSBILL.FCostCenterOrgUnitID = COSTCENTERORGUNIT.FID
+			
+			 LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit  UNIT
+			 ON ENTRY.FUnitID = UNIT.FID
+			 
+			join new_eas75.T_BD_MeasureUnit basemeasure 
+			 on entry.fbaseunitid = basemeasure.fid 
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Material  MATERIAL
+			ON ENTRY.FMaterialID = MATERIAL.FID
+			
+			LEFT OUTER JOIN new_eas75.T_DB_LOCATION  LOCATION
+			ON ENTRY.FLocationID = LOCATION.FID
+			
+			LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE  WAREHOUSE
+			ON ENTRY.FWarehouseID = WAREHOUSE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_BillType  BILLTYPE
+			ON ENTRY.FCoreBillTypeID = BILLTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Company  COMPANYORGUNIT
+			ON ENTRY.FCompanyOrgUnitID = COMPANYORGUNIT.FID
+			
+			 LEFT OUTER JOIN new_eas75.T_BD_Person  PURCHEPERSON
+			 ON ENTRY.FPurchasePersonID = PURCHEPERSON.FID
+			
+			 LEFT OUTER JOIN new_eas75.T_ORG_Purchase  PURCHASEORGUNIT
+			 ON ENTRY.FPurchaseOrgUnitID = PURCHASEORGUNIT.FID
+			
+			 LEFT OUTER JOIN new_eas75.T_ORG_Storage  RECEIVESTORAGEORGUNIT
+			 ON ENTRY.FReceiveStorageOrgUnitID = RECEIVESTORAGEORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT1
+			ON ENTRY.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Supplier  BALANCESUPPLIER
+			ON ENTRY.FBalanceSupplierID = BALANCESUPPLIER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_MM_TrackNumber  TRACKNUMBER
+			ON ENTRY.FTrackNumberID = TRACKNUMBER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_MM_Project  PROJECT
+			ON ENTRY.FProjectID = PROJECT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Customer  CUSTOMER
+			ON ENTRY.FCustomerID = CUSTOMER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_MaterialCompanyInfo  MATERIALCOMPANY
+			ON ENTRY.FMaterialID = MATERIALCOMPANY.FMaterialID AND ENTRY.FCompanyOrgUnitID = MATERIALCOMPANY.FCompanyID
+			
+			) t
+			where t.billstatus = 4  and t.tranName !='普通采购退货'  and t.FisPresent = 0]]>
+			<if test="starttime != null and starttime != ''">and t.auditTime <![CDATA[>=]]> to_timestamp(#{starttime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+			<if test="endtime != null and endtime != ''"> and t.auditTime <![CDATA[<=]]> to_timestamp(#{endtime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+			<if test="zzfws != null and zzfws != ''"> 
+			  and t.purchaseName  in 
+			    <foreach collection ="zzfws" item="item" index= "index"  open="(" separator="," close=")">
+			    	 #{item}       
+			    </foreach>	  		  
+		  	</if>
+			<if test="xdlist != null and xdlist != ''">
+				<choose>
+		            <when test="flag == 'XD'">
+		               	and t.supplierName  in 
+					    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+					    	 #{item}       
+					    </foreach>
+		            </when>
+					<otherwise>
+							and t.supplierName not in 
+					    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+					    	 #{item}       
+					    </foreach>
+					</otherwise>
+		        </choose>
+			</if>
+			<if test="cklist != null and cklist != ''">
+				<choose>
+		            <when test="flag == 'BS'">
+		               	and t.warename  in 
+					    <foreach collection ="cklist" item="item" index= "index"  open="(" separator="," close=")">
+					    	 #{item}       
+					    </foreach>
+		            </when>
+					<otherwise>
+							and t.warename not in 
+					    <foreach collection ="cklist" item="item" index= "index"  open="(" separator="," close=")">
+					    	 #{item}       
+					    </foreach>
+					</otherwise>
+		        </choose>
+			</if>
+			 order by 	t.bizdate desc
+		 ) A 
+	</select>
+	
+	<select id="fqlTmp" resultType="com.bootdo.system.domain.PurchasePriceTmpDO">
+		select y.fdjbh,y.fbizdate,y.fmaterialName,y.fmaterialNumber,y.fbm1,y.fbm2,y.fbm3,y.fsjflsl,y.ftlsl,y.fsjwgrq,y.fcpbh,y.fcpmc,y.fgbrq,y.measurename,y.frksl,y.fblprk,y.fwarename,y.sfbs
+		, t.materialNumber,t.bm1,t.bm2,t.bm3,t.basemeasurename,t.bizdate,t.bb,t.entryqty,t.warename,t.purchaseCost,t.fUnitPurchaseCost,t.purchaseName from (
+        SELECT 
+        MANUFACTUREORDER.FNumber AS fdjbh, 
+        MANUFACTUREORDER.FBizDate AS fbizdate, 
+        MATERIAL.FName_l2 AS fmaterialName, 
+        MATERIAL.FNumber AS fmaterialNumber, 
+        nvl(to_char(UNIT.FNAME_L2),NULL)  measurename, 
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,1) fbm1,
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,2) fbm2,
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,3) fbm3,
+        STOCKS.FActIssueQty AS fsjflsl, 
+        STOCKS.FRejectedQty AS ftlsl,  
+        MANUFACTUREORDER.FActureEndDate AS fsjwgrq, 
+        MATERIAL1.FNumber AS fcpbh, 
+        MATERIAL1.FName_l2 AS fcpmc,
+        WAREHOUSE.FName_l2  fwarename, 
+        MANUFACTUREORDER.CFRejects AS fblprk,
+        MANUFACTUREORDER.FToStroreQty frksl,
+        MANUFACTUREORDER.CFKDCLOSE AS fgbrq,
+        b.cfisinbond AS sfbs
+        
+        FROM new_eas75.T_MM_ManufactureOrder MANUFACTUREORDER
+        
+        LEFT OUTER JOIN new_eas75.T_MM_MFTOrderStock STOCKS
+        ON MANUFACTUREORDER.FID = STOCKS.FParentID
+        
+        LEFT JOIN new_eas75.T_IM_ManufactureRecBill b
+        ON MANUFACTUREORDER.fid = b.fsourcebillid
+        
+        LEFT JOIN new_eas75.T_IM_ManufactureRecBillentry c
+        ON b.fid = c.fparentid
+        
+        LEFT OUTER JOIN new_eas75.T_ORG_Storage STORAGEORGUNIT1
+        ON MANUFACTUREORDER.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+        
+        LEFT OUTER JOIN new_eas75.T_SCM_BizType BIZTYPE
+        ON MANUFACTUREORDER.FBizTypeID = BIZTYPE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL1
+        ON MANUFACTUREORDER.FMaterialID = MATERIAL1.FID
+        
+        LEFT OUTER JOIN new_eas75.T_SCM_BillType BILLTYPE
+        ON MANUFACTUREORDER.FBillTypeID = BILLTYPE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_ProductTransactionType TRANSACTIONTYPE
+        ON MANUFACTUREORDER.FTransactionTypeID = TRANSACTIONTYPE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_StandardRooting ROUTING
+        ON MANUFACTUREORDER.FRoutingID = ROUTING.FID
+        
+        LEFT OUTER JOIN new_eas75.T_ORG_Admin ADMINORGUNIT
+        ON MANUFACTUREORDER.FAdminOrgUnitID = ADMINORGUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Person DISPATCHER
+        ON MANUFACTUREORDER.FDispatcherID = DISPATCHER.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit UNIT1
+        ON MANUFACTUREORDER.FUnitID = UNIT1.FID
+        
+        LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE DEFAULTWAREHOUS
+        ON MANUFACTUREORDER.FDefaultWarehousID = DEFAULTWAREHOUS.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_TrackNumber TRACKNUMBER
+        ON MANUFACTUREORDER.FTrackID = TRACKNUMBER.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_Project PROJECT
+        ON MANUFACTUREORDER.FProjectID = PROJECT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_CostObject COSTOBJECT
+        ON MANUFACTUREORDER.FCostObjectID = COSTOBJECT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_PM_User USERS
+        ON MANUFACTUREORDER.FCreatorID = USERS.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_MFTOrderExpectOutput MANUFACTUREORDEREXPECTOUTPUT
+        ON MANUFACTUREORDER.FID = MANUFACTUREORDEREXPECTOUTPUT.FParentID
+        
+        LEFT OUTER JOIN new_eas75.T_NCM_CostObjectSuite COSTOBJECTSUITE
+        ON MANUFACTUREORDER.CFCostObjectGroupI = COSTOBJECTSUITE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_ORG_Storage STORAGEORGUNIT
+        ON STOCKS.FStorageOrgUnitID = STORAGEORGUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_Operation OPERATION
+        ON STOCKS.FOperationID = OPERATION.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit BASEUNIT
+        ON STOCKS.FUnitID = BASEUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Material REPLACEMATERIAL
+        ON STOCKS.FReplaceMaterialID = REPLACEMATERIAL.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit ASSISTUNIT
+        ON STOCKS.FAssistUnitID = ASSISTUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE WAREHOUSE
+        ON STOCKS.FWarehouseID = WAREHOUSE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit UNIT
+        ON STOCKS.FUnitID = UNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_AsstAttrValue ASSISTPROPERTY
+        ON STOCKS.FAssistPropertyID = ASSISTPROPERTY.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL
+        ON STOCKS.FMaterialID = MATERIAL.FID
+        
+        LEFT OUTER JOIN new_eas75.T_SCM_BillType SOURCEBILLTYPE
+        ON STOCKS.FSourceBillTypeID = SOURCEBILLTYPE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_SCM_ReasonCode REASONCODE
+        ON STOCKS.FReasonCodeID = REASONCODE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_DB_LOCATION LOCATION
+        ON STOCKS.FLocationID = LOCATION.FID
+        
+        LEFT OUTER JOIN new_eas75.T_ORG_Storage RECEIPTSTROAGEORGUNIT
+        ON STOCKS.FReceiptStroageOrgUnitID = RECEIPTSTROAGEORGUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE RECEIPTSTOCK
+        ON STOCKS.FReceiptStockID = RECEIPTSTOCK.FID
+        
+        INNER JOIN new_eas75.T_ORG_Admin PICKDEPT
+        ON STOCKS.FPickDeptID = PICKDEPT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL2
+        ON MANUFACTUREORDEREXPECTOUTPUT.FMaterialID = MATERIAL2.FID
+        
+        <where> 1=1 
+        <if test="starttime != null and starttime != ''">and MANUFACTUREORDER.CFKDCLOSE <![CDATA[>=]]> to_timestamp(#{starttime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+		<if test="endtime != null and endtime != ''"> and MANUFACTUREORDER.CFKDCLOSE <![CDATA[<=]]> to_timestamp(#{endtime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+        and MANUFACTUREORDER.FBaseStatus = 7 and   regexp_count(MATERIAL.FNumber, '-') = 2  
+        and  (regexp_substr(MATERIAL.FNumber,'[^-]+',1,1)='600' or  regexp_substr(MATERIAL.FNumber,'[^-]+',1,1)='610' or  regexp_substr(MATERIAL.FNumber,'[^-]+',1,1)='630')
+        
+        </where>
+        ) y 
+        left join 
+        
+        (
+ 
+		select  b.materialNumber,b.bm1,b.bm2,b.bm3,b.basemeasurename,b.bizdate,b.bb,b.entryqty,b.warename,b.purchaseCost,b.fUnitPurchaseCost,b.purchaseName
+		   from (select a.*, row_number() over(partition by bm2 order by bizdate desc) rw  
+		from 
+		(
+		SELECT 
+      row_number() OVER(PARTITION BY MATERIAL.FNumber ORDER BY PURINWAREHSBILL.FBizDate desc) as row_flg , 
+      MATERIAL.FNumber  materialNumber, 
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,1) bm1,
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,2) bm2,
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,3) bm3,
+      nvl(to_char(basemeasure.fname_l2),NULL)  basemeasurename,
+      PURINWAREHSBILL.FBizDate  bizdate,
+      CURRENCY.FName_l2  bb, 
+      ENTRY.FQty  entryqty,
+      WAREHOUSE.FName_l2  warename, 
+      TRANSACTIONTYPE.FName_l2  tranName, 
+      ENTRY.FPurchaseCost AS purchaseCost,
+      PURCHASEORGUNIT.FName_L2  purchaseName,
+      ENTRY.FUnitPurchaseCost AS fUnitPurchaseCost
+      
+      FROM new_eas75.T_IM_PurInWarehsBill  PURINWAREHSBILL
+      
+      
+      LEFT OUTER JOIN new_eas75.T_SCM_TransactionType  TRANSACTIONTYPE
+      ON PURINWAREHSBILL.FTransactionTypeID = TRANSACTIONTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_SCM_BillType  SOURCEBILLTYPE
+      ON PURINWAREHSBILL.FSourceBillTypeID = SOURCEBILLTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_Admin  ADMINORGUNIT
+      ON PURINWAREHSBILL.FAdminOrgUnitID = ADMINORGUNIT.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT
+      ON PURINWAREHSBILL.FStorageOrgUnitID = STORAGEORGUNIT.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Supplier  SUPPLIER
+      ON PURINWAREHSBILL.FSupplierID = SUPPLIER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_IM_PurInWarehsEntry  ENTRY
+      ON PURINWAREHSBILL.FID = ENTRY.FParentID  
+      
+      LEFT OUTER JOIN new_eas75.T_PM_User  CREATOR
+      ON PURINWAREHSBILL.FCreatorID = CREATOR.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_CtrlUnit  CU
+      ON PURINWAREHSBILL.FControlUnitID = CU.FID
+      
+      LEFT OUTER JOIN new_eas75.T_GL_Voucher  VOUCHER
+      ON PURINWAREHSBILL.FVoucherID = VOUCHER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Currency  CURRENCY
+      ON PURINWAREHSBILL.FCurrencyID = CURRENCY.FID
+      
+      LEFT OUTER JOIN new_eas75.T_PM_User  AUDITOR
+      ON PURINWAREHSBILL.FAuditorID = AUDITOR.FID
+      
+      LEFT OUTER JOIN new_eas75.T_PM_User  MODIFIER
+      ON PURINWAREHSBILL.FModifierID = MODIFIER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_SCM_BizType  BIZTYPE
+      ON PURINWAREHSBILL.FBizTypeID = BIZTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_PaymentType  PAYMENTTYPE
+      ON PURINWAREHSBILL.FPaymentTypeID = PAYMENTTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_CostCenter  COSTCENTERORGUNIT
+      ON PURINWAREHSBILL.FCostCenterOrgUnitID = COSTCENTERORGUNIT.FID
+      
+       LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit  UNIT
+       ON ENTRY.FUnitID = UNIT.FID
+       
+      join new_eas75.T_BD_MeasureUnit basemeasure 
+       on entry.fbaseunitid = basemeasure.fid 
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Material  MATERIAL
+      ON ENTRY.FMaterialID = MATERIAL.FID
+      
+      LEFT OUTER JOIN new_eas75.T_DB_LOCATION  LOCATION
+      ON ENTRY.FLocationID = LOCATION.FID
+      
+      LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE  WAREHOUSE
+      ON ENTRY.FWarehouseID = WAREHOUSE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_SCM_BillType  BILLTYPE
+      ON ENTRY.FCoreBillTypeID = BILLTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_Company  COMPANYORGUNIT
+      ON ENTRY.FCompanyOrgUnitID = COMPANYORGUNIT.FID
+      
+       LEFT OUTER JOIN new_eas75.T_BD_Person  PURCHEPERSON
+       ON ENTRY.FPurchasePersonID = PURCHEPERSON.FID
+      
+       LEFT OUTER JOIN new_eas75.T_ORG_Purchase  PURCHASEORGUNIT
+       ON ENTRY.FPurchaseOrgUnitID = PURCHASEORGUNIT.FID
+      
+       LEFT OUTER JOIN new_eas75.T_ORG_Storage  RECEIVESTORAGEORGUNIT
+       ON ENTRY.FReceiveStorageOrgUnitID = RECEIVESTORAGEORGUNIT.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT1
+      ON ENTRY.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Supplier  BALANCESUPPLIER
+      ON ENTRY.FBalanceSupplierID = BALANCESUPPLIER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_MM_TrackNumber  TRACKNUMBER
+      ON ENTRY.FTrackNumberID = TRACKNUMBER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_MM_Project  PROJECT
+      ON ENTRY.FProjectID = PROJECT.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Customer  CUSTOMER
+      ON ENTRY.FCustomerID = CUSTOMER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_MaterialCompanyInfo  MATERIALCOMPANY
+      ON ENTRY.FMaterialID = MATERIALCOMPANY.FMaterialID AND ENTRY.FCompanyOrgUnitID = MATERIALCOMPANY.FCompanyID
+   	  where PURINWAREHSBILL.FBaseStatus = 4  and TRANSACTIONTYPE.FName_l2 !='普通采购退货'   and ENTRY.FIsPresent = 0
+      and   regexp_count(MATERIAL.FNumber, '-') = 2
+	  <if test="zzfws != null and zzfws != ''"> 
+		  and PURCHASEORGUNIT.FName_L2  in 
+		    <foreach collection ="zzfws" item="item" index= "index"  open="(" separator="," close=")">
+		    	 #{item}       
+		    </foreach>	  		  
+	  </if>
+      <if test="xdlist != null and xdlist != ''">
+			and SUPPLIER.FName_l2 not in 
+	    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+	    	 #{item}       
+	    </foreach>
+	 </if>
+	)
+	a 
+	
+	) b  
+	where b.rw = 1
+	) t
+	        
+	on y.fbm2 = t.bm2
+	</select>
+	
+	
+	
+	
+	<select id="fqlAllTmp" resultType="com.bootdo.system.domain.PurchasePriceTmpDO">
+		select y.fdjbh,y.fbizdate,y.fmaterialName,y.fmaterialNumber,y.fbm1,y.fbm2,y.fbm3,y.fsjflsl,y.ftlsl,y.fsjwgrq,y.fcpbh,y.fcpmc,y.fgbrq,y.measurename,y.frksl,y.fblprk,y.fwarename,y.sfbs
+		, t.materialNumber,t.bm1,t.bm2,t.bm3,t.basemeasurename,t.bizdate,t.bb,t.entryqty,t.warename,t.purchaseCost,t.fUnitPurchaseCost,t.suppliername,t.purchaseName from (
+        SELECT 
+        MANUFACTUREORDER.FNumber AS fdjbh, 
+        MANUFACTUREORDER.FBizDate AS fbizdate, 
+        MATERIAL.FName_l2 AS fmaterialName, 
+        MATERIAL.FNumber AS fmaterialNumber, 
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,1) fbm1,
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,2) fbm2,
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,3) fbm3,
+        STOCKS.FActIssueQty AS fsjflsl, 
+        STOCKS.FRejectedQty AS ftlsl,  
+        MANUFACTUREORDER.FActureEndDate AS fsjwgrq, 
+        nvl(to_char(UNIT.FNAME_L2),NULL)  measurename, 
+        MATERIAL1.FNumber AS fcpbh, 
+        MATERIAL1.FName_l2 AS fcpmc,
+        WAREHOUSE.FName_l2  fwarename, 
+        MANUFACTUREORDER.CFRejects AS fblprk,
+        MANUFACTUREORDER.FToStroreQty frksl,
+        MANUFACTUREORDER.CFKDCLOSE AS fgbrq,
+        b.cfisinbond AS sfbs
+        
+        
+        FROM new_eas75.T_MM_ManufactureOrder MANUFACTUREORDER
+        
+        LEFT OUTER JOIN new_eas75.T_MM_MFTOrderStock STOCKS
+        ON MANUFACTUREORDER.FID = STOCKS.FParentID
+        
+        LEFT JOIN new_eas75.T_IM_ManufactureRecBill b
+        ON MANUFACTUREORDER.fid = b.fsourcebillid
+        
+        LEFT JOIN new_eas75.T_IM_ManufactureRecBillentry c
+        ON b.fid = c.fparentid
+        
+        
+        LEFT OUTER JOIN new_eas75.T_ORG_Storage STORAGEORGUNIT1
+        ON MANUFACTUREORDER.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+        
+        LEFT OUTER JOIN new_eas75.T_SCM_BizType BIZTYPE
+        ON MANUFACTUREORDER.FBizTypeID = BIZTYPE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL1
+        ON MANUFACTUREORDER.FMaterialID = MATERIAL1.FID
+        
+        LEFT OUTER JOIN new_eas75.T_SCM_BillType BILLTYPE
+        ON MANUFACTUREORDER.FBillTypeID = BILLTYPE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_ProductTransactionType TRANSACTIONTYPE
+        ON MANUFACTUREORDER.FTransactionTypeID = TRANSACTIONTYPE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_StandardRooting ROUTING
+        ON MANUFACTUREORDER.FRoutingID = ROUTING.FID
+        
+        LEFT OUTER JOIN new_eas75.T_ORG_Admin ADMINORGUNIT
+        ON MANUFACTUREORDER.FAdminOrgUnitID = ADMINORGUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Person DISPATCHER
+        ON MANUFACTUREORDER.FDispatcherID = DISPATCHER.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit UNIT1
+        ON MANUFACTUREORDER.FUnitID = UNIT1.FID
+        
+        LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE DEFAULTWAREHOUS
+        ON MANUFACTUREORDER.FDefaultWarehousID = DEFAULTWAREHOUS.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_TrackNumber TRACKNUMBER
+        ON MANUFACTUREORDER.FTrackID = TRACKNUMBER.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_Project PROJECT
+        ON MANUFACTUREORDER.FProjectID = PROJECT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_CostObject COSTOBJECT
+        ON MANUFACTUREORDER.FCostObjectID = COSTOBJECT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_PM_User USERS
+        ON MANUFACTUREORDER.FCreatorID = USERS.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_MFTOrderExpectOutput MANUFACTUREORDEREXPECTOUTPUT
+        ON MANUFACTUREORDER.FID = MANUFACTUREORDEREXPECTOUTPUT.FParentID
+        
+        LEFT OUTER JOIN new_eas75.T_NCM_CostObjectSuite COSTOBJECTSUITE
+        ON MANUFACTUREORDER.CFCostObjectGroupI = COSTOBJECTSUITE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_ORG_Storage STORAGEORGUNIT
+        ON STOCKS.FStorageOrgUnitID = STORAGEORGUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_Operation OPERATION
+        ON STOCKS.FOperationID = OPERATION.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit BASEUNIT
+        ON STOCKS.FUnitID = BASEUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Material REPLACEMATERIAL
+        ON STOCKS.FReplaceMaterialID = REPLACEMATERIAL.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit ASSISTUNIT
+        ON STOCKS.FAssistUnitID = ASSISTUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE WAREHOUSE
+        ON STOCKS.FWarehouseID = WAREHOUSE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit UNIT
+        ON STOCKS.FUnitID = UNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_AsstAttrValue ASSISTPROPERTY
+        ON STOCKS.FAssistPropertyID = ASSISTPROPERTY.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL
+        ON STOCKS.FMaterialID = MATERIAL.FID
+        
+        LEFT OUTER JOIN new_eas75.T_SCM_BillType SOURCEBILLTYPE
+        ON STOCKS.FSourceBillTypeID = SOURCEBILLTYPE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_SCM_ReasonCode REASONCODE
+        ON STOCKS.FReasonCodeID = REASONCODE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_DB_LOCATION LOCATION
+        ON STOCKS.FLocationID = LOCATION.FID
+        
+        LEFT OUTER JOIN new_eas75.T_ORG_Storage RECEIPTSTROAGEORGUNIT
+        ON STOCKS.FReceiptStroageOrgUnitID = RECEIPTSTROAGEORGUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE RECEIPTSTOCK
+        ON STOCKS.FReceiptStockID = RECEIPTSTOCK.FID
+        
+        INNER JOIN new_eas75.T_ORG_Admin PICKDEPT
+        ON STOCKS.FPickDeptID = PICKDEPT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL2
+        ON MANUFACTUREORDEREXPECTOUTPUT.FMaterialID = MATERIAL2.FID
+        <where> 1=1 
+        <if test="starttime != null and starttime != ''">and MANUFACTUREORDER.CFKDCLOSE <![CDATA[>=]]> to_timestamp(#{starttime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+		<if test="endtime != null and endtime != ''"> and MANUFACTUREORDER.CFKDCLOSE <![CDATA[<=]]> to_timestamp(#{endtime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+        and MANUFACTUREORDER.FBaseStatus = 7 
+<!--     and   regexp_count(MATERIAL.FNumber, '-') = 2      and  regexp_substr(MATERIAL.FNumber,'[^-]+',1,1)='600' or  regexp_substr(MATERIAL.FNumber,'[^-]+',1,1)='610'  -->
+        
+        </where>
+        ) y 
+        left join 
+        
+        (
+ 
+		select  b.materialNumber,b.bm1,b.bm2,b.bm3,b.basemeasurename,b.bizdate,b.bb,b.entryqty,b.warename,b.purchaseCost,b.fUnitPurchaseCost,b.suppliername,b.purchaseName
+		   from (select a.*, row_number() over(partition by materialNumber order by bizdate desc) rw  
+		from 
+		(
+		SELECT 
+      row_number() OVER(PARTITION BY MATERIAL.FNumber ORDER BY PURINWAREHSBILL.FBizDate desc) as row_flg , 
+      MATERIAL.FNumber  materialNumber, 
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,1) bm1,
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,2) bm2,
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,3) bm3,
+      nvl(to_char(basemeasure.fname_l2),NULL)  basemeasurename,
+      PURINWAREHSBILL.FBizDate  bizdate,
+      CURRENCY.FName_l2  bb, 
+      ENTRY.FQty  entryqty,
+      WAREHOUSE.FName_l2  warename, 
+      SUPPLIER.FName_l2 suppliername,
+      TRANSACTIONTYPE.FName_l2  tranName, 
+      ENTRY.FPurchaseCost AS purchaseCost,
+      PURCHASEORGUNIT.FName_L2  purchaseName,
+      ENTRY.FUnitPurchaseCost AS fUnitPurchaseCost
+      
+      FROM new_eas75.T_IM_PurInWarehsBill  PURINWAREHSBILL
+      
+      
+      LEFT OUTER JOIN new_eas75.T_SCM_TransactionType  TRANSACTIONTYPE
+      ON PURINWAREHSBILL.FTransactionTypeID = TRANSACTIONTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_SCM_BillType  SOURCEBILLTYPE
+      ON PURINWAREHSBILL.FSourceBillTypeID = SOURCEBILLTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_Admin  ADMINORGUNIT
+      ON PURINWAREHSBILL.FAdminOrgUnitID = ADMINORGUNIT.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT
+      ON PURINWAREHSBILL.FStorageOrgUnitID = STORAGEORGUNIT.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Supplier  SUPPLIER
+      ON PURINWAREHSBILL.FSupplierID = SUPPLIER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_IM_PurInWarehsEntry  ENTRY
+      ON PURINWAREHSBILL.FID = ENTRY.FParentID  
+      
+      LEFT OUTER JOIN new_eas75.T_PM_User  CREATOR
+      ON PURINWAREHSBILL.FCreatorID = CREATOR.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_CtrlUnit  CU
+      ON PURINWAREHSBILL.FControlUnitID = CU.FID
+      
+      LEFT OUTER JOIN new_eas75.T_GL_Voucher  VOUCHER
+      ON PURINWAREHSBILL.FVoucherID = VOUCHER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Currency  CURRENCY
+      ON PURINWAREHSBILL.FCurrencyID = CURRENCY.FID
+      
+      LEFT OUTER JOIN new_eas75.T_PM_User  AUDITOR
+      ON PURINWAREHSBILL.FAuditorID = AUDITOR.FID
+      
+      LEFT OUTER JOIN new_eas75.T_PM_User  MODIFIER
+      ON PURINWAREHSBILL.FModifierID = MODIFIER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_SCM_BizType  BIZTYPE
+      ON PURINWAREHSBILL.FBizTypeID = BIZTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_PaymentType  PAYMENTTYPE
+      ON PURINWAREHSBILL.FPaymentTypeID = PAYMENTTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_CostCenter  COSTCENTERORGUNIT
+      ON PURINWAREHSBILL.FCostCenterOrgUnitID = COSTCENTERORGUNIT.FID
+      
+       LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit  UNIT
+       ON ENTRY.FUnitID = UNIT.FID
+       
+      join new_eas75.T_BD_MeasureUnit basemeasure 
+       on entry.fbaseunitid = basemeasure.fid 
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Material  MATERIAL
+      ON ENTRY.FMaterialID = MATERIAL.FID
+      
+      LEFT OUTER JOIN new_eas75.T_DB_LOCATION  LOCATION
+      ON ENTRY.FLocationID = LOCATION.FID
+      
+      LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE  WAREHOUSE
+      ON ENTRY.FWarehouseID = WAREHOUSE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_SCM_BillType  BILLTYPE
+      ON ENTRY.FCoreBillTypeID = BILLTYPE.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_Company  COMPANYORGUNIT
+      ON ENTRY.FCompanyOrgUnitID = COMPANYORGUNIT.FID
+      
+       LEFT OUTER JOIN new_eas75.T_BD_Person  PURCHEPERSON
+       ON ENTRY.FPurchasePersonID = PURCHEPERSON.FID
+      
+       LEFT OUTER JOIN new_eas75.T_ORG_Purchase  PURCHASEORGUNIT
+       ON ENTRY.FPurchaseOrgUnitID = PURCHASEORGUNIT.FID
+      
+       LEFT OUTER JOIN new_eas75.T_ORG_Storage  RECEIVESTORAGEORGUNIT
+       ON ENTRY.FReceiveStorageOrgUnitID = RECEIVESTORAGEORGUNIT.FID
+      
+      LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT1
+      ON ENTRY.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Supplier  BALANCESUPPLIER
+      ON ENTRY.FBalanceSupplierID = BALANCESUPPLIER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_MM_TrackNumber  TRACKNUMBER
+      ON ENTRY.FTrackNumberID = TRACKNUMBER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_MM_Project  PROJECT
+      ON ENTRY.FProjectID = PROJECT.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_Customer  CUSTOMER
+      ON ENTRY.FCustomerID = CUSTOMER.FID
+      
+      LEFT OUTER JOIN new_eas75.T_BD_MaterialCompanyInfo  MATERIALCOMPANY
+      ON ENTRY.FMaterialID = MATERIALCOMPANY.FMaterialID AND ENTRY.FCompanyOrgUnitID = MATERIALCOMPANY.FCompanyID
+   	  where PURINWAREHSBILL.FBaseStatus = 4  and TRANSACTIONTYPE.FName_l2 !='普通采购退货'   and ENTRY.FIsPresent = 0
+      <if test="zzfws != null and zzfws != ''"> 
+		  and PURCHASEORGUNIT.FName_L2  in 
+		    <foreach collection ="zzfws" item="item" index= "index"  open="(" separator="," close=")">
+		    	 #{item}       
+		    </foreach>	  		  
+	  </if>
+      <if test="xdlist != null and xdlist != ''">
+			and SUPPLIER.FName_l2 not in 
+	    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+	    	 #{item}       
+	    </foreach>
+	 </if>
+	)
+	a 
+	) b  
+	where b.rw = 1
+	) t
+	        
+	        
+	on y.fmaterialNumber = t.materialNumber
+	</select>
+	
+	
+	
+	
+	<select id="fqlAllTmpThree" resultType="com.bootdo.system.domain.PurchasePriceTmpDO">
+        select y.*,z.* from (SELECT 
+        STORAGEORGUNIT1.FName_l2 AS purchaseName, 
+        ADMINORGUNIT.FName_l2 department,
+        MANUFACTUREORDER.FNumber AS fdjbh, 
+        MANUFACTUREORDER.FBizDate AS fbizdate, 
+        STOCKS.cfremarkls AS remark,
+        MATERIAL.FName_l2 AS fmaterialName, 
+        MATERIAL.FNumber AS fmaterialNumber, 
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,1) fbm1,
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,2) fbm2,
+        regexp_substr(MATERIAL.FNumber,'[^-]+',1,3) fbm3,
+        STOCKS.FActIssueQty AS fsjflsl, 
+        STOCKS.FRejectedQty AS ftlsl,  
+        MANUFACTUREORDER.FActureEndDate AS fsjwgrq, 
+        nvl(to_char(UNIT.FNAME_L2),NULL)  measurename, 
+        MATERIAL1.FNumber AS fcpbh, 
+        MATERIAL1.FName_l2 AS fcpmc,
+        WAREHOUSE.FName_l2  fwarename, 
+        MANUFACTUREORDER.CFRejects AS fblprk,
+        MANUFACTUREORDER.FToStroreQty frksl,
+        MANUFACTUREORDER.CFKDCLOSE AS fgbrq
+        --b.cfisinbond AS sfbs
+        
+        
+        FROM new_eas75.T_MM_ManufactureOrder MANUFACTUREORDER
+        
+        LEFT OUTER JOIN new_eas75.T_MM_MFTOrderStock STOCKS
+        ON MANUFACTUREORDER.FID = STOCKS.FParentID
+        
+        -- INNER JOIN new_eas75.T_IM_ManufactureRecBill b
+        --ON MANUFACTUREORDER.fid = b.fsourcebillid
+        
+        --INNER JOIN new_eas75.T_IM_ManufactureRecBillentry c
+        --ON b.fid = c.fparentid
+        
+        
+        LEFT OUTER JOIN new_eas75.T_ORG_Storage STORAGEORGUNIT1
+        ON MANUFACTUREORDER.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+        
+        LEFT OUTER JOIN new_eas75.T_SCM_BizType BIZTYPE
+        ON MANUFACTUREORDER.FBizTypeID = BIZTYPE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL1
+        ON MANUFACTUREORDER.FMaterialID = MATERIAL1.FID
+        
+        LEFT OUTER JOIN new_eas75.T_SCM_BillType BILLTYPE
+        ON MANUFACTUREORDER.FBillTypeID = BILLTYPE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_ProductTransactionType TRANSACTIONTYPE
+        ON MANUFACTUREORDER.FTransactionTypeID = TRANSACTIONTYPE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_StandardRooting ROUTING
+        ON MANUFACTUREORDER.FRoutingID = ROUTING.FID
+        
+        LEFT OUTER JOIN new_eas75.T_ORG_Admin ADMINORGUNIT
+        ON MANUFACTUREORDER.FAdminOrgUnitID = ADMINORGUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Person DISPATCHER
+        ON MANUFACTUREORDER.FDispatcherID = DISPATCHER.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit UNIT1
+        ON MANUFACTUREORDER.FUnitID = UNIT1.FID
+        
+        LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE DEFAULTWAREHOUS
+        ON MANUFACTUREORDER.FDefaultWarehousID = DEFAULTWAREHOUS.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_TrackNumber TRACKNUMBER
+        ON MANUFACTUREORDER.FTrackID = TRACKNUMBER.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_Project PROJECT
+        ON MANUFACTUREORDER.FProjectID = PROJECT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_CostObject COSTOBJECT
+        ON MANUFACTUREORDER.FCostObjectID = COSTOBJECT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_PM_User USERS
+        ON MANUFACTUREORDER.FCreatorID = USERS.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_MFTOrderExpectOutput MANUFACTUREORDEREXPECTOUTPUT
+        ON MANUFACTUREORDER.FID = MANUFACTUREORDEREXPECTOUTPUT.FParentID
+        
+        LEFT OUTER JOIN new_eas75.T_NCM_CostObjectSuite COSTOBJECTSUITE
+        ON MANUFACTUREORDER.CFCostObjectGroupI = COSTOBJECTSUITE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_ORG_Storage STORAGEORGUNIT
+        ON STOCKS.FStorageOrgUnitID = STORAGEORGUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_MM_Operation OPERATION
+        ON STOCKS.FOperationID = OPERATION.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit BASEUNIT
+        ON STOCKS.FUnitID = BASEUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Material REPLACEMATERIAL
+        ON STOCKS.FReplaceMaterialID = REPLACEMATERIAL.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit ASSISTUNIT
+        ON STOCKS.FAssistUnitID = ASSISTUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE WAREHOUSE
+        ON STOCKS.FWarehouseID = WAREHOUSE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit UNIT
+        ON STOCKS.FUnitID = UNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_AsstAttrValue ASSISTPROPERTY
+        ON STOCKS.FAssistPropertyID = ASSISTPROPERTY.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL
+        ON STOCKS.FMaterialID = MATERIAL.FID
+        
+        LEFT OUTER JOIN new_eas75.T_SCM_BillType SOURCEBILLTYPE
+        ON STOCKS.FSourceBillTypeID = SOURCEBILLTYPE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_SCM_ReasonCode REASONCODE
+        ON STOCKS.FReasonCodeID = REASONCODE.FID
+        
+        LEFT OUTER JOIN new_eas75.T_DB_LOCATION LOCATION
+        ON STOCKS.FLocationID = LOCATION.FID
+        
+        LEFT OUTER JOIN new_eas75.T_ORG_Storage RECEIPTSTROAGEORGUNIT
+        ON STOCKS.FReceiptStroageOrgUnitID = RECEIPTSTROAGEORGUNIT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE RECEIPTSTOCK
+        ON STOCKS.FReceiptStockID = RECEIPTSTOCK.FID
+        
+        INNER JOIN new_eas75.T_ORG_Admin PICKDEPT
+        ON STOCKS.FPickDeptID = PICKDEPT.FID
+        
+        LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL2
+        ON MANUFACTUREORDEREXPECTOUTPUT.FMaterialID = MATERIAL2.FID
+         <where> 1=1 
+        
+        <if test="zzfws != null and zzfws != ''"> 
+			  and STORAGEORGUNIT1.FName_l2 IN 
+			    <foreach collection ="zzfws" item="item" index= "index"  open="(" separator="," close=")">
+			    	 #{item}       
+			    </foreach>	  		  
+		  </if>
+		  
+		     
+        <if test="zzbms != null and zzbms != ''"> 
+			  and ADMINORGUNIT.FName_l2 IN 
+			    <foreach collection ="zzbms" item="item" index= "index"  open="(" separator="," close=")">
+			    	 #{item}       
+			    </foreach>	  		  
+		  </if>
+		  
+        <if test="starttime != null and starttime != ''">and MANUFACTUREORDER.CFKDCLOSE <![CDATA[>=]]> to_timestamp(#{starttime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+		<if test="endtime != null and endtime != ''"> and MANUFACTUREORDER.CFKDCLOSE <![CDATA[<=]]> to_timestamp(#{endtime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+        and MANUFACTUREORDER.FBaseStatus = 7 
+        ) y
+		left join (
+			select cfisinbond sfbs,fnumber from (
+			select   b.cfisinbond,a.fnumber,
+			 row_number() OVER(PARTITION BY a.fnumber order by a.fnumber) as row_flg 
+			 from  new_eas75.T_MM_ManufactureOrder a  , new_eas75.T_IM_ManufactureRecBill b ,  new_eas75.T_IM_ManufactureRecBillentry c 
+			where b.fid  = c.fparentid 
+			and a.fid  = b.fsourcebillid 
+			) tmp where tmp.row_flg=1 
+		) z
+		on y.fdjbh = z.fnumber
+		        
+       
+<!--     and   regexp_count(MATERIAL.FNumber, '-') = 2      and  regexp_substr(MATERIAL.FNumber,'[^-]+',1,1)='600' or  regexp_substr(MATERIAL.FNumber,'[^-]+',1,1)='610'  -->
+        
+        </where>
+	</select>
+	
+	<select id="fmaterialJobView" resultType="com.bootdo.system.domain.FmaterialJobDO">
+		select * from (
+			SELECT 
+			MANUFACTUREORDER.FNumber AS djbh, 
+			MANUFACTUREORDER.FBaseStatus AS status, 
+			MANUFACTUREORDER.FBizDate AS bizdate, 
+			MATERIAL.FName_l2 AS materialName, 
+			MATERIAL.FNumber AS materialNumber, 
+			STOCKS.FActIssueQty AS sjflsl, 
+			STOCKS.FRejectedQty	AS tlsl, 
+			MANUFACTUREORDER.FActureEndDate AS sjwgrq, 
+			MATERIAL1.FNumber AS cpbh, 
+			MATERIAL1.FName_l2 AS cpmc,
+			nvl(to_char(UNIT.FNAME_L2),NULL)  measurename, 
+			MANUFACTUREORDER.CFKDCLOSE AS gbrq
+			
+			FROM new_eas75.T_MM_ManufactureOrder MANUFACTUREORDER
+			
+			LEFT OUTER JOIN new_eas75.T_MM_MFTOrderStock STOCKS
+			ON MANUFACTUREORDER.FID = STOCKS.FParentID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Storage STORAGEORGUNIT1
+			ON MANUFACTUREORDER.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_BizType BIZTYPE
+			ON MANUFACTUREORDER.FBizTypeID = BIZTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL1
+			ON MANUFACTUREORDER.FMaterialID = MATERIAL1.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_BillType BILLTYPE
+			ON MANUFACTUREORDER.FBillTypeID = BILLTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_MM_ProductTransactionType TRANSACTIONTYPE
+			ON MANUFACTUREORDER.FTransactionTypeID = TRANSACTIONTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_MM_StandardRooting ROUTING
+			ON MANUFACTUREORDER.FRoutingID = ROUTING.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Admin ADMINORGUNIT
+			ON MANUFACTUREORDER.FAdminOrgUnitID = ADMINORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Person DISPATCHER
+			ON MANUFACTUREORDER.FDispatcherID = DISPATCHER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit UNIT1
+			ON MANUFACTUREORDER.FUnitID = UNIT1.FID
+			
+			LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE DEFAULTWAREHOUS
+			ON MANUFACTUREORDER.FDefaultWarehousID = DEFAULTWAREHOUS.FID
+			
+			LEFT OUTER JOIN new_eas75.T_MM_TrackNumber TRACKNUMBER
+			ON MANUFACTUREORDER.FTrackID = TRACKNUMBER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_MM_Project PROJECT
+			ON MANUFACTUREORDER.FProjectID = PROJECT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_CostObject COSTOBJECT
+			ON MANUFACTUREORDER.FCostObjectID = COSTOBJECT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_PM_User USERS
+			ON MANUFACTUREORDER.FCreatorID = USERS.FID
+			
+			LEFT OUTER JOIN new_eas75.T_MM_MFTOrderExpectOutput MANUFACTUREORDEREXPECTOUTPUT
+			ON MANUFACTUREORDER.FID = MANUFACTUREORDEREXPECTOUTPUT.FParentID
+			
+			LEFT OUTER JOIN new_eas75.T_NCM_CostObjectSuite COSTOBJECTSUITE
+			ON MANUFACTUREORDER.CFCostObjectGroupI = COSTOBJECTSUITE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Storage STORAGEORGUNIT
+			ON STOCKS.FStorageOrgUnitID = STORAGEORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_MM_Operation OPERATION
+			ON STOCKS.FOperationID = OPERATION.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit BASEUNIT
+			ON STOCKS.FUnitID = BASEUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Material REPLACEMATERIAL
+			ON STOCKS.FReplaceMaterialID = REPLACEMATERIAL.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit ASSISTUNIT
+			ON STOCKS.FAssistUnitID = ASSISTUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE WAREHOUSE
+			ON STOCKS.FWarehouseID = WAREHOUSE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit UNIT
+			ON STOCKS.FUnitID = UNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_AsstAttrValue ASSISTPROPERTY
+			ON STOCKS.FAssistPropertyID = ASSISTPROPERTY.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL
+			ON STOCKS.FMaterialID = MATERIAL.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_BillType SOURCEBILLTYPE
+			ON STOCKS.FSourceBillTypeID = SOURCEBILLTYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_ReasonCode REASONCODE
+			ON STOCKS.FReasonCodeID = REASONCODE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_DB_LOCATION LOCATION
+			ON STOCKS.FLocationID = LOCATION.FID
+			
+			LEFT OUTER JOIN new_eas75.T_ORG_Storage RECEIPTSTROAGEORGUNIT
+			ON STOCKS.FReceiptStroageOrgUnitID = RECEIPTSTROAGEORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE RECEIPTSTOCK
+			ON STOCKS.FReceiptStockID = RECEIPTSTOCK.FID
+			
+			INNER JOIN new_eas75.T_ORG_Admin PICKDEPT
+			ON STOCKS.FPickDeptID = PICKDEPT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL2
+			ON MANUFACTUREORDEREXPECTOUTPUT.FMaterialID = MATERIAL2.FID
+			
+<!-- 			where MATERIAL1.FNumber='800-LAB601-01-0' and MANUFACTUREORDER.FNumber='SGR190502007' -->
+			
+			) t
+			where 1=1 and t.status = 7 
+			<if test="starttime != null and starttime != ''">and t.gbrq <![CDATA[>=]]> to_timestamp(#{starttime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+			<if test="endtime != null and endtime != ''"> and t.gbrq <![CDATA[<=]]> to_timestamp(#{endtime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+	</select>
+	
+	
+	<select id="findRkslList" resultType="com.bootdo.system.domain.PurchasePriceTmpDO">
+	select 
+        STORAGEORGUNIT1.FName_l2 AS purchaseName, 
+        MANUFACTUREORDER.CFRejects AS fblprk,
+        MANUFACTUREORDER.FToStroreQty frksl,
+        MANUFACTUREORDER.CFKDCLOSE AS fgbrq,
+        MANUFACTUREORDER.FNumber AS fdjbh
+		from new_eas75.T_MM_ManufactureOrder MANUFACTUREORDER 
+		 LEFT OUTER JOIN new_eas75.T_ORG_Storage STORAGEORGUNIT1
+		 ON MANUFACTUREORDER.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+		 where 1=1 
+		  <if test="zzfws != null and zzfws != ''"> 
+			  and STORAGEORGUNIT1.FName_l2 IN 
+			    <foreach collection ="zzfws" item="item" index= "index"  open="(" separator="," close=")">
+			    	 #{item}       
+			    </foreach>	  		  
+		  </if>
+		 <if test="starttime != null and starttime != ''">and MANUFACTUREORDER.CFKDCLOSE <![CDATA[>=]]> to_timestamp(#{starttime}, 'yyyy-mm-dd hh24:mi:ss')</if>
+		<if test="endtime != null and endtime != ''"> and MANUFACTUREORDER.CFKDCLOSE <![CDATA[<=]]> to_timestamp(#{endtime}, 'yyyy-mm-dd hh24:mi:ss')</if>
+	</select>
+	
+	
+	<select id="getWareHouseList" resultType="com.bootdo.system.domain.PurchasePriceDO">
+	select * from (
+	select fname_l2 warename from new_eas75.T_DB_WAREHOUSE where fname_l2 like '%保税%' group by fname_l2
+	) t where t.warename not like '%非保税%'
+	</select>
+</mapper>

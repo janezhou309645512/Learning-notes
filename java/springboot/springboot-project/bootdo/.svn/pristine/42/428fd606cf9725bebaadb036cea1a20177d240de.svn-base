@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.system.dao.GrossSalesViewDao">
+
+	<select id="get" resultType="com.bootdo.system.domain.GrossSalesViewDO">
+		select `id`,`zz`,`gsbm`,`ysdh`,`yshh`,`ysrq`,`khbm`,`khmc`,`wlbh`,`ckbm`,`ckmc`,`xsckdh`,`xsckdhh`,`ckrq`,`cksl`,`ckdw`,`ckjbsl`,`ckjbdw`,`bb`,`dwsjcb`,`sjcb`,`ysje`,`ysjebwb`,`fpsl`,`fpjldw`,`fbjbsl`,`fbjbjldw`,`fpcb`,`wkpsl`,`wkpcb`,`mll` from sys_gross_sales_view where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.system.domain.GrossSalesViewDO">
+		select `id`,`zz`,`gsbm`,`ysdh`,`yshh`,`ysrq`,`khbm`,`khmc`,`wlbh`,`ckbm`,`ckmc`,`xsckdh`,`xsckdhh`,`ckrq`,`cksl`,`ckdw`,`ckjbsl`,`ckjbdw`,`bb`,`dwsjcb`,`sjcb`,`ysje`,`ysjebwb`,`fpsl`,`fpjldw`,`fbjbsl`,`fbjbjldw`,`fpcb`,`wkpsl`,`wkpcb`,`mll` from sys_gross_sales_view
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="zz != null and zz != ''"> and zz = #{zz} </if>
+		  		  <if test="gsbm != null and gsbm != ''"> and gsbm = #{gsbm} </if>
+		  		  <if test="ysdh != null and ysdh != ''"> and ysdh = #{ysdh} </if>
+		  		  <if test="yshh != null and yshh != ''"> and yshh = #{yshh} </if>
+		  		  <if test="ysrq != null and ysrq != ''"> and ysrq = #{ysrq} </if>
+		  		  <if test="khbm != null and khbm != ''"> and khbm = #{khbm} </if>
+		  		  <if test="khmc != null and khmc != ''"> and khmc = #{khmc} </if>
+		  		  <if test="wlbh != null and wlbh != ''"> and wlbh = #{wlbh} </if>
+		  		  <if test="ckbm != null and ckbm != ''"> and ckbm = #{ckbm} </if>
+		  		  <if test="ckmc != null and ckmc != ''"> and ckmc = #{ckmc} </if>
+		  		  <if test="xsckdh != null and xsckdh != ''"> and xsckdh = #{xsckdh} </if>
+		  		  <if test="xsckdhh != null and xsckdhh != ''"> and xsckdhh = #{xsckdhh} </if>
+		  		  <if test="ckrq != null and ckrq != ''"> and ckrq = #{ckrq} </if>
+		  		  <if test="cksl != null and cksl != ''"> and cksl = #{cksl} </if>
+		  		  <if test="ckdw != null and ckdw != ''"> and ckdw = #{ckdw} </if>
+		  		  <if test="ckjbsl != null and ckjbsl != ''"> and ckjbsl = #{ckjbsl} </if>
+		  		  <if test="ckjbdw != null and ckjbdw != ''"> and ckjbdw = #{ckjbdw} </if>
+		  		  <if test="bb != null and bb != ''"> and bb = #{bb} </if>
+		  		  <if test="dwsjcb != null and dwsjcb != ''"> and dwsjcb = #{dwsjcb} </if>
+		  		  <if test="sjcb != null and sjcb != ''"> and sjcb = #{sjcb} </if>
+		  		  <if test="ysje != null and ysje != ''"> and ysje = #{ysje} </if>
+		  		  <if test="ysjebwb != null and ysjebwb != ''"> and ysjebwb = #{ysjebwb} </if>
+		  		  <if test="fpsl != null and fpsl != ''"> and fpsl = #{fpsl} </if>
+		  		  <if test="fpjldw != null and fpjldw != ''"> and fpjldw = #{fpjldw} </if>
+		  		  <if test="fbjbsl != null and fbjbsl != ''"> and fbjbsl = #{fbjbsl} </if>
+		  		  <if test="fbjbjldw != null and fbjbjldw != ''"> and fbjbjldw = #{fbjbjldw} </if>
+		  		  <if test="fpcb != null and fpcb != ''"> and fpcb = #{fpcb} </if>
+		  		  <if test="wkpsl != null and wkpsl != ''"> and wkpsl = #{wkpsl} </if>
+		  		  <if test="wkpcb != null and wkpcb != ''"> and wkpcb = #{wkpcb} </if>
+		  		  <if test="mll != null and mll != ''"> and mll = #{mll} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_gross_sales_view
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="zz != null and zz != ''"> and zz = #{zz} </if>
+		  		  <if test="gsbm != null and gsbm != ''"> and gsbm = #{gsbm} </if>
+		  		  <if test="ysdh != null and ysdh != ''"> and ysdh = #{ysdh} </if>
+		  		  <if test="yshh != null and yshh != ''"> and yshh = #{yshh} </if>
+		  		  <if test="ysrq != null and ysrq != ''"> and ysrq = #{ysrq} </if>
+		  		  <if test="khbm != null and khbm != ''"> and khbm = #{khbm} </if>
+		  		  <if test="khmc != null and khmc != ''"> and khmc = #{khmc} </if>
+		  		  <if test="wlbh != null and wlbh != ''"> and wlbh = #{wlbh} </if>
+		  		  <if test="ckbm != null and ckbm != ''"> and ckbm = #{ckbm} </if>
+		  		  <if test="ckmc != null and ckmc != ''"> and ckmc = #{ckmc} </if>
+		  		  <if test="xsckdh != null and xsckdh != ''"> and xsckdh = #{xsckdh} </if>
+		  		  <if test="xsckdhh != null and xsckdhh != ''"> and xsckdhh = #{xsckdhh} </if>
+		  		  <if test="ckrq != null and ckrq != ''"> and ckrq = #{ckrq} </if>
+		  		  <if test="cksl != null and cksl != ''"> and cksl = #{cksl} </if>
+		  		  <if test="ckdw != null and ckdw != ''"> and ckdw = #{ckdw} </if>
+		  		  <if test="ckjbsl != null and ckjbsl != ''"> and ckjbsl = #{ckjbsl} </if>
+		  		  <if test="ckjbdw != null and ckjbdw != ''"> and ckjbdw = #{ckjbdw} </if>
+		  		  <if test="bb != null and bb != ''"> and bb = #{bb} </if>
+		  		  <if test="dwsjcb != null and dwsjcb != ''"> and dwsjcb = #{dwsjcb} </if>
+		  		  <if test="sjcb != null and sjcb != ''"> and sjcb = #{sjcb} </if>
+		  		  <if test="ysje != null and ysje != ''"> and ysje = #{ysje} </if>
+		  		  <if test="ysjebwb != null and ysjebwb != ''"> and ysjebwb = #{ysjebwb} </if>
+		  		  <if test="fpsl != null and fpsl != ''"> and fpsl = #{fpsl} </if>
+		  		  <if test="fpjldw != null and fpjldw != ''"> and fpjldw = #{fpjldw} </if>
+		  		  <if test="fbjbsl != null and fbjbsl != ''"> and fbjbsl = #{fbjbsl} </if>
+		  		  <if test="fbjbjldw != null and fbjbjldw != ''"> and fbjbjldw = #{fbjbjldw} </if>
+		  		  <if test="fpcb != null and fpcb != ''"> and fpcb = #{fpcb} </if>
+		  		  <if test="wkpsl != null and wkpsl != ''"> and wkpsl = #{wkpsl} </if>
+		  		  <if test="wkpcb != null and wkpcb != ''"> and wkpcb = #{wkpcb} </if>
+		  		  <if test="mll != null and mll != ''"> and mll = #{mll} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.system.domain.GrossSalesViewDO">
+		insert into sys_gross_sales_view
+		(
+			`id`, 
+			`zz`, 
+			`gsbm`, 
+			`ysdh`, 
+			`yshh`, 
+			`ysrq`, 
+			`khbm`, 
+			`khmc`, 
+			`wlbh`, 
+			`ckbm`, 
+			`ckmc`, 
+			`xsckdh`, 
+			`xsckdhh`, 
+			`ckrq`, 
+			`cksl`, 
+			`ckdw`, 
+			`ckjbsl`, 
+			`ckjbdw`, 
+			`bb`, 
+			`dwsjcb`, 
+			`sjcb`, 
+			`ysje`, 
+			`ysjebwb`, 
+			`fpsl`, 
+			`fpjldw`, 
+			`fbjbsl`, 
+			`fbjbjldw`, 
+			`fpcb`, 
+			`wkpsl`, 
+			`wkpcb`, 
+			`mll`
+		)
+		values
+		(
+			#{id}, 
+			#{zz}, 
+			#{gsbm}, 
+			#{ysdh}, 
+			#{yshh}, 
+			#{ysrq}, 
+			#{khbm}, 
+			#{khmc}, 
+			#{wlbh}, 
+			#{ckbm}, 
+			#{ckmc}, 
+			#{xsckdh}, 
+			#{xsckdhh}, 
+			#{ckrq}, 
+			#{cksl}, 
+			#{ckdw}, 
+			#{ckjbsl}, 
+			#{ckjbdw}, 
+			#{bb}, 
+			#{dwsjcb}, 
+			#{sjcb}, 
+			#{ysje}, 
+			#{ysjebwb}, 
+			#{fpsl}, 
+			#{fpjldw}, 
+			#{fbjbsl}, 
+			#{fbjbjldw}, 
+			#{fpcb}, 
+			#{wkpsl}, 
+			#{wkpcb}, 
+			#{mll}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.system.domain.GrossSalesViewDO">
+		update sys_gross_sales_view 
+		<set>
+			<if test="zz != null">`zz` = #{zz}, </if>
+			<if test="gsbm != null">`gsbm` = #{gsbm}, </if>
+			<if test="ysdh != null">`ysdh` = #{ysdh}, </if>
+			<if test="yshh != null">`yshh` = #{yshh}, </if>
+			<if test="ysrq != null">`ysrq` = #{ysrq}, </if>
+			<if test="khbm != null">`khbm` = #{khbm}, </if>
+			<if test="khmc != null">`khmc` = #{khmc}, </if>
+			<if test="wlbh != null">`wlbh` = #{wlbh}, </if>
+			<if test="ckbm != null">`ckbm` = #{ckbm}, </if>
+			<if test="ckmc != null">`ckmc` = #{ckmc}, </if>
+			<if test="xsckdh != null">`xsckdh` = #{xsckdh}, </if>
+			<if test="xsckdhh != null">`xsckdhh` = #{xsckdhh}, </if>
+			<if test="ckrq != null">`ckrq` = #{ckrq}, </if>
+			<if test="cksl != null">`cksl` = #{cksl}, </if>
+			<if test="ckdw != null">`ckdw` = #{ckdw}, </if>
+			<if test="ckjbsl != null">`ckjbsl` = #{ckjbsl}, </if>
+			<if test="ckjbdw != null">`ckjbdw` = #{ckjbdw}, </if>
+			<if test="bb != null">`bb` = #{bb}, </if>
+			<if test="dwsjcb != null">`dwsjcb` = #{dwsjcb}, </if>
+			<if test="sjcb != null">`sjcb` = #{sjcb}, </if>
+			<if test="ysje != null">`ysje` = #{ysje}, </if>
+			<if test="ysjebwb != null">`ysjebwb` = #{ysjebwb}, </if>
+			<if test="fpsl != null">`fpsl` = #{fpsl}, </if>
+			<if test="fpjldw != null">`fpjldw` = #{fpjldw}, </if>
+			<if test="fbjbsl != null">`fbjbsl` = #{fbjbsl}, </if>
+			<if test="fbjbjldw != null">`fbjbjldw` = #{fbjbjldw}, </if>
+			<if test="fpcb != null">`fpcb` = #{fpcb}, </if>
+			<if test="wkpsl != null">`wkpsl` = #{wkpsl}, </if>
+			<if test="wkpcb != null">`wkpcb` = #{wkpcb}, </if>
+			<if test="mll != null">`mll` = #{mll}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_gross_sales_view where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_gross_sales_view where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	
+	
+
+<!-- 批量插入生成的兑换码 -->
+     <insert id ="batchSave" parameterType="java.util.List" >
+            <selectKey resultType ="java.lang.Integer" keyProperty= "id"
+                 order= "AFTER">
+                SELECT LAST_INSERT_ID()
+            </selectKey >
+           insert into sys_gross_sales_view
+           (`zz`,`gsbm`,`ysdh`,`yshh`,`ysrq`,`khbm`,`khmc`,`wlbh`,`ckbm`,`ckmc`,`xsckdh`,`xsckdhh`,`ckrq`,`cksl`,`ckdw`,`ckjbsl`,`ckjbdw`,`bb`,`dwsjcb`,`sjcb`,`ysje`,`ysjebwb`,`fpsl`,`fpjldw`,`fbjbsl`,`fbjbjldw`,`fpcb`,`wkpsl`,`wkpcb`,`mll`)
+           values
+            <foreach collection ="list" item="reddemCode" index= "index" separator =",">
+                (
+                	#{reddemCode.zz}, 
+					#{reddemCode.gsbm}, 
+					#{reddemCode.ysdh}, 
+					#{reddemCode.yshh}, 
+					#{reddemCode.ysrq}, 
+					#{reddemCode.khbm}, 
+					#{reddemCode.khmc}, 
+					#{reddemCode.wlbh}, 
+					#{reddemCode.ckbm}, 
+					#{reddemCode.ckmc}, 
+					#{reddemCode.xsckdh}, 
+					#{reddemCode.xsckdhh}, 
+					#{reddemCode.ckrq}, 
+					#{reddemCode.cksl}, 
+					#{reddemCode.ckdw}, 
+					#{reddemCode.ckjbsl}, 
+					#{reddemCode.ckjbdw}, 
+					#{reddemCode.bb}, 
+					#{reddemCode.dwsjcb}, 
+					#{reddemCode.sjcb}, 
+					#{reddemCode.ysje}, 
+					#{reddemCode.ysjebwb}, 
+					#{reddemCode.fpsl}, 
+					#{reddemCode.fpjldw}, 
+					#{reddemCode.fbjbsl}, 
+					#{reddemCode.fbjbjldw}, 
+					#{reddemCode.fpcb}, 
+					#{reddemCode.wkpsl}, 
+					#{reddemCode.wkpcb}, 
+					#{reddemCode.mll}
+                )
+            </foreach >
+     </insert >
+</mapper>

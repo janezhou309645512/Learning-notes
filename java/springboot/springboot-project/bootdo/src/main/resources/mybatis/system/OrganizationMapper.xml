@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.system.dao.OrganizationDao">
+
+	<select id="get" resultType="com.bootdo.system.domain.OrganizationDO">
+		select `id`,`module_name`,`organization_name`,`organization_number`,`creator`,`create_time`,`updator`,`update_time` from sys_organization where id = #{value}
+	</select>
+
+	<select id="list" resultType="com.bootdo.system.domain.OrganizationDO">
+		select `id`,`module_name`,`organization_name`,`organization_number`,`creator`,`create_time`,`updator`,`update_time` from sys_organization
+        <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="moduleName != null and moduleName != ''"> and module_name = #{moduleName} </if>
+		  		  <if test="organizationName != null and organizationName != ''"> and organization_name = #{organizationName} </if>
+		  		  <if test="organizationNumber != null and organizationNumber != ''"> and organization_number = #{organizationNumber} </if>
+		  		  <if test="creator != null and creator != ''"> and creator = #{creator} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updator != null and updator != ''"> and updator = #{updator} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+        <choose>
+            <when test="sort != null and sort.trim() != ''">
+                order by ${sort} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="count" resultType="int">
+		select count(*) from sys_organization
+		 <where>  
+		  		  <if test="id != null and id != ''"> and id = #{id} </if>
+		  		  <if test="moduleName != null and moduleName != ''"> and module_name = #{moduleName} </if>
+		  		  <if test="organizationName != null and organizationName != ''"> and organization_name = #{organizationName} </if>
+		  		  <if test="organizationNumber != null and organizationNumber != ''"> and organization_number = #{organizationNumber} </if>
+		  		  <if test="creator != null and creator != ''"> and creator = #{creator} </if>
+		  		  <if test="createTime != null and createTime != ''"> and create_time = #{createTime} </if>
+		  		  <if test="updator != null and updator != ''"> and updator = #{updator} </if>
+		  		  <if test="updateTime != null and updateTime != ''"> and update_time = #{updateTime} </if>
+		  		</where>
+	</select>
+	 
+	<insert id="save" parameterType="com.bootdo.system.domain.OrganizationDO">
+		insert into sys_organization
+		(
+			`id`, 
+			`module_name`, 
+			`organization_name`, 
+			`organization_number`, 
+			`creator`, 
+			`create_time`, 
+			`updator`, 
+			`update_time`
+		)
+		values
+		(
+			#{id}, 
+			#{moduleName}, 
+			#{organizationName}, 
+			#{organizationNumber}, 
+			#{creator}, 
+			#{createTime}, 
+			#{updator}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="com.bootdo.system.domain.OrganizationDO">
+		update sys_organization 
+		<set>
+			<if test="moduleName != null">`module_name` = #{moduleName}, </if>
+			<if test="organizationName != null">`organization_name` = #{organizationName}, </if>
+			<if test="organizationNumber != null">`organization_number` = #{organizationNumber}, </if>
+			<if test="creator != null">`creator` = #{creator}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updator != null">`updator` = #{updator}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="remove">
+		delete from sys_organization where id = #{value}
+	</delete>
+	
+	<delete id="batchRemove">
+		delete from sys_organization where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

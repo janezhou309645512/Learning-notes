@@ -1,0 +1,473 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.system.dao.SalePriceDao">
+	<select id="salePriceView" resultType="com.bootdo.system.domain.SalePriceDO">
+		<![CDATA[SELECT (T.ZHJG*T.HL) AS BWB,T.* FROM (	
+			SELECT 
+			CUSTOMER.FName_l2 AS KHMC, 
+			MATERIAL.FNumber AS WLBM, 
+			MATERIAL.FName_l2 AS WLMC, 
+			MATERIAL.FModel AS GGXH,
+			ENTRIES.FPrice AS YBJG, 
+			ENTRIES.FDiscountMode AS ZKFS, 
+			ENTRIES.FDiscount AS ZK, 
+			CASE  WHEN nvl(ENTRIES.FDiscount, 0) = 0 THEN ENTRIES.FPrice WHEN ENTRIES.FDiscountMode = 0 AND (nvl(ENTRIES.FDiscount, 0) <> 0) THEN (ENTRIES.FPrice * (1 - (nvl(ENTRIES.FDiscount, 0) / 100))) WHEN ENTRIES.FDiscountMode = 1 AND (nvl(ENTRIES.FDiscount, 0) <> 0) THEN (ENTRIES.FPrice - nvl(ENTRIES.FDiscount, 0)) ELSE 0 END AS ZHJG, 
+			MEASUREUNIT.FName_l2 AS JLDW, 
+			CURRENCY.FName_l2 AS BB, 
+			NVL((select fconvertrate from (
+			select a.favailtime ,  a.fconvertrate ,  c.fname_l2 sourceCurrency  , d.fname_l2  targetCurrency  from new_eas75.T_BD_ExchangeRate a  , new_eas75.T_BD_ExchangeAux  b  ,new_eas75.t_bd_currency  c, new_eas75.t_bd_currency d 
+			where a.fexchangeauxid = b.fid
+			and b.fsourcecurrencyid = c.fid
+			and  b.ftargetcurrencyid = d.fid
+			and d.fname_l2  ='人民币'
+			order by a.fcreatetime desc 
+			) aa  where aa.sourceCurrency=CURRENCY.FName_l2 and rownum=1),1) AS HL,
+			ENTRIES.FEffectiveDate AS SXRQ, 
+			ENTRIES.FExpireDate AS GQRQ, 
+			SALEORGUNIT.FName_l2 AS XSZZ, 
+			ENTRIES.FRemark AS REMARK
+			FROM new_eas75.T_SCM_PricePolicy  PRICEPOLICY
+			LEFT OUTER JOIN new_eas75.T_BD_CSSPGroupStandard  GROUPSTANDARDCUSTOMER
+			ON PRICEPOLICY.FGroupStandardCustomerID = GROUPSTANDARDCUSTOMER.FID
+			
+			INNER JOIN new_eas75.T_SCM_PricePolicyEntry  ENTRIES
+			ON PRICEPOLICY.FID = ENTRIES.FParentID
+			
+			INNER JOIN new_eas75.T_ORG_Sale  SALEORGUNIT
+			ON PRICEPOLICY.FSaleOrgUnitID = SALEORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_MaterialGroup  MATERIALGROUP
+			ON ENTRIES.FMaterialGroupID = MATERIALGROUP.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_AsstAttrValue  ASISTPROPERTY
+			ON ENTRIES.FAsistPropertyID = ASISTPROPERTY.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit  MEASUREUNIT
+			ON ENTRIES.FMeasureUnitID = MEASUREUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_CSSPGroup  CUSTOMERGROUP
+			ON ENTRIES.FCustomerGroupID = CUSTOMERGROUP.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Material  MATERIAL
+			ON ENTRIES.FMaterialID = MATERIAL.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Customer  CUSTOMER
+			ON ENTRIES.FCustomerID = CUSTOMER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Currency  CURRENCY
+			ON ENTRIES.FCurrencyID = CURRENCY.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_PriceType PRICETYPE
+			ON ENTRIES.FPriceTypeID = PRICETYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_ExchangeAux EXCHANGEAUX
+			ON ENTRIES.FCurrencyID = EXCHANGEAUX.FSOURCECURRENCYID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_CSSPGroupStandard  CUSTOMERGROUPSTANDARD
+			ON ENTRIES.FCustomerGroupStandardID = CUSTOMERGROUPSTANDARD.FID
+		) T where 1=1 
+		]]>
+		<if test="xdlist != null and xdlist != ''">
+			<choose>
+	            <when test="flag == 'XD'">
+	               	and T.KHMC  in 
+				    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+				    	 #{item}       
+				    </foreach>
+	            </when>
+				<otherwise>
+						and T.KHMC not in 
+				    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+				    	 #{item}       
+				    </foreach>
+				</otherwise>
+	        </choose>
+		</if>
+		 <if test="zzfws != null and zzfws != ''"> 
+		  and T.XSZZ  in 
+		    <foreach collection ="zzfws" item="item" index= "index"  open="(" separator="," close=")">
+		    	 #{item}       
+		    </foreach>	  		  
+	  	</if>
+	  	<if test="wlbm != null and wlbm != ''"> and T.WLBM like concat(#{wlbm},'%')</if>
+		<if test="starttime1 != null and starttime1 != ''">and T.SXRQ <![CDATA[>=]]> to_timestamp(#{starttime1}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+		<if test="endtime1 != null and endtime1 != ''"> and T.SXRQ <![CDATA[<=]]> to_timestamp(#{endtime1}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+		<if test="starttime2 != null and starttime2 != ''">and T.GQRQ <![CDATA[>=]]> to_timestamp(#{starttime2}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+		<if test="endtime2 != null and endtime2 != ''"> and T.GQRQ <![CDATA[<=]]> to_timestamp(#{endtime2}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+		
+		<if test="khmc != null and khmc != ''"> and T.KHMC like concat(#{khmc},'%')</if>
+		<if test="xszz != null and xszz != ''"> and T.XSZZ like concat(#{xszz},'%')</if>
+		order by decode(T.XSZZ,'TLG INVESTMENT (HK) LIMITED ','A','LINGYI TECHNOLOGY COMPANY LIMITED','B','领胜电子科技(深圳)有限公司','C','领益科技(深圳)有限公司','D','深圳市领略数控设备有限公司','E','深圳市诚悦丰科技有限公司','F','领胜科技（苏州）有限公司','G','东莞盛翔精密金属有限公司','H','东莞领益精密制造科技有限公司','I','东莞领汇精密制造科技有限公司','J') ,T.SXRQ DESC,T.WLBM 
+	</select>
+	
+	
+	
+	<select id="punchingSalePriceView" resultType="com.bootdo.system.domain.SalePriceDO">
+		<![CDATA[SELECT (T.ZHJG*T.HL) AS BWB,T.* FROM (	
+			SELECT 
+			row_number() OVER(PARTITION BY MATERIAL.FNumber ORDER BY ENTRIES.FEffectiveDate desc) as row_flg , 
+			PRICEPOLICY.FName_l2 JGZCMC,
+			CUSTOMER.FName_l2 AS KHMC, 
+		 	CUSTOMER.FNumber AS KHBM, 
+			MATERIAL.FNumber AS WLBM, 
+			MATERIAL.FName_l2 AS WLMC, 
+			MATERIAL.FModel AS GGXH,
+			ENTRIES.FPrice AS YBJG, 
+			ENTRIES.FDiscountMode AS ZKFS, 
+			ENTRIES.FDiscount AS ZK, 
+			CASE  WHEN nvl(ENTRIES.FDiscount, 0) = 0 THEN ENTRIES.FPrice WHEN ENTRIES.FDiscountMode = 0 AND (nvl(ENTRIES.FDiscount, 0) <> 0) THEN (ENTRIES.FPrice * (1 - (nvl(ENTRIES.FDiscount, 0) / 100))) WHEN ENTRIES.FDiscountMode = 1 AND (nvl(ENTRIES.FDiscount, 0) <> 0) THEN (ENTRIES.FPrice - nvl(ENTRIES.FDiscount, 0)) ELSE 0 END AS ZHJG, 
+			MEASUREUNIT.FName_l2 AS JLDW, 
+			CURRENCY.FName_l2 AS BB, 
+			NVL((select fconvertrate from (
+			select a.favailtime ,  a.fconvertrate ,  c.fname_l2 sourceCurrency  , d.fname_l2  targetCurrency  from new_eas75.T_BD_ExchangeRate a  , new_eas75.T_BD_ExchangeAux  b  ,new_eas75.t_bd_currency  c, new_eas75.t_bd_currency d 
+			where a.fexchangeauxid = b.fid
+			and b.fsourcecurrencyid = c.fid
+			and  b.ftargetcurrencyid = d.fid
+			and d.fname_l2  ='人民币'
+			order by a.fcreatetime desc 
+			) aa  where aa.sourceCurrency=CURRENCY.FName_l2 and rownum=1),1) AS HL,
+			ENTRIES.FEffectiveDate AS SXRQ, 
+			ENTRIES.FExpireDate AS GQRQ, 
+			SALEORGUNIT.FName_l2 AS XSZZ, 
+			ENTRIES.FRemark AS REMARK
+			FROM new_eas75.T_SCM_PricePolicy  PRICEPOLICY
+			LEFT OUTER JOIN new_eas75.T_BD_CSSPGroupStandard  GROUPSTANDARDCUSTOMER
+			ON PRICEPOLICY.FGroupStandardCustomerID = GROUPSTANDARDCUSTOMER.FID
+			
+			INNER JOIN new_eas75.T_SCM_PricePolicyEntry  ENTRIES
+			ON PRICEPOLICY.FID = ENTRIES.FParentID
+			
+			INNER JOIN new_eas75.T_ORG_Sale  SALEORGUNIT
+			ON PRICEPOLICY.FSaleOrgUnitID = SALEORGUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_MaterialGroup  MATERIALGROUP
+			ON ENTRIES.FMaterialGroupID = MATERIALGROUP.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_AsstAttrValue  ASISTPROPERTY
+			ON ENTRIES.FAsistPropertyID = ASISTPROPERTY.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit  MEASUREUNIT
+			ON ENTRIES.FMeasureUnitID = MEASUREUNIT.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_CSSPGroup  CUSTOMERGROUP
+			ON ENTRIES.FCustomerGroupID = CUSTOMERGROUP.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Material  MATERIAL
+			ON ENTRIES.FMaterialID = MATERIAL.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Customer  CUSTOMER
+			ON ENTRIES.FCustomerID = CUSTOMER.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_Currency  CURRENCY
+			ON ENTRIES.FCurrencyID = CURRENCY.FID
+			
+			LEFT OUTER JOIN new_eas75.T_SCM_PriceType PRICETYPE
+			ON ENTRIES.FPriceTypeID = PRICETYPE.FID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_ExchangeAux EXCHANGEAUX
+			ON ENTRIES.FCurrencyID = EXCHANGEAUX.FSOURCECURRENCYID
+			
+			LEFT OUTER JOIN new_eas75.T_BD_CSSPGroupStandard  CUSTOMERGROUPSTANDARD
+			ON ENTRIES.FCustomerGroupStandardID = CUSTOMERGROUPSTANDARD.FID
+		) T where T.row_flg = 1
+		]]>
+		<if test="xdlist != null and xdlist != ''">
+			<choose>
+	            <when test="flag == 'XD'">
+	               	and T.KHMC  in 
+				    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+				    	 #{item}       
+				    </foreach>
+	            </when>
+				<otherwise>
+						and T.KHMC not in 
+				    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+				    	 #{item}       
+				    </foreach>
+				</otherwise>
+	        </choose>
+		</if>
+<!-- 		 <if test="zzfws != null and zzfws != ''">  -->
+<!-- 		  and T.XSZZ  in  -->
+<!-- 		    <foreach collection ="zzfws" item="item" index= "index"  open="(" separator="," close=")"> -->
+<!-- 		    	 #{item}        -->
+<!-- 		    </foreach>	  		   -->
+<!-- 	  	</if> -->
+		<if test="starttime1 != null and starttime1 != ''">and T.SXRQ <![CDATA[>=]]> to_timestamp(#{starttime1}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+		<if test="endtime1 != null and endtime1 != ''"> and T.SXRQ <![CDATA[<=]]> to_timestamp(#{endtime1}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+		<if test="starttime2 != null and starttime2 != ''">and T.GQRQ <![CDATA[>=]]> to_timestamp(#{starttime2}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+		<if test="endtime2 != null and endtime2 != ''"> and T.GQRQ <![CDATA[<=]]> to_timestamp(#{endtime2}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+		
+		<if test="khmc != null and khmc != ''"> and T.KHMC like concat(#{khmc},'%')</if>
+		<if test="xszz != null and xszz != ''"> and T.XSZZ like concat(#{xszz},'%')</if>
+		order by decode(T.XSZZ,'TLG INVESTMENT (HK) LIMITED ','A','LINGYI TECHNOLOGY COMPANY LIMITED','B','领胜电子科技(深圳)有限公司','C','领益科技(深圳)有限公司','D','深圳市领略数控设备有限公司','E','深圳市诚悦丰科技有限公司','F','领胜科技（苏州）有限公司','G','东莞盛翔精密金属有限公司','H','东莞领益精密制造科技有限公司','I','东莞领汇精密制造科技有限公司','J') ,T.SXRQ DESC,T.WLBM
+	</select>
+	
+	
+	<select id="outPutView" resultType="com.bootdo.system.domain.OutPutValueDO">
+			select * from (
+			    SELECT
+			    nvl(to_char(baseunit.FNAME_L2),NULL) storageName,<!--库存组织 --> 
+			    nvl(to_char(baseunit.fid), NULL) storageFid,<!--库存组织ID  --> 
+			    nvl(to_char(corebilltype.FNAME_L2),NULL) coreType,<!--核心单据类型 --> 
+			    nvl(to_char(corebillType.fid) , NULL)  coreTypeFid,<!--核心单据ID   --> 
+			    nvl(to_char(srcBillType.fname_l2) , NULL) srcBillName,<!--来源单据类型   --> 
+			    nvl(to_char(entry.FSOURCEBILLNUMBER) , NULL) srcnumber,<!--来源单据编码   --> 
+			    nvl(to_char(billtype.FNAME_L2), NULL) billname,<!--单据类型   --> 
+			    nvl(to_char(bill.fnumber) , NULL) billfnumber,<!--单据编码  --> 
+			    nvl(to_char(costcenter.fname_l2) , NULL) costcenterName,<!--成本中心 -->   
+			    nvl(to_char(costcenter.fid) , NULL) costcenterID,<!--成本中心ID   --> 
+			    nvl(bill.FBIZDATE ,NULL) bizdate ,<!--业务日期   --> 
+			    nvl(bill.FBASESTATUS , 44) status, <!--状态  --> 
+			    nvl(to_char(biztype.FNAME_L2), NULL) bizName ,<!--业务类型 -->  
+			    nvl(to_char(transactionType.fname_l2), NULL) tranName,<!--事务类型 -->  
+			    nvl(entry.FISPRESENT , 4) ISPRESENT ,<!--是否赠品  --> 
+			    nvl(to_char(material.fnumber), NULL)  materialNumber,<!--物料编码 -->  
+			    nvl(to_char(material.FNAME_L2), NULL) materialname,<!--物料名称  --> 
+			    nvl(to_char(material.FMODEL) , NULL)  materialModel,<!--物料规格  --> 
+			    nvl(entry.fqty , 0) entryqty,<!--数量  --> 
+			    nvl(to_char(measure.FNAME_L2),NULL) measurename,<!--计量单位  --> 
+			    nvl(entry.FBASEQTY, 0) entrybaseqty,<!--基本数量  --> 
+			    nvl(to_char(basemeasure.fname_l2),NULL)  basemeasurename,<!--基本计量单位  --> 
+			    nvl(to_char(department.FNAME_L2),N'NIULL') depName ,<!--部门 --> 
+			    nvl(to_char(ware.fname_l2),NULL) warename,<!--仓库  --> 
+			    nvl(to_char(ware.fid) , NULL) wareFid ,<!--仓库id  --> 
+			    nvl(to_char(loca.FNAME_L2) , NULL) locaname,<!--库位  --> 
+			    nvl(to_char(creator.FNAME_L2), NULL) creatorName,<!--建单人\n"); --> 
+			    nvl(bill.FCREATETIME,NULL) CREATETIME ,<!--建单时间\n"); --> 
+			    nvl(to_char(auditor.FNAME_L2), NULL)  auditorName,<!--审核人 --> 
+			    nvl(bill.FAUDITTIME,NULL) AUDITTIME ,<!--审核时间 --> 
+			    nvl(entry.FACTUALCOST , 0) actualcost,<!--实际成本  --> 
+			    nvl(entry.FUNITACTUALCOST,0) unitCost,<!--单位成本  --> 
+			    nvl(to_char(entry.FREMARK),NULL) remark  <!--备注 \n " ); --> 
+			    from new_eas75.T_IM_ManufactureRecBill  bill  
+		          join new_eas75.T_IM_ManufactureRecBillEntry entry  
+		          on bill.fid = entry.fparentid  
+		          join new_eas75.T_SCM_BILLTYPE billType 
+		          on bill.fbilltypeid = billtype.fid 
+		          join  new_eas75.T_SCM_BIZTYPE bizType  
+		          on bill.FBIZTYPEID = bizType.fid 
+		          join new_eas75.T_SCM_TRANSACTIONTYPE transactionType 
+		          on bill.FTRANSACTIONTYPEID = transactionType.fid 
+		          join new_eas75.t_bd_material material 
+		          on entry.fmaterialid = material.fid 
+		          join new_eas75.T_BD_MeasureUnit measure  
+		          on entry.FUNITID = measure.fid 
+		          join new_eas75.T_BD_MeasureUnit basemeasure 
+		          on entry.fbaseunitid = basemeasure.fid 
+		          join new_eas75.T_ORG_BASEUNIT baseunit 
+		          on bill.FSTORAGEORGUNITID = baseunit.fid 
+		          join new_eas75.t_pm_user creator
+		          on bill.FCREATORID = creator.fid
+		          join new_eas75.T_PM_USER  auditor
+		          on bill.FAUDITORID = auditor.fid
+		          left join new_eas75.t_org_baseunit department
+		          on bill.FADMINORGUNITID =department.fid
+		          left join new_eas75.T_SCM_BILLTYPE corebillType 
+		          on entry.FSOURCEBILLTYPEID = corebillType.fid   
+		          left join new_eas75. t_scm_billtype srcBillType 
+		          on entry.FSOURCEBILLTYPEID = srcBillType.fid 
+		          left join new_eas75.T_DB_WAREHOUSE ware 
+		          on entry.FWAREHOUSEID = ware.fid  
+		          left join new_eas75.T_DB_LOCATION loca 
+		          on entry.FLOCATIONID = loca.fid 
+		          left join new_eas75.T_ORG_CostCenter costcenter 
+		          on bill.FCOSTCENTERORGUNITID = costcenter.fid
+			    ) t 
+			    <where> substr(t.srcnumber,0,1)!= 'Z' and substr(t.srcnumber,0,1)!= 'B' and substr(t.srcnumber,0,3)!= 'WBC'  and substr(t.srcnumber,0,1)!= 'D'  
+			    and  t.billname='生产入库单'   and t.tranName!='不良品入库' and t.tranName!='生产返修退厂'
+			    <if test="starttime != null and starttime != ''">and t.AUDITTIME <![CDATA[>=]]> to_timestamp(#{starttime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+				<if test="endtime != null and endtime != ''"> and t.AUDITTIME <![CDATA[<=]]> to_timestamp(#{endtime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+				<if test="zzfws != null and zzfws != ''"> 
+				  and t.storageName  in 
+				    <foreach collection ="zzfws" item="item" index= "index"  open="(" separator="," close=")">
+				    	 #{item}       
+				    </foreach>	  		  
+			  	</if>
+			  	<if test="bmfws != null and bmfws != ''"> 
+				  and t.depName  in 
+				    <foreach collection ="bmfws" item="item" index= "index"  open="(" separator="," close=")">
+				    	 #{item}       
+				    </foreach>	  		  
+			  	</if>
+			  	<if test="srcnumber != null and srcnumber != ''"> and t.srcnumber like concat(#{srcnumber},'%')</if>
+			  	<if test="materialNumber != null and materialNumber != ''"> and t.materialNumber like concat(#{materialNumber},'%')</if>
+			    </where>
+			    order by decode(t.storageName,'TLG INVESTMENT (HK) LIMITED ','A','LINGYI TECHNOLOGY COMPANY LIMITED','B','领胜电子科技(深圳)有限公司','C','领益科技(深圳)有限公司','D','深圳市领略数控设备有限公司','E','深圳市诚悦丰科技有限公司','F','领胜科技（苏州）有限公司','G','东莞盛翔精密金属有限公司','H','东莞领益精密制造科技有限公司','I','东莞领汇精密制造科技有限公司','J')  ,t.materialNumber 
+	</select>
+	
+	<select id="dieCutCrossWiringSalePriceview" resultType="com.bootdo.system.domain.DieCutSaleIssueBillDO">
+		SELECT 
+		SALEISSUEBILL.FBizDate AS BIZDATE,  
+		STORAGEORGUNIT.FName_l2 AS organizationName, 
+		ENTRY.FSalePrice as costQuotation,
+		MATERIAL.FNumber AS materialNumber,  
+		MATERIAL.FName_l2 AS materialName,
+		CURRENCY.FName_l2 AS currency,
+		SALEISSUEBILL.FExchangeRate AS exchangeRate
+		
+		
+		FROM new_eas75.T_IM_SaleIssueBill SALEISSUEBILL
+		
+		LEFT OUTER JOIN new_eas75.T_SCM_BillType  SOURCEBILLTYPE
+		ON SALEISSUEBILL.FSourceBillTypeID = SOURCEBILLTYPE.FID
+		
+		LEFT OUTER JOIN new_eas75.T_GL_Voucher  VOUCHER
+		ON SALEISSUEBILL.FVoucherID = VOUCHER.FID
+		
+		LEFT OUTER JOIN new_eas75.T_ORG_Admin  ADMINORGUNIT
+		ON SALEISSUEBILL.FAdminOrgUnitID = ADMINORGUNIT.FID
+		
+		LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT
+		ON SALEISSUEBILL.FStorageOrgUnitID = STORAGEORGUNIT.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_Customer  CUSTOMER
+		ON SALEISSUEBILL.FCustomerID = CUSTOMER.FID
+		
+		INNER JOIN new_eas75.T_IM_SaleIssueEntry  ENTRY
+		ON SALEISSUEBILL.FID = ENTRY.FParentID
+		
+		LEFT OUTER JOIN new_eas75.T_SCM_TransactionType  TRANSACTIONTYPE
+		ON SALEISSUEBILL.FTransactionTypeID = TRANSACTIONTYPE.FID
+		
+		LEFT OUTER JOIN new_eas75.T_PM_User  AUDITOR
+		ON SALEISSUEBILL.FAuditorID = AUDITOR.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_Currency  CURRENCY
+		ON SALEISSUEBILL.FCurrencyID = CURRENCY.FID
+		
+		LEFT OUTER JOIN new_eas75.T_PM_User  CREATOR
+		ON SALEISSUEBILL.FCreatorID = CREATOR.FID
+		
+		LEFT OUTER JOIN new_eas75.T_PM_User  MODIFIER
+		ON SALEISSUEBILL.FModifierID = MODIFIER.FID
+		
+		LEFT OUTER JOIN new_eas75.T_SCM_BizType  BIZTYPE
+		ON SALEISSUEBILL.FBizTypeID = BIZTYPE.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_PaymentType  PAYMENTTYPE
+		ON SALEISSUEBILL.FPaymentTypeID = PAYMENTTYPE.FID
+		
+		LEFT OUTER JOIN new_eas75.T_ORG_CostCenter  COSTCENTERORGUNIT
+		ON SALEISSUEBILL.FCostCenterOrgUnitID = COSTCENTERORGUNIT.FID
+		
+		LEFT OUTER JOIN new_eas75.T_PM_User  USERR
+		ON SALEISSUEBILL.CFBackBillUserID = USERR.FID
+		
+		LEFT OUTER JOIN new_eas75.T_PM_User  USER1
+		ON SALEISSUEBILL.CFIsBackBillUserID = USER1.FID
+		
+		LEFT OUTER JOIN new_eas75.T_PM_User  USER2
+		ON SALEISSUEBILL.CFUserID = USER2.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit  UNIT
+		ON ENTRY.FUnitID = UNIT.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_Material  MATERIAL
+		ON ENTRY.FMaterialID = MATERIAL.FID
+		
+		LEFT OUTER JOIN new_eas75.T_SCM_TransactionType  SOURCEBILLTYPE1
+		ON ENTRY.FSourceBillTypeID = SOURCEBILLTYPE1.FID
+		
+		LEFT OUTER JOIN new_eas75.T_DB_LOCATION  LOCATION
+		ON ENTRY.FLocationID = LOCATION.FID
+		
+		LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE  WAREHOUSE
+		ON ENTRY.FWarehouseID = WAREHOUSE.FID
+		
+		LEFT OUTER JOIN new_eas75.T_ORG_Company  COMPANYORGUNIT
+		ON ENTRY.FCompanyOrgUnitID = COMPANYORGUNIT.FID
+		
+		LEFT OUTER JOIN new_eas75.T_ORG_Storage  STORAGEORGUNIT1
+		ON ENTRY.FStorageOrgUnitID = STORAGEORGUNIT1.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit  ASSISTUNIT
+		ON ENTRY.FAssistUnitID = ASSISTUNIT.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_AsstAttrValue  ASSISTPROPERTY
+		ON ENTRY.FAssistPropertyID = ASSISTPROPERTY.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_Person  STOCKER
+		ON ENTRY.FStockerID = STOCKER.FID
+		
+		LEFT OUTER JOIN new_eas75.T_SCM_BillType  BILLTYPE
+		ON ENTRY.FCoreBillTypeID = BILLTYPE.FID
+		
+		LEFT OUTER JOIN new_eas75.T_ORG_Sale  SALEORGUNIT
+		ON ENTRY.FSaleOrgUnitID = SALEORGUNIT.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_SaleGroup  SALEGROUP
+		ON ENTRY.FSaleGroupID = SALEGROUP.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_Person  SALEPERSON
+		ON ENTRY.FSalePersonID = SALEPERSON.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_MeasureUnit  BASEUNIT
+		ON ENTRY.FBaseUnitID = BASEUNIT.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_Customer  PAYMENTCUSTOMER
+		ON ENTRY.FPaymentCustomerID = PAYMENTCUSTOMER.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_Customer  ORDERCUSTOMER
+		ON ENTRY.FOrderCustomerID = ORDERCUSTOMER.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_Customer  BALANCECUSTOMER
+		ON ENTRY.FBalanceCustomerID = BALANCECUSTOMER.FID
+		
+		LEFT OUTER JOIN new_eas75.T_MM_Project  PROJECT
+		ON ENTRY.FProjectID = PROJECT.FID
+		
+		LEFT OUTER JOIN new_eas75.T_MM_TrackNumber  TRACKNUMBER
+		ON ENTRY.FTrackNumberID = TRACKNUMBER.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_Supplier  SUPPLIER
+		ON ENTRY.FSupplierID = SUPPLIER.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_MaterialCompanyInfo  MATERIALCOMPANY
+		ON ENTRY.FMaterialID = MATERIALCOMPANY.FMaterialID AND ENTRY.FCompanyOrgUnitID = MATERIALCOMPANY.FCompanyID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_MultiMeasureUnit  MULTIUNIT
+		ON ENTRY.FMaterialID = MULTIUNIT.FMaterialID AND ENTRY.FUnitID = MULTIUNIT.FMeasureUnitID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_MultiMeasureUnit  BASEMULTIUNIT
+		ON ENTRY.FMaterialID = BASEMULTIUNIT.FMaterialID AND ENTRY.FBaseUnitID = BASEMULTIUNIT.FMeasureUnitID
+		
+		LEFT OUTER JOIN new_eas75.CT_LS_ProductType  PRODUCTTYPE
+		ON ENTRY.CFProductTypeID = PRODUCTTYPE.FID
+		
+		LEFT OUTER JOIN new_eas75.CT_LS_TerminalCustomer  TERMINALCUSTOMER
+		ON ENTRY.CFTerminalCustomer = TERMINALCUSTOMER.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BAS_BusinessTeam  BUSINESSTEAM
+		ON ENTRY.CFBusinessTeamID = BUSINESSTEAM.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BAS_RegionalHead  REGIONALHEAD
+		ON ENTRY.CFRegionalHeadID = REGIONALHEAD.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BAS_ServiceManager  SERVICEMANAGER
+		ON ENTRY.CFServiceManagerID = SERVICEMANAGER.FID
+		
+		LEFT OUTER JOIN new_eas75.T_BD_Currency  CURRENCY2
+		ON COMPANYORGUNIT.FBaseCurrencyID = CURRENCY2.FID
+		
+		WHERE SALEISSUEBILL.FBaseStatus=4 
+		<if test="zzfws != null and zzfws != ''"> 
+		  and STORAGEORGUNIT.FName_l2 in 
+		    <foreach collection ="zzfws" item="item" index= "index"  open="(" separator="," close=")">
+		    	 #{item}       
+		    </foreach>	  		  
+	  	</if>
+<!-- 		AND STORAGEORGUNIT.FName_l2 in ('TLG INVESTMENT (HK) LIMITED ','深圳市领略数控设备有限公司','领胜电子科技(深圳)有限公司','领胜科技（苏州）有限公司','深圳市诚悦丰科技有限公司','东莞盛翔精密金属有限公司','东莞领益精密制造科技有限公司','东莞领汇精密制造科技有限公司') -->
+		
+		<if test="endtime != null and endtime != ''">and SALEISSUEBILL.FBizDate <![CDATA[>=]]> to_timestamp(#{endtime}, 'yyyy-mm-dd hh24:mi:ss.ff')</if>
+		<if test="xdlist != null and xdlist != ''">
+				and CUSTOMER.FName_l2 not in 
+		    <foreach collection ="xdlist" item="item" index= "index"  open="(" separator="," close=")">
+		    	 #{item}       
+		    </foreach>
+		</if>
+<!-- 		and CUSTOMER.FName_l2 not in ('领镒(江苏)精密电子制造有限公司','领胜科技（苏州）有限公司','东莞领汇精密制造科技有限公司','东莞盛翔精密金属有限公司','领镒精密五金制造（无锡）有限公司','东莞领益精密制造科技有限公司','东台市富焱鑫五金产品有限公司','深圳市诚悦丰科技有限公司','苏州领裕电子科技有限公司','领胜电子科技(深圳)有限公司','领胜电子科技(成都)有限公司','领胜城科技(江苏)有限公司','领益科技(深圳)有限公司','深圳市领略数控设备有限公司','东莞市中焱精密电子科技有限公司','郑州领胜科技有限公司（旧系统2016年4月1前）','苏州领镒精密技术有限公司','郑州领胜科技有限公司','东莞市鑫焱精密刀具有限公司','东莞领杰金属精密制造科技有限公司','成都领益科技有限公司','领胜电子科技(成都)有限公司（旧系统2016年6月30日前）' -->
+		
+	</select>
+</mapper>

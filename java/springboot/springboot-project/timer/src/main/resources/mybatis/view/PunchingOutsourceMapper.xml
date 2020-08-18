@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bootdo.system.dao.PunchingOutsourceDao">
+    <select id="list" resultType="com.bootdo.system.domain.PunchingOutsourceDO">
+        select
+        jgfb.unitProcessingFee dwjgf,
+        to_char(A.fbizdate,'yyyyMMdd') ywrq,
+        B4.FNAME_L2 zz,
+        B8.fnumber wflbm,
+        B3.fnumber wxjgjbm,
+        B3.FNAME_L2 wxjgjmc
+        FROM NEW_EAS75.T_SM_SubContractOrder A
+        LEFT JOIN NEW_EAS75.T_SM_SubContractOrderEntry B1 ON B1.fparentid=a.FID
+        LEFT JOIN NEW_EAS75.T_SM_SubMaterialList B2 ON B2.fparentid=B1.FID
+        LEFT JOIN NEW_EAS75.T_BD_Material B3 ON B1.fmaterialid=B3.FID
+        LEFT JOIN NEW_EAS75.T_ORG_Admin B4 ON A.FPURCHASEORGUNITID=B4.FID
+        LEFT JOIN NEW_EAS75.T_BD_MeasureUnit B5 ON B1.funitid=B5.FID
+        LEFT JOIN NEW_EAS75.T_PM_User B6 ON A.fcreatorid=B6.FID
+        LEFT JOIN NEW_EAS75.T_BD_Supplier B7 ON A.fsupplierid=B7.FID
+        LEFT JOIN NEW_EAS75.T_BD_Material B8 ON B2.fmaterialid=B8.FID
+        LEFT JOIN NEW_EAS75.T_BD_MeasureUnit B9 ON B2.funitid=B9.FID
+        left join (
+        select t.* from (
+        SELECT
+        row_number() OVER(PARTITION BY MATERIAL.FNumber ORDER BY PURINWAREHSBILL.FAuditTime desc) as row_flg ,
+        ENTRY.FUnitPurchaseCost AS unitProcessingFee,
+        MATERIAL.FNumber materialNumber,
+        MATERIAL.FName_l2 AS materialName,
+        PURINWAREHSBILL.FAuditTime auditTime
+        FROM new_eas75.T_IM_PurInWarehsBill PURINWAREHSBILL
+        LEFT OUTER JOIN new_eas75.T_SCM_TransactionType TRANSACTIONTYPE
+        ON PURINWAREHSBILL.FTransactionTypeID = TRANSACTIONTYPE.FID
+        LEFT OUTER JOIN new_eas75.T_IM_PurInWarehsEntry ENTRY
+        ON PURINWAREHSBILL.FID = ENTRY.FParentID
+        LEFT OUTER JOIN new_eas75.T_BD_Material MATERIAL
+        ON ENTRY.FMaterialID = MATERIAL.FID
+        LEFT OUTER JOIN new_eas75.T_DB_WAREHOUSE WAREHOUSE
+        ON ENTRY.FWarehouseID = WAREHOUSE.FID
+        where PURINWAREHSBILL.FBaseStatus = 4 and TRANSACTIONTYPE.FName_l2 !='普通采购退货'
+        and instr(WAREHOUSE.FName_l2,'客供')=0 and instr(WAREHOUSE.FName_l2,'废')=0 and instr(WAREHOUSE.FName_l2,'保税S仓')=0
+        and instr(WAREHOUSE.FName_l2,'非保税S仓')=0
+        and TRANSACTIONTYPE.FName_l2='普通委外入库'
+        ) t
+        where t.row_flg = 1) jgfb
+
+        on jgfb.materialNumber = B3.fnumber
+
+
+        WHERE A.fbasestatus = 4
+        <if test="zzfws != null and zzfws != ''">
+            and B4.FNAME_L2 in
+            <foreach collection="zzfws" item="item" index="index" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+        and substr(B8.fnumber,0,1)!= '4'
+        and substr(B8.fnumber,0,1)!= '5'
+        and substr(B8.fnumber,0,1)!= '8'
+
+    </select>
+
+
+</mapper>

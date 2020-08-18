@@ -4,18 +4,75 @@
 
 
 
-2.使用git
+
+
+2.git配置(https://www.jianshu.com/p/bf7b09e234c8)
+
+1)配置用户名
+git config专门用来配置或读取相应的工作环境变量
+$ git config --global user.name "runoob"
+$ git config --global user.email test@runoob.com
+
+要检查已有的配置信息 ：$ git config --list
+
+2）连接github 配置SSH
+$ ssh-keygen -t rsa -C "youremail@example.com"
+cd  ~/.ssh
+vim id_rsa.pub
+复制 key
+ 打开github 里Account => Settings（账户配置）
+ SSH and GPG keys  --》 点New SSH key  复制key
+ 
+ 验证配置成功：$ ssh -T git@github.com
+
+
+3.命令
+
+1)常用基本命令
+$ ls -a                                     # 查看是否是git仓库（.git文件）
+$ git init                                  # 初始化
+$ git status                                #查看在你上次提交之后是否有修改
+$ git add README.md                         # 添加文件
+git add file_1 file_2 file_3                # 添加多个文件（用空格隔开）
+$ git commit -m "添加 README.md 文件"       # 提交并备注信息
+$ git push -u origin master                 # 推送到远程仓库
+
+2）克隆
+$ git clone git@github.com:schacon/simplegit.git   #拷贝一个 Git 仓库到本地
+$ git remote -v                                    #查看当前的远程库
+$ git remote add origin2 git@github.com:tianqixin/runoob-git-test.git  # 添加仓库 origin2
+$ git remote rm origin2    # 删除仓库 origin2
+                                                
+
+  
 
 
 
 
-3.git命令 (https://www.jianshu.com/p/bf7b09e234c8)
 
-git init：初始化仓库
 
-git clone ：拷贝一个 Git 仓库到本地：git clone [url]
 
-git add ：命令可将该文件添加到缓冲
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

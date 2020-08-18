@@ -1,0 +1,491 @@
+2020-08-17 15:50:03 -Starting BootdoApplication on DESKTOP-R108H2M with PID 15012 (D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo\target\classes started by jane.zhou1 in D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo)
+2020-08-17 15:50:03 -The following profiles are active: dev
+2020-08-17 15:50:36 -Started BootdoApplication in 35.139 seconds (JVM running for 40.337)
+2020-08-17 15:51:22 -请求地址 : http://localhost:8083/
+2020-08-17 15:51:22 -HTTP METHOD : GET
+2020-08-17 15:51:22 -CLASS_METHOD : com.bootdo.system.controller.LoginController.welcome
+2020-08-17 15:51:22 -参数 : [{}]
+2020-08-17 15:51:22 -耗时 : 2
+2020-08-17 15:51:22 -请求地址 : http://localhost:8083/login
+2020-08-17 15:51:22 -HTTP METHOD : GET
+2020-08-17 15:51:22 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 15:51:22 -参数 : []
+2020-08-17 15:51:22 -耗时 : 1
+2020-08-17 15:51:22 -请求地址 : http://localhost:8083/login;JSESSIONID=2365cf41-371b-4efb-afe4-29ab0bf70a81
+2020-08-17 15:51:22 -HTTP METHOD : GET
+2020-08-17 15:51:22 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 15:51:22 -参数 : []
+2020-08-17 15:51:22 -耗时 : 1
+2020-08-17 15:51:28 -请求地址 : http://localhost:8083/login
+2020-08-17 15:51:28 -HTTP METHOD : POST
+2020-08-17 15:51:28 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 15:51:28 -参数 : [admin, 123]
+2020-08-17 15:51:29 -java.lang.Integer cannot be cast to com.alibaba.fastjson.JSONObject
+java.lang.ClassCastException: java.lang.Integer cannot be cast to com.alibaba.fastjson.JSONObject
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:217)
+	at com.bootdo.system.service.impl.UserServiceImpl.login(UserServiceImpl.java:212)
+	at com.bootdo.system.service.impl.UserServiceImpl$$FastClassBySpringCGLIB$$2c95b2d0.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:746)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.bootdo.system.service.impl.UserServiceImpl$$EnhancerBySpringCGLIB$$a7898ced.login(<generated>)
+	at com.bootdo.system.controller.LoginController.ajaxLogin(LoginController.java:81)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:343)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:197)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:52)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.bootdo.common.aspect.WebLogAspect.doAround(WebLogAspect.java:57)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185)
+	at org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor.invoke(AfterReturningAdviceInterceptor.java:52)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.bootdo.common.aspect.LogAspect.around(LogAspect.java:50)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:174)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.bootdo.system.controller.LoginController$$EnhancerBySpringCGLIB$$1285d0dc.ajaxLogin(<generated>)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:209)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:136)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:877)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:783)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:991)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:925)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:974)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:877)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:661)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:851)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:61)
+	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:108)
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:137)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365)
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90)
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83)
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:383)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:123)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HttpPutFormContentFilter.doFilterInternal(HttpPutFormContentFilter.java:109)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:496)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:803)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:790)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1468)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+2020-08-17 15:57:37 -请求地址 : http://localhost:8083/login
+2020-08-17 15:57:37 -HTTP METHOD : POST
+2020-08-17 15:57:37 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 15:57:37 -参数 : [jane.zhou1, abcd.123456]
+2020-08-17 15:57:37 -java.lang.Integer cannot be cast to com.alibaba.fastjson.JSONObject
+java.lang.ClassCastException: java.lang.Integer cannot be cast to com.alibaba.fastjson.JSONObject
+	at com.alibaba.fastjson.JSON.parseObject(JSON.java:217)
+	at com.bootdo.system.service.impl.UserServiceImpl.login(UserServiceImpl.java:212)
+	at com.bootdo.system.service.impl.UserServiceImpl$$FastClassBySpringCGLIB$$2c95b2d0.invoke(<generated>)
+	at org.springframework.cglib.proxy.MethodProxy.invoke(MethodProxy.java:204)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:746)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.transaction.interceptor.TransactionAspectSupport.invokeWithinTransaction(TransactionAspectSupport.java:294)
+	at org.springframework.transaction.interceptor.TransactionInterceptor.invoke(TransactionInterceptor.java:98)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.bootdo.system.service.impl.UserServiceImpl$$EnhancerBySpringCGLIB$$a7898ced.login(<generated>)
+	at com.bootdo.system.controller.LoginController.ajaxLogin(LoginController.java:81)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.aop.support.AopUtils.invokeJoinpointUsingReflection(AopUtils.java:343)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.invokeJoinpoint(ReflectiveMethodInvocation.java:197)
+	at org.springframework.aop.framework.CglibAopProxy$CglibMethodInvocation.invokeJoinpoint(CglibAopProxy.java:749)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:163)
+	at org.springframework.aop.framework.adapter.MethodBeforeAdviceInterceptor.invoke(MethodBeforeAdviceInterceptor.java:52)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.bootdo.common.aspect.WebLogAspect.doAround(WebLogAspect.java:57)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185)
+	at org.springframework.aop.framework.adapter.AfterReturningAdviceInterceptor.invoke(AfterReturningAdviceInterceptor.java:52)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185)
+	at org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint.proceed(MethodInvocationProceedingJoinPoint.java:88)
+	at com.bootdo.common.aspect.LogAspect.around(LogAspect.java:50)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethodWithGivenArgs(AbstractAspectJAdvice.java:644)
+	at org.springframework.aop.aspectj.AbstractAspectJAdvice.invokeAdviceMethod(AbstractAspectJAdvice.java:633)
+	at org.springframework.aop.aspectj.AspectJAroundAdvice.invoke(AspectJAroundAdvice.java:70)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:174)
+	at org.springframework.aop.interceptor.ExposeInvocationInterceptor.invoke(ExposeInvocationInterceptor.java:92)
+	at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed(ReflectiveMethodInvocation.java:185)
+	at org.springframework.aop.framework.CglibAopProxy$DynamicAdvisedInterceptor.intercept(CglibAopProxy.java:688)
+	at com.bootdo.system.controller.LoginController$$EnhancerBySpringCGLIB$$1285d0dc.ajaxLogin(<generated>)
+	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
+	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.lang.reflect.Method.invoke(Method.java:498)
+	at org.springframework.web.method.support.InvocableHandlerMethod.doInvoke(InvocableHandlerMethod.java:209)
+	at org.springframework.web.method.support.InvocableHandlerMethod.invokeForRequest(InvocableHandlerMethod.java:136)
+	at org.springframework.web.servlet.mvc.method.annotation.ServletInvocableHandlerMethod.invokeAndHandle(ServletInvocableHandlerMethod.java:102)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.invokeHandlerMethod(RequestMappingHandlerAdapter.java:877)
+	at org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter.handleInternal(RequestMappingHandlerAdapter.java:783)
+	at org.springframework.web.servlet.mvc.method.AbstractHandlerMethodAdapter.handle(AbstractHandlerMethodAdapter.java:87)
+	at org.springframework.web.servlet.DispatcherServlet.doDispatch(DispatcherServlet.java:991)
+	at org.springframework.web.servlet.DispatcherServlet.doService(DispatcherServlet.java:925)
+	at org.springframework.web.servlet.FrameworkServlet.processRequest(FrameworkServlet.java:974)
+	at org.springframework.web.servlet.FrameworkServlet.doPost(FrameworkServlet.java:877)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:661)
+	at org.springframework.web.servlet.FrameworkServlet.service(FrameworkServlet.java:851)
+	at javax.servlet.http.HttpServlet.service(HttpServlet.java:742)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:231)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.tomcat.websocket.server.WsFilter.doFilter(WsFilter.java:52)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:61)
+	at org.apache.shiro.web.servlet.AdviceFilter.executeChain(AdviceFilter.java:108)
+	at org.apache.shiro.web.servlet.AdviceFilter.doFilterInternal(AdviceFilter.java:137)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.shiro.web.servlet.ProxiedFilterChain.doFilter(ProxiedFilterChain.java:66)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.executeChain(AbstractShiroFilter.java:449)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter$1.call(AbstractShiroFilter.java:365)
+	at org.apache.shiro.subject.support.SubjectCallable.doCall(SubjectCallable.java:90)
+	at org.apache.shiro.subject.support.SubjectCallable.call(SubjectCallable.java:83)
+	at org.apache.shiro.subject.support.DelegatingSubject.execute(DelegatingSubject.java:383)
+	at org.apache.shiro.web.servlet.AbstractShiroFilter.doFilterInternal(AbstractShiroFilter.java:362)
+	at org.apache.shiro.web.servlet.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:125)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at com.alibaba.druid.support.http.WebStatFilter.doFilter(WebStatFilter.java:123)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.RequestContextFilter.doFilterInternal(RequestContextFilter.java:99)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HttpPutFormContentFilter.doFilterInternal(HttpPutFormContentFilter.java:109)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.HiddenHttpMethodFilter.doFilterInternal(HiddenHttpMethodFilter.java:93)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.springframework.web.filter.CharacterEncodingFilter.doFilterInternal(CharacterEncodingFilter.java:200)
+	at org.springframework.web.filter.OncePerRequestFilter.doFilter(OncePerRequestFilter.java:107)
+	at org.apache.catalina.core.ApplicationFilterChain.internalDoFilter(ApplicationFilterChain.java:193)
+	at org.apache.catalina.core.ApplicationFilterChain.doFilter(ApplicationFilterChain.java:166)
+	at org.apache.catalina.core.StandardWrapperValve.invoke(StandardWrapperValve.java:198)
+	at org.apache.catalina.core.StandardContextValve.invoke(StandardContextValve.java:96)
+	at org.apache.catalina.authenticator.AuthenticatorBase.invoke(AuthenticatorBase.java:496)
+	at org.apache.catalina.core.StandardHostValve.invoke(StandardHostValve.java:140)
+	at org.apache.catalina.valves.ErrorReportValve.invoke(ErrorReportValve.java:81)
+	at org.apache.catalina.core.StandardEngineValve.invoke(StandardEngineValve.java:87)
+	at org.apache.catalina.connector.CoyoteAdapter.service(CoyoteAdapter.java:342)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:803)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:66)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:790)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1468)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:49)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1149)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:624)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
+	at java.lang.Thread.run(Thread.java:748)
+2020-08-17 16:05:15 -Starting BootdoApplication on DESKTOP-R108H2M with PID 10544 (D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo\target\classes started by jane.zhou1 in D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo)
+2020-08-17 16:05:15 -The following profiles are active: dev
+2020-08-17 16:05:43 -Started BootdoApplication in 29.456 seconds (JVM running for 33.058)
+2020-08-17 16:06:35 -请求地址 : http://localhost:8083/
+2020-08-17 16:06:35 -HTTP METHOD : GET
+2020-08-17 16:06:35 -CLASS_METHOD : com.bootdo.system.controller.LoginController.welcome
+2020-08-17 16:06:35 -参数 : [{}]
+2020-08-17 16:06:35 -耗时 : 5
+2020-08-17 16:06:35 -请求地址 : http://localhost:8083/login
+2020-08-17 16:06:35 -HTTP METHOD : GET
+2020-08-17 16:06:35 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:06:35 -参数 : []
+2020-08-17 16:06:35 -耗时 : 1
+2020-08-17 16:06:36 -请求地址 : http://localhost:8083/login;JSESSIONID=d904dc49-d1db-428e-85da-29542282fcc6
+2020-08-17 16:06:36 -HTTP METHOD : GET
+2020-08-17 16:06:36 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:06:36 -参数 : []
+2020-08-17 16:06:36 -耗时 : 1
+2020-08-17 16:06:56 -请求地址 : http://localhost:8083/login
+2020-08-17 16:06:56 -HTTP METHOD : POST
+2020-08-17 16:06:56 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:06:56 -参数 : [jane.zhou1, zxcv.1234]
+2020-08-17 16:06:56 -耗时 : 96
+2020-08-17 16:35:03 -请求地址 : http://localhost:8083/login
+2020-08-17 16:35:03 -HTTP METHOD : POST
+2020-08-17 16:35:03 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:35:03 -参数 : [yue.peng.cheng, abcd.123456]
+2020-08-17 16:35:03 -耗时 : 51
+2020-08-17 16:35:04 -请求地址 : http://localhost:8083/login
+2020-08-17 16:35:04 -HTTP METHOD : POST
+2020-08-17 16:35:04 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:35:04 -参数 : [yue.peng.cheng, abcd.123456]
+2020-08-17 16:35:04 -耗时 : 34
+2020-08-17 16:35:04 -请求地址 : http://localhost:8083/login
+2020-08-17 16:35:04 -HTTP METHOD : POST
+2020-08-17 16:35:04 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:35:04 -参数 : [yue.peng.cheng, abcd.123456]
+2020-08-17 16:35:04 -耗时 : 23
+2020-08-17 16:35:38 -Starting BootdoApplication on DESKTOP-R108H2M with PID 21920 (D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo\target\classes started by jane.zhou1 in D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo)
+2020-08-17 16:35:38 -The following profiles are active: dev
+2020-08-17 16:35:54 -Started BootdoApplication in 17.955 seconds (JVM running for 19.938)
+2020-08-17 16:36:16 -请求地址 : http://localhost:8083/login
+2020-08-17 16:36:16 -HTTP METHOD : GET
+2020-08-17 16:36:16 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:36:16 -参数 : []
+2020-08-17 16:36:16 -耗时 : 3
+2020-08-17 16:36:16 -请求地址 : http://localhost:8083/login;JSESSIONID=a4fd2540-34b7-4cac-bc6a-bb588cd7f3d1
+2020-08-17 16:36:16 -HTTP METHOD : GET
+2020-08-17 16:36:16 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:36:16 -参数 : []
+2020-08-17 16:36:16 -耗时 : 0
+2020-08-17 16:36:39 -请求地址 : http://localhost:8083/login
+2020-08-17 16:36:39 -HTTP METHOD : POST
+2020-08-17 16:36:39 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:36:39 -参数 : [yue.peng.cheng, abcd.123456]
+2020-08-17 16:38:37 -耗时 : 118122
+2020-08-17 16:38:45 -请求地址 : http://localhost:8083/login
+2020-08-17 16:38:45 -HTTP METHOD : POST
+2020-08-17 16:38:45 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:38:45 -参数 : [yue.peng.cheng, abcd.123456]
+2020-08-17 16:48:11 -Starting BootdoApplication on DESKTOP-R108H2M with PID 8100 (D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo\target\classes started by jane.zhou1 in D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo)
+2020-08-17 16:48:11 -The following profiles are active: dev
+2020-08-17 16:48:23 -Started BootdoApplication in 14.054 seconds (JVM running for 17.879)
+2020-08-17 16:48:37 -请求地址 : http://localhost:8083/login
+2020-08-17 16:48:37 -HTTP METHOD : GET
+2020-08-17 16:48:37 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:48:37 -参数 : []
+2020-08-17 16:48:37 -耗时 : 2
+2020-08-17 16:48:37 -请求地址 : http://localhost:8083/login;JSESSIONID=0e3ed2d6-0435-46c7-b67e-34e78c1c98d4
+2020-08-17 16:48:37 -HTTP METHOD : GET
+2020-08-17 16:48:37 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:48:37 -参数 : []
+2020-08-17 16:48:37 -耗时 : 1
+2020-08-17 16:48:52 -请求地址 : http://localhost:8083/login
+2020-08-17 16:48:52 -HTTP METHOD : POST
+2020-08-17 16:48:52 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:48:52 -参数 : [jane.zhou1, 123]
+2020-08-17 16:48:52 -耗时 : 0
+2020-08-17 16:48:52 -请求地址 : http://localhost:8083/login
+2020-08-17 16:48:52 -HTTP METHOD : GET
+2020-08-17 16:48:52 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:48:52 -参数 : []
+2020-08-17 16:48:52 -耗时 : 0
+2020-08-17 16:48:52 -请求地址 : http://localhost:8083/login
+2020-08-17 16:48:52 -HTTP METHOD : GET
+2020-08-17 16:48:52 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:48:52 -参数 : []
+2020-08-17 16:48:52 -耗时 : 0
+2020-08-17 16:48:54 -请求地址 : http://localhost:8083/login
+2020-08-17 16:48:54 -HTTP METHOD : POST
+2020-08-17 16:48:54 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:48:54 -参数 : [admin, 123]
+2020-08-17 16:48:54 -耗时 : 0
+2020-08-17 16:49:04 -请求地址 : http://localhost:8083/login
+2020-08-17 16:49:04 -HTTP METHOD : POST
+2020-08-17 16:49:04 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:49:04 -参数 : [jane.zhou1, 123]
+2020-08-17 16:49:04 -耗时 : 0
+2020-08-17 16:49:04 -请求地址 : http://localhost:8083/login
+2020-08-17 16:49:04 -HTTP METHOD : GET
+2020-08-17 16:49:04 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:49:04 -参数 : []
+2020-08-17 16:49:04 -耗时 : 0
+2020-08-17 16:49:04 -请求地址 : http://localhost:8083/login
+2020-08-17 16:49:04 -HTTP METHOD : GET
+2020-08-17 16:49:04 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:49:04 -参数 : []
+2020-08-17 16:49:04 -耗时 : 0
+2020-08-17 16:49:53 -请求地址 : http://localhost:8083/login
+2020-08-17 16:49:53 -HTTP METHOD : GET
+2020-08-17 16:49:53 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:49:53 -参数 : []
+2020-08-17 16:49:53 -耗时 : 0
+2020-08-17 16:49:53 -请求地址 : http://localhost:8083/login
+2020-08-17 16:49:53 -HTTP METHOD : GET
+2020-08-17 16:49:53 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:49:53 -参数 : []
+2020-08-17 16:49:53 -耗时 : 0
+2020-08-17 16:51:54 -请求地址 : http://localhost:8083/login
+2020-08-17 16:51:54 -HTTP METHOD : POST
+2020-08-17 16:51:54 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:51:54 -参数 : [admin, 123]
+2020-08-17 16:51:54 -耗时 : 1
+2020-08-17 16:52:25 -Starting BootdoApplication on DESKTOP-R108H2M with PID 14908 (D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo\target\classes started by jane.zhou1 in D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo)
+2020-08-17 16:52:25 -The following profiles are active: dev
+2020-08-17 16:53:15 -Starting BootdoApplication on DESKTOP-R108H2M with PID 19276 (D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo\target\classes started by jane.zhou1 in D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo)
+2020-08-17 16:53:15 -The following profiles are active: dev
+2020-08-17 16:53:54 -Starting BootdoApplication on DESKTOP-R108H2M with PID 8212 (D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo\target\classes started by jane.zhou1 in D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo)
+2020-08-17 16:53:54 -The following profiles are active: dev
+2020-08-17 16:54:40 -Started BootdoApplication in 48.659 seconds (JVM running for 54.446)
+2020-08-17 16:55:02 -请求地址 : http://localhost:8083/
+2020-08-17 16:55:02 -HTTP METHOD : GET
+2020-08-17 16:55:02 -CLASS_METHOD : com.bootdo.system.controller.LoginController.welcome
+2020-08-17 16:55:02 -参数 : [{}]
+2020-08-17 16:55:02 -耗时 : 6
+2020-08-17 16:55:02 -请求地址 : http://localhost:8083/login
+2020-08-17 16:55:02 -HTTP METHOD : GET
+2020-08-17 16:55:02 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:55:02 -参数 : []
+2020-08-17 16:55:02 -耗时 : 1
+2020-08-17 16:55:05 -请求地址 : http://localhost:8083/login;JSESSIONID=ac039973-41eb-42e7-a258-f75737bef05f
+2020-08-17 16:55:05 -HTTP METHOD : GET
+2020-08-17 16:55:05 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:55:05 -参数 : []
+2020-08-17 16:55:05 -耗时 : 1
+2020-08-17 16:55:14 -请求地址 : http://localhost:8083/login
+2020-08-17 16:55:14 -HTTP METHOD : POST
+2020-08-17 16:55:14 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:55:14 -参数 : [jane.zhou1, 123]
+2020-08-17 16:55:14 -耗时 : 2
+2020-08-17 16:55:14 -请求地址 : http://localhost:8083/login
+2020-08-17 16:55:14 -HTTP METHOD : GET
+2020-08-17 16:55:14 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:55:14 -参数 : []
+2020-08-17 16:55:14 -耗时 : 1
+2020-08-17 16:55:14 -请求地址 : http://localhost:8083/login
+2020-08-17 16:55:14 -HTTP METHOD : GET
+2020-08-17 16:55:14 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:55:14 -参数 : []
+2020-08-17 16:55:14 -耗时 : 1
+2020-08-17 16:55:20 -请求地址 : http://localhost:8083/login
+2020-08-17 16:55:20 -HTTP METHOD : POST
+2020-08-17 16:55:20 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:55:20 -参数 : [admin, 123]
+2020-08-17 16:55:20 -耗时 : 1
+2020-08-17 16:55:47 -Starting BootdoApplication on DESKTOP-R108H2M with PID 4856 (D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo\target\classes started by jane.zhou1 in D:\githubproject\Learning-notes\java\springboot\springboot-project\bootdo)
+2020-08-17 16:55:47 -The following profiles are active: dev
+2020-08-17 16:56:42 -Started BootdoApplication in 57.283 seconds (JVM running for 69.09)
+2020-08-17 16:56:44 -请求地址 : http://localhost:8083/login
+2020-08-17 16:56:44 -HTTP METHOD : GET
+2020-08-17 16:56:44 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:56:44 -参数 : []
+2020-08-17 16:56:44 -耗时 : 7
+2020-08-17 16:56:46 -请求地址 : http://localhost:8083/login;JSESSIONID=177f19db-fdf0-4bcd-81fd-c68d8e242495
+2020-08-17 16:56:46 -HTTP METHOD : GET
+2020-08-17 16:56:46 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:56:46 -参数 : []
+2020-08-17 16:56:46 -耗时 : 2
+2020-08-17 16:56:53 -请求地址 : http://localhost:8083/login
+2020-08-17 16:56:53 -HTTP METHOD : GET
+2020-08-17 16:56:53 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:56:53 -参数 : []
+2020-08-17 16:56:53 -耗时 : 2
+2020-08-17 16:56:54 -请求地址 : http://localhost:8083/login
+2020-08-17 16:56:54 -HTTP METHOD : GET
+2020-08-17 16:56:54 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:56:54 -参数 : []
+2020-08-17 16:56:54 -耗时 : 1
+2020-08-17 16:57:02 -请求地址 : http://localhost:8083/login
+2020-08-17 16:57:02 -HTTP METHOD : POST
+2020-08-17 16:57:02 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:57:02 -参数 : [jane.zhou1, 123]
+2020-08-17 16:57:31 -耗时 : 28683
+2020-08-17 16:57:31 -请求地址 : http://localhost:8083/login
+2020-08-17 16:57:31 -HTTP METHOD : GET
+2020-08-17 16:57:31 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:57:31 -参数 : []
+2020-08-17 16:57:31 -耗时 : 0
+2020-08-17 16:57:31 -请求地址 : http://localhost:8083/login
+2020-08-17 16:57:31 -HTTP METHOD : GET
+2020-08-17 16:57:31 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:57:31 -参数 : []
+2020-08-17 16:57:31 -耗时 : 1
+2020-08-17 16:57:51 -请求地址 : http://localhost:8083/login
+2020-08-17 16:57:51 -HTTP METHOD : POST
+2020-08-17 16:57:51 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:57:51 -参数 : [admin, 123]
+2020-08-17 16:57:59 -耗时 : 8317
+2020-08-17 16:58:06 -请求地址 : http://localhost:8083/login
+2020-08-17 16:58:06 -HTTP METHOD : POST
+2020-08-17 16:58:06 -CLASS_METHOD : com.bootdo.system.controller.LoginController.ajaxLogin
+2020-08-17 16:58:06 -参数 : [jane.zhou1, 123]
+2020-08-17 16:59:14 -耗时 : 67842
+2020-08-17 16:59:14 -请求地址 : http://localhost:8083/login
+2020-08-17 16:59:14 -HTTP METHOD : GET
+2020-08-17 16:59:14 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:59:14 -参数 : []
+2020-08-17 16:59:14 -耗时 : 2
+2020-08-17 16:59:14 -请求地址 : http://localhost:8083/login
+2020-08-17 16:59:14 -HTTP METHOD : GET
+2020-08-17 16:59:14 -CLASS_METHOD : com.bootdo.system.controller.LoginController.login
+2020-08-17 16:59:14 -参数 : []
+2020-08-17 16:59:14 -耗时 : 1

@@ -1,0 +1,491 @@
+package com.bootdo.system.domain;
+
+import java.io.Serializable;
+import java.util.Date;
+
+
+
+/**
+ * 
+ * 
+ * @author chglee
+ * @email 1992lcg@163.com
+ * @date 2019-03-15 11:22:32
+ */
+public class GrossSalesViewDO implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	//
+	private Integer id;
+	//组织
+	private String zz;
+	//公司编码
+	private String gsbm;
+	//应收单号
+	private String ysdh;
+	//应收行号
+	private String ysdhh;
+	//应收日期
+	private String ysrq;
+	//客户编码
+	private String khbm;
+	//客户名称
+	private String khmc;
+	//物料编码
+	private String wlbm;
+	//仓库编码
+	private String ckbm;
+	//仓库名称
+	private String ckmc;
+	//销售出库单号
+	private String xsckdh;
+	//销售出库单行号
+	private String xsckdhh;
+	//出库日期
+	private String ckrq;
+	//出库数量
+	private String cksl;
+	//出库单位
+	private String ckdw;
+	//出库基本数量
+	private String ckjbsl;
+	//出库基本单位
+	private String ckjbdw;
+	//币别
+	private String bb;
+	//税率
+	private String sl;
+	//凭证号
+	private String pzh;
+	//单位实际成本
+	private String dwsjcb;
+	//实际成本
+	private String sjcb;
+	//应收金额
+	private String ysje;
+	//应收金额本位币
+	private String ysjebwb;
+	//发票数量
+	private String fpsl;
+	//发票计量单位
+	private String fpjldw;
+	//发票基本数量
+	private String fpjbsl;
+	//发票基本计量单位
+	private String fpjbjldw;
+	//发票成本
+	private String fpcb;
+	//未开票数量
+	private String wkpsl;
+	//未开票的成本
+	private String wkpcb;
+	//毛利率
+	private String mll;
+	
+	private Integer flag;
+
+	/**
+	 * 设置：
+	 */
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	/**
+	 * 获取：
+	 */
+	public Integer getId() {
+		return id;
+	}
+	/**
+	 * 设置：组织
+	 */
+	public void setZz(String zz) {
+		this.zz = zz;
+	}
+	/**
+	 * 获取：组织
+	 */
+	public String getZz() {
+		return zz;
+	}
+	/**
+	 * 设置：公司编码
+	 */
+	public void setGsbm(String gsbm) {
+		this.gsbm = gsbm;
+	}
+	/**
+	 * 获取：公司编码
+	 */
+	public String getGsbm() {
+		return gsbm;
+	}
+	/**
+	 * 设置：应收单号
+	 */
+	public void setYsdh(String ysdh) {
+		this.ysdh = ysdh;
+	}
+	/**
+	 * 获取：应收单号
+	 */
+	public String getYsdh() {
+		return ysdh;
+	}
+	/**
+	 * 设置：应收行号
+	 */
+	public void setYsdhh(String ysdhh) {
+		this.ysdhh = ysdhh;
+	}
+	/**
+	 * 获取：应收行号
+	 */
+	public String getYsdhh() {
+		return ysdhh;
+	}
+	/**
+	 * 设置：应收日期
+	 */
+	public void setYsrq(String ysrq) {
+		this.ysrq = ysrq;
+	}
+	/**
+	 * 获取：应收日期
+	 */
+	public String getYsrq() {
+		return ysrq;
+	}
+	/**
+	 * 设置：客户编码
+	 */
+	public void setKhbm(String khbm) {
+		this.khbm = khbm;
+	}
+	/**
+	 * 获取：客户编码
+	 */
+	public String getKhbm() {
+		return khbm;
+	}
+	/**
+	 * 设置：客户名称
+	 */
+	public void setKhmc(String khmc) {
+		this.khmc = khmc;
+	}
+	/**
+	 * 获取：客户名称
+	 */
+	public String getKhmc() {
+		return khmc;
+	}
+	/**
+	 * 设置：物料编码
+	 */
+	public void setWlbm(String wlbm) {
+		this.wlbm = wlbm;
+	}
+	/**
+	 * 获取：物料编码
+	 */
+	public String getWlbm() {
+		return wlbm;
+	}
+	/**
+	 * 设置：仓库编码
+	 */
+	public void setCkbm(String ckbm) {
+		this.ckbm = ckbm;
+	}
+	/**
+	 * 获取：仓库编码
+	 */
+	public String getCkbm() {
+		return ckbm;
+	}
+	/**
+	 * 设置：仓库名称
+	 */
+	public void setCkmc(String ckmc) {
+		this.ckmc = ckmc;
+	}
+	/**
+	 * 获取：仓库名称
+	 */
+	public String getCkmc() {
+		return ckmc;
+	}
+	/**
+	 * 设置：销售出库单号
+	 */
+	public void setXsckdh(String xsckdh) {
+		this.xsckdh = xsckdh;
+	}
+	/**
+	 * 获取：销售出库单号
+	 */
+	public String getXsckdh() {
+		return xsckdh;
+	}
+	/**
+	 * 设置：销售出库单行号
+	 */
+	public void setXsckdhh(String xsckdhh) {
+		this.xsckdhh = xsckdhh;
+	}
+	/**
+	 * 获取：销售出库单行号
+	 */
+	public String getXsckdhh() {
+		return xsckdhh;
+	}
+	/**
+	 * 设置：出库日期
+	 */
+	public void setCkrq(String ckrq) {
+		this.ckrq = ckrq;
+	}
+	/**
+	 * 获取：出库日期
+	 */
+	public String getCkrq() {
+		return ckrq;
+	}
+	/**
+	 * 设置：出库数量
+	 */
+	public void setCksl(String cksl) {
+		this.cksl = cksl;
+	}
+	/**
+	 * 获取：出库数量
+	 */
+	public String getCksl() {
+		return cksl;
+	}
+	/**
+	 * 设置：出库单位
+	 */
+	public void setCkdw(String ckdw) {
+		this.ckdw = ckdw;
+	}
+	/**
+	 * 获取：出库单位
+	 */
+	public String getCkdw() {
+		return ckdw;
+	}
+	/**
+	 * 设置：出库基本数量
+	 */
+	public void setCkjbsl(String ckjbsl) {
+		this.ckjbsl = ckjbsl;
+	}
+	/**
+	 * 获取：出库基本数量
+	 */
+	public String getCkjbsl() {
+		return ckjbsl;
+	}
+	/**
+	 * 设置：出库基本单位
+	 */
+	public void setCkjbdw(String ckjbdw) {
+		this.ckjbdw = ckjbdw;
+	}
+	/**
+	 * 获取：出库基本单位
+	 */
+	public String getCkjbdw() {
+		return ckjbdw;
+	}
+	/**
+	 * 设置：币别
+	 */
+	public void setBb(String bb) {
+		this.bb = bb;
+	}
+	/**
+	 * 获取：币别
+	 */
+	public String getBb() {
+		return bb;
+	}
+	/**
+	 * 设置：税率
+	 */
+	public void setSl(String sl) {
+		this.sl = sl;
+	}
+	/**
+	 * 获取：税率
+	 */
+	public String getSl() {
+		return sl;
+	}
+	/**
+	 * 设置：凭证号
+	 */
+	public void setPzh(String pzh) {
+		this.pzh = pzh;
+	}
+	/**
+	 * 获取：凭证号
+	 */
+	public String getPzh() {
+		return pzh;
+	}
+	/**
+	 * 设置：单位实际成本
+	 */
+	public void setDwsjcb(String dwsjcb) {
+		this.dwsjcb = dwsjcb;
+	}
+	/**
+	 * 获取：单位实际成本
+	 */
+	public String getDwsjcb() {
+		return dwsjcb;
+	}
+	/**
+	 * 设置：实际成本
+	 */
+	public void setSjcb(String sjcb) {
+		this.sjcb = sjcb;
+	}
+	/**
+	 * 获取：实际成本
+	 */
+	public String getSjcb() {
+		return sjcb;
+	}
+	/**
+	 * 设置：应收金额
+	 */
+	public void setYsje(String ysje) {
+		this.ysje = ysje;
+	}
+	/**
+	 * 获取：应收金额
+	 */
+	public String getYsje() {
+		return ysje;
+	}
+	/**
+	 * 设置：应收金额本位币
+	 */
+	public void setYsjebwb(String ysjebwb) {
+		this.ysjebwb = ysjebwb;
+	}
+	/**
+	 * 获取：应收金额本位币
+	 */
+	public String getYsjebwb() {
+		return ysjebwb;
+	}
+	/**
+	 * 设置：发票数量
+	 */
+	public void setFpsl(String fpsl) {
+		this.fpsl = fpsl;
+	}
+	/**
+	 * 获取：发票数量
+	 */
+	public String getFpsl() {
+		return fpsl;
+	}
+	/**
+	 * 设置：发票计量单位
+	 */
+	public void setFpjldw(String fpjldw) {
+		this.fpjldw = fpjldw;
+	}
+	/**
+	 * 获取：发票计量单位
+	 */
+	public String getFpjldw() {
+		return fpjldw;
+	}
+	/**
+	 * 设置：发票基本数量
+	 */
+	public void setFpjbsl(String fpjbsl) {
+		this.fpjbsl = fpjbsl;
+	}
+	/**
+	 * 获取：发票基本数量
+	 */
+	public String getFpjbsl() {
+		return fpjbsl;
+	}
+	/**
+	 * 设置：发票基本计量单位
+	 */
+	public void setFpjbjldw(String fpjbjldw) {
+		this.fpjbjldw = fpjbjldw;
+	}
+	/**
+	 * 获取：发票基本计量单位
+	 */
+	public String getFpjbjldw() {
+		return fpjbjldw;
+	}
+	/**
+	 * 设置：发票成本
+	 */
+	public void setFpcb(String fpcb) {
+		this.fpcb = fpcb;
+	}
+	/**
+	 * 获取：发票成本
+	 */
+	public String getFpcb() {
+		return fpcb;
+	}
+	/**
+	 * 设置：未开票数量
+	 */
+	public void setWkpsl(String wkpsl) {
+		this.wkpsl = wkpsl;
+	}
+	/**
+	 * 获取：未开票数量
+	 */
+	public String getWkpsl() {
+		return wkpsl;
+	}
+	/**
+	 * 设置：未开票的成本
+	 */
+	public void setWkpcb(String wkpcb) {
+		this.wkpcb = wkpcb;
+	}
+	/**
+	 * 获取：未开票的成本
+	 */
+	public String getWkpcb() {
+		return wkpcb;
+	}
+	/**
+	 * 设置：毛利率
+	 */
+	public void setMll(String mll) {
+		this.mll = mll;
+	}
+	/**
+	 * 获取：毛利率
+	 */
+	public String getMll() {
+		return mll;
+	}
+	public Integer getFlag() {
+		return flag;
+	}
+	public void setFlag(Integer flag) {
+		this.flag = flag;
+	}
+	
+	
+}
