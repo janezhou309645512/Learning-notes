@@ -18,7 +18,7 @@ $ git config --global user.email test@runoob.com
 2）连接github 配置SSH
 $ ssh-keygen -t rsa -C "youremail@example.com"
 cd  ~/.ssh
-vim id_rsa.pub
+less id_rsa.pub
 复制 key
  打开github 里Account => Settings（账户配置）
  SSH and GPG keys  --》 点New SSH key  复制key
