@@ -1,0 +1,30 @@
+how（https://www.cnblogs.com/WUXIAOCHANG/p/10886534.html）
+
+1.添加pom 依赖
+ <groupId>com.itheima</groupId>
+    <artifactId>springboot-shiro</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+	
+2.Shiro的配置类(ShiroConfig ）
+1）创建ShiroFilterFactoryBean
+   //添加Shiro内置过滤器
+        /**
+         * Shiro内置过滤器，可以实现权限相关的拦截器
+         *    常用的过滤器：
+         *       anon: 无需认证（登录）可以访问
+         *       authc: 必须认证才可以访问
+         *       user: 如果使用rememberMe的功能可以直接访问
+         *       perms： 该资源必须得到资源权限才可以访问
+         *       role: 该资源必须得到角色权限才可以访问
+         */
+2）创建SecurityManager ，关联realm
+3）创建Realm  关联DB
+
+3.自定义Realm(UserRealm extends AuthorizingRealm)
+ （1）AuthenticatingRealm：shiro中的用于进行认证的领域，实现doGetAuthentcationInfo方法实现用户登录时的认证逻辑；
+ 
+ （2）AuthorizingRealm：shiro中用于授权的领域，实现doGetAuthrozitionInfo方法实现用户的授权逻辑，AuthorizingRealm继承了AuthenticatingRealm，
+所以在实际使用中主要用到的就是这个AuthenticatingRealm类；
+（3）AuthenticatingRealm、AuthorizingRealm这两个类都是shiro中提供了一些线程的realm接口
+（4）在与spring整合项目中，shiro的SecurityManager会自动调用这两个方法，从而实现认证和授权，可以结合shiro的CacheManager将认证和授权信息保存在缓存中，
+这样可以提高系统的处理效率。

@@ -1,17 +1,25 @@
 讲解：（https://www.cnblogs.com/WUXIAOCHANG/p/10886534.html）
-1.
- //添加Shiro内置过滤器
-        /**
-         * Shiro内置过滤器，可以实现权限相关的拦截器
-         *    常用的过滤器：
-         *       anon: 无需认证（登录）可以访问
-         *       authc: 必须认证才可以访问
-         *       user: 如果使用rememberMe的功能可以直接访问
-         *       perms： 该资源必须得到资源权限才可以访问
-         *       role: 该资源必须得到角色权限才可以访问
-         */
-		 
+
+why
+1)用户身份认证
+2)授权，即访问控制，控制谁能访问哪些资源
+
+
+what
+
+1)Shiro三个核心组件
+Subject： 用户主体（把操作交给SecurityManager）
+SecurityManager：安全管理器（关联Realm）
+Realm：Shiro连接数据的桥梁
+
+2)Shiro相关类介绍
+Authentication 认证 ---- 用户登录
+Authorization 授权 --- 用户具有哪些权限
+Cryptography 安全数据加密
+Session Management 会话管理
+Web Integration web系统集成
+Interations 集成其它应用，spring、缓存框架
+
 
 
 	 
-2.
