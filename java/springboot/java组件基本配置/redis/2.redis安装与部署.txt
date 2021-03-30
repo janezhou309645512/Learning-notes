@@ -19,7 +19,7 @@ make 编译
 打开etc 里redis.conf配置：
 1）绑定本机ip：bind 127.0.0.1
 2）后台启动：daemonize yes
-
+找到redis-server 的服务文件
 启动服务：./redis-server
 启动redis服务，并指定启动服务配置文件：./redis-server  ./redis.conf 
 
@@ -30,6 +30,10 @@ bin目录：./redis-cli
 远程连接  ./redis-cli -h 10.0.40.233 -p 6379
 查看密码：config get requirepass
 修改密码：config set requirepass kwz
+客户端关闭redis服务：./redis-cli  shutdown
+
+
+
 
 
 5.查看服务进程

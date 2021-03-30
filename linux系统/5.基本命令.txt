@@ -114,8 +114,19 @@ wget http://cn.wordpress.org/wordpress-3.1-zh_CN.zip
 使用wget -c断点续传 
 
 
-13.文件搜索
+13.搜索
+1）关键字搜索：
+/word    向下查找word 的字符串  例如  /chengtingting   向下查找字符chengtingting   绿色光标处即为查找结果
 
+?word 向上查找word字符串
+
+n  代表重复前一个查找的操作
+
+N反向进行前一个查找操作  
+
+通常查找和N/n组合使用
+
+2）文件搜索
 1).find命令
 
 例如：find / -name mysql 这句命令的意思是在根目录下按名字查找文件夹名叫mysql的文件夹。
