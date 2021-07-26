@@ -1,0 +1,4 @@
+抽象类：由abstract修饰 (包含抽象方法的类必须是抽象类），方法也是由abstract修饰
+接口：1)默认常量public static final
+2)默认方法 public abstract
+3)公共的内部类，内部接口

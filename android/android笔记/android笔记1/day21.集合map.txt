@@ -1,0 +1,28 @@
+Map集合：存放键----值对（快速查找数据的算法，通过键找值）
+1.HashMap集合
+
+HashMap<Integer,String> map=new  HashMap();
+方法： put(Integer,String)
+       get(Integer)//得到的是值
+       remove(Integer)
+       containsKey(Integer)
+集合放入过程：先比较产生的哈希值；
+1）相同则放入同一位置，在用equals（）方法比较，同则覆盖，不同则连接
+2）不同则放入不同位置
+哈希算法：Object中默认实现：用对象的内存地址作为哈希值
+要比较根据不同属性产生哈希值，要重写
+--------------
+2.TreeMap:（新建对象与方法与上一样）
+
+比较大小：1）键实现Comparable接口2）类中接比较器Comparator
+3.将Map集合中的键存放在set集合中
+Set<String> keys=map.keySet();
+4.例：将map里的键值以字符串输出
+Set<String> set=map.keySet();//先将Map集合中的键存放在set集合中
+ StringBuffer sb=new StringBuffer("");
+Iterator<String> it=set.iterator();
+	    while(it.hasNext()){
+	    	String key=it.next();
+	    	String value=map.get(key);
+	    	sb.append("&"+key+"="+value);
+	    }

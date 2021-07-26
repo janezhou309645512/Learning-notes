@@ -1,0 +1,34 @@
+1.AndroidManifest.xml文件中主要包括哪些信息？
+	manifest：根节点，描述了package中所有的内容。
+	uses-permission：请求你的package正常运作所需赋予的安全许可。
+	permission： 声明了安全许可来限制哪些程序能你package中的组件和功能。
+	instrumentation：声明了用来测试此package或其他package指令组件的代码。
+	application：包含package中application级别组件声明的根节点。
+	activity：Activity是用来与用户交互的主要工具。
+	receiver：IntentReceiver能使的application获得数据的改变或者发生的操作，即使它当前不在运行。
+	service：Service是能在后台运行任意时间的组件。
+	provider：ContentProvider是用来管理持久化数据并发布给其他应用程序使用的组件。
+	
+2.请谈一下Android系统的架构。
+	Android系统采用了分层架构，从高层到低层分别是应用程序层、应用程序框架层、系统运行库层和linux核心层。
+
+3.什么是AIDL，实现的步骤
+	AIDL（Android接口定义语言）
+	AIDL用于定义跨进程通信时需要使用到的接口，即当多个应用程序都需要使用到相关的接口时，应该使用AIDL来定义。
+	【使用AIDL定义接口的步骤】
+		1. 使用一般的创建interface的方式创建Java接口文件
+		2. 将创建的interface的权限删掉，即例如public interface IMusicPlayer修改为interface IMusicPlayer
+		3. 打开Windows的资源管理器，找到该接口文件，修改扩展名为aidl
+		4. 将“服务端”的Service中的内部类(InnerBinder)修改为直接继承自IMusicPlayer.Stub
+		5. 在“客户端”创建“服务端”的AIDL文件的包名，并把“服务端”的aidl文件复制到“客户端”
+		6. 在“客户端”，在实现ServiceConnection的类中重写的onServiceConnected()方法中，通过IMusicPlayer.Stub.asInterface(server)方法,server为重写方法的参数，获取服务端IMusicPlayer的对象
+
+4.如何打开res raw目录中的数据库文件
+	在Android中不能直接打开res raw目录中的数据库文件，而需要在程序第一次启动时将该文件复制到手机内存或者SD卡的某个目录中,然后再打开该数据库文件
+	复制的方法是使用getResources().openRawResource(int id) 方法获得res raw目录中的资源的inputStream对象，然后进行序列化操作，
+	最后使用SqliteDatabase.openOrCreateDatabase方法来打开数据文件
+
+5.GC内存泄漏出现的情况：
+	1>数据库的cursor没有关闭
+	2>构造adapter时，没有使用缓存conertView
+	3>activity的对象的生命周期大于activity，Activity被Ondestroy()时, Activity中还有对象没有被设置为null(销毁);

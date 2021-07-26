@@ -1,0 +1,16 @@
+定义一个图像类：import java.awt.image.BufferedImage;
+BufferedImage picture;
+BufferedImage[] images;//图片切换数组
+import javax.imageio.ImageIO;读取图像是ImageIO方法
+import java.util.Random;
+Random rand=new Random();
+x=rand.nextInt(max);//（0--max）的随机数
+import javax.swing.JFrame;
+import javax.swing.Jpanel;
+JFrame frame=new JFrame();
+frame.add(game)添加面板到框架中
+void paint(Graphics g){g.drawImage(background,0,0,null);}//重写JPanel的paint方法画图在面板上
+
+借用方法：1.怎么样在一个窗口放图像
+2.图形x,Y位置的矩形化
+

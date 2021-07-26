@@ -1,0 +1,17 @@
+用法：
+1.改包名
+1）函数前包名 包名+类名
+Java_com_tarena_ndkdemo2_MainActivity_uninstall
+2）包名
+"/data/data/com.tarena.ndkdemo2"
+2.改函数名
+3.最后在android程序中：
+1)声明变量：
+//加载编译过来的so文件
+	static{
+		System.loadLibrary("hello-jni");
+	}
+//native方法：由c来实现
+	public native String  uninstall();
+2)在nCreateView()方法中调用方法：
+  uninstall();

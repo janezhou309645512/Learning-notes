@@ -1,0 +1,16 @@
+1.如何在listView中第一项特殊设置？：
+1）在数据中第一项设置
+2）在adapter中getView()先判断position=0，return；即可
+2.listView突破：
+1）封装类的属性为listView的item里所要呈现的属性
+2）如果获取的数据List<Object>不足以呈现listView的item里所要呈现的属性？
+3）怎么样呈现对话聊天形式的listView界面？
+解决方案：在dapter里用if else语句判断用哪一种item布局
+2.URI:
+URL:
+3.AppWidget桌面小程序
+
+
+
+ 
+

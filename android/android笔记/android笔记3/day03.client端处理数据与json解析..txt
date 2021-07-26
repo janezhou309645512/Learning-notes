@@ -1,0 +1,41 @@
+1.Http协议一种短连接。
+长连接：占用服务器的连接数
+短连接：连接后断开
+-----------------------------
+2.客服端处理服务端的数据（http协议）：
+1）请求数据包：向服务器发出请求
+a.http协议 b.头部 c.要发的内容-----封装成URL
+2）响应数据包：得到服务器的结果
+----------------------------------
+3.请求数据方法：
+
+ 【//将utf-8格式的中文转换成URL编码
+ encodeStr = URLEncoder.encode(fname, "utf-8"); 
+ //将URL编码的字符串转换成utf-8格式的中文
+ decodeFName = URLDecoder.decode(encodeStr, "utf-8");】
+  GET:
+  1)URL
+  2)HttpURLConnection
+  3)getInputStream
+  4)BufferedReader//读取服务器返回的字符数据 
+ POST:
+  1)URL
+  2)HttpURLConnection  conn
+设置post：conn.setRequestMethod("POST");
+conn.setRequestProperty("Content-Type","application/x-www-form-urlencoded");
+  3)conn.setDoOutput(true);//获取输出流
+    getOutputStream 写请求参数
+os.write(param.getBytes("UTF-8"));
+  4)BufferedReader 
+------------------------------------------
+4.服务器返回的数据解析JSON(要先将数据读到内存中）
+【www.bejson.com网址更快的封装类】
+JSONObiect:一个JSON对象｛｝方法：.getInt("")
+JSONArray:一个JSON数组[]  方法： .getInt(0)
+1){}----JSONObject obj = new JSONObject(json);//只有这个是new出的，
+成员里的都是get的
+  obj.getString("sihao")
+2)[]-----JSONArray ary=obj.getJSONArray("aihao");//相当于｛｝里的成员
+  ary.getString(3)--获取数组里的下标为4的值
+练习：
+ems员工列表

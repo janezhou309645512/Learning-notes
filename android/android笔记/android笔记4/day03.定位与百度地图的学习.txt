@@ -1,0 +1,60 @@
+1.定位的知识：
+定位种类：
+1）ip地址定位（利用纯真数据库，实现ip与地址的匹配）
+2）Gps定位（使用多卫星定位，无需网络）
+3）基站定位（网络服务定位）
+android系统服务应用的是（2）（3）两种
+直接使用系统api就可以调用
+-----------------------------------
+2.怎样显示百度地图？
+步骤：（详细请见框架jar包）
+a.申请appkey（包名与不同机子申请的appkey不同）
+b.在libs文件夹下添加百度jar包与两个so文件
+c.在清单文件里声明权限与service，mate(value声明“appkey”的）
+d.在application里初始化
+SDKInitializer.initialize(this);
+e.在要显示的布局文件声明控件MapView
+<com.baidu.mapapi.map.MapView/>
+------------------------------
+3.学习百度地图sdk
+1)定位：
+------定位获得坐标
+ LocationClient lc=new LocationClient(getActivity());//用于定位的
+lc.registerLocationListener();
+------设置定位参数
+LocationClientOption opt=new LocationClientOption();
+opt.setLocationMode(lm);//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+opt.setCoorType("bd09ll");
+lc.setLocOption(opt);
+lc.start();
+------有关百度地图ui
+mapView=(MapView)view.findViewById(R.id.map_show);
+baiduMap=mapView.getMap();
+------在定位处画图
+// LatLng：放的是坐标
+LatLng currentLocation = new LatLng(latitdue, longitude);
+// 17:地图显示的级别(4-17)
+MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory
+.newLatLngZoom(currentLocation, 15);
+// 以动画的方式移动
+baiduMap.animateMapStatus(mapStatusUpdate);
+
+// 显示图片
+MarkerOptions markerOptions = new MarkerOptions();
+markerOptions.position(currentLocation);
+// 创建一个能在地图上显示的图
+BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory
+.fromResource(R.drawable.bottom_bar);
+markerOptions.icon(bitmapDescriptor);
+baiduMap.addOverlay(markerOptions);
+2)移动，显示，对运动轨迹连成一条线
+baiduMap.setOnMapClickListener(new OnMapClickListener(){
+pointList.add(latlng);
+// 画线
+if (pointList.size() >= 2) {
+PolylineOptions polylineOptions = new PolylineOptions();
+// 设置线的坐标
+polylineOptions.points(pointList);
+baiduMap.clear();
+baiduMap.addOverlay(polylineOptions);}
+

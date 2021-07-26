@@ -1,0 +1,9 @@
+1.ScrollView的容器：
+原理：自身具有提供滚动条的作用
+用法：在ScrollView视图中添加子视图，可以使子视图具有滚动属性
+（子视图高度要大于ScrollView的高度）
+2.往上移、往左移
+不用切换页面
+if (linearLayoutHeight > scrollViewHeight) {
+int y = linearLayoutHeight - scrollViewHeight;
+scrollView.scrollTo(0, y);}//向上移动

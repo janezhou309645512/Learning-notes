@@ -1,0 +1,9 @@
+2.Action
+1)拨号：ACTION_DIAL
+2）拨打：ACTION_CALL
+3)返回桌面：intent.setAction(Intent.ACTION_MAIN);
+intent.addCategory(Intent.CATEGORY_HOME);
+4）处理拨出电话
+android.intent.action.NEW_OUTGOING_CALL
+5）拦截短信（接受系统收短信广播）
+<action android:name="android.provider.Telephony.SMS_RECEIVED" />

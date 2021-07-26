@@ -1,0 +1,88 @@
+1. 请描述一下Activity 生命周期。
+-----------------------------------------
+生命周期描述的是一个类 从创建(new出来)到死亡(垃圾回收)的过程中会执行的方法..在这个过程中 会针对不同的生命阶段会调用不同的方法
+Activity从创建到销毁有多种状态，从一种状态到另一种状态时会激发相应的回调方法，这些回调方法包括：
+oncreate ondestroy onstop onstart onresume onpause
+其实这些方法都是两两对应的，
+onCreate创建与onDestroy销毁；
+onStart可见与onStop不可见；
+onResume可编辑（即焦点）与onPause；
+对话框的弹出, Activity.this      对话框是activity的一部分.
+这6个方法是相对应的，那么就只剩下一个onRestart方法了，这个方法在什么时候调用呢？
+答案就是：在Activity被onStop后，但是没有被onDestroy，在再次启动此Activity时就调用onRestart（而不再调用onCreate）方法；
+如果被onDestroy了，则是调用onCreate方法。
+  Activity 的生命周期
+---------------------------------------
+Activity 的生命周期表现为会执行一系列的方法，包括：
+--  onCreate()  ->在创建 Activity 时被回调。该方法是最常见的方法，在 Eclipse 中创建 Android 项目时，会自动创建一个 Activity，在该 Activity 中，系统会默认重写onCreate(BundlesavedInstanceStace)方法，用回对该 Activity 执行初始化； 
+（该方法中完成Activity的初始化操作，比如加载布局，绑定事件）
+
+-- onStart() -> 启动 Activit y方法被回调，也就是当一个 Activity 变为显示时被调用；
+    （该方法将Activity由不可见变为可见的时候调用）
+-- onResume() -> 当 Activity 由暂停状态恢复为活动状态时调用。调用该方法后，该 Activity 位于 Activity 栈顶。该方法总是在 onPause（）方法后执行
+（这个方法在Activity准备好与用户经行交互的时候调用。此时的Activity一定位于栈顶位置，并且处于运行状态）
+-- onRestart() -> 重新启动 Activity 时被回调，该方法总是在 onSatrt（）方法以后执行
+（由暂停状态变为运行状态之前调用）
+
+-- onPause() -> 暂停 Activity 时被回调，该方法需要非常快速的执行因为直到该方法执行完毕后，下一个 Activity 才能被恢复，在该方法中，通常用于持久保存数据（暂停状态）
+-- onStop() -> 停止 Activity 时被回调（停止状态）
+-- onDestroy() -> 销毁 Activity 时被回调  销毁窗口还可以使用 finish（）方法（销毁状态）
+学习生命周期的意义在于将代码编写在正确的方法中！
+当第1次激活Activity时：onCreate() -> onStart() -> onResume()
+当Activity被置于后台时：onPause() -> onStop()
+当Activity从后台回到前台时：onRestart() -> onStart() -> onResume()
+当退出Activity时：onPause() -> onStop() -> onDestroy()
+  
+  
+  
+  
+  
+当一个Activity进入了停止状态时，是有可能被系统回收的。
+ 例如：当Activity A，用户在Activity A的基础上启动了Activity B，Activity A就进入了停止状态，
+ 这个时候由于系统内存不足，将Activity A回收掉了，然后用户按back键返回Activity A时会怎样呢？
+ 其实还是会正常显示Activity A，只不过这时并不会执行OnRestart()方法，而是会执行Activity A的onCreat（）方法，
+ 因为Activity A在这种情况下会被重新创建了一次
+这是因为OnSaveInstanceState()方法携带了一个Bundle类型的参数，Bundle提供了一系列的方法保存数据，
+当活动窗口被系统回收之前有通过OnSaveInstanceState()方法保存原有的数据。
+当重新创建时，就会回调该方法，所以才会正常显示原来一样的活动窗口
+
+
+
+2.Activity的状态都有哪些
+---------------------------------------
+1. 运行态：表现为该Activity处于前台，可见并可控，生命周期方法停留在onResume()
+       当前的Activity，位于Activity栈顶,用户可见，并且可以获得焦点
+（当Activity处于栈顶位置，此时就是运行状态）
+2. 暂停态：表现为该Activity局部可见，但不可控，生命周期方法停留在onPause()，通常
+   是被另一个非全屏的Activity遮挡所导致的
+      失去焦点的Activity，任然可见，但是在内存低的情况下，不能被系统killed（杀死）
+（当Activity不处于栈顶位置，但是仍然可见不可获得焦点这时就处于暂停状态）
+3. 停止态：表现为该Activity被置于后台，则完全不可见，生命周期方法停留在onStop()
+      该Activity被其他Activity所覆盖，不可见，但是它任然保存所有的状态和信息，当内存底的情况下，它会被系统killed（杀死）
+（当Activity不处于栈顶位置时，且完全不可见的时候就处于停止状态）
+4. 终止态：表现为该Activity已经被回调了onDestroy()方法，即已经被销毁
+     该Activity结束，或Activity所在的Dalvik进程结束
+  （当Activity从返回栈中移除后就变成了销毁状态）
+
+
+3. 两个Activity之间跳转时必然会执行的是哪几个方法。
+----------------------------------------------------
+
+一般情况比如说有两个activity,分别叫A,B ,当在A里面激活B组件的时候, A 会调用 onPause()方法,然后B 调用onCreate() ,onStart(), OnResume() ,
+
+这个时候B覆盖了窗体, A会调用onStop()方法. 如果B呢 是个透明的,或者是对话框的样式, 就不会调用onStop()方法
+4.请详细描述Activity的启动模式都有哪些及各自的特点
+-----------------------------------------------------
+答：Activity的加载模式就是负责管理实例化。加载Activity的方式，并可控制Activity与任务栈之间的关系
+   启动模式：
+    standard：（默认）标准模式：每次激活Activity，都会创建新的实例/对象，并且处于栈顶位置。并将该Activity添加到当前task，不会启动新的task
+    singleTop：栈顶唯一：
+               表现为当Activity处于栈顶位置时，反复激活并不会创建新的实例，亦不会出现压栈操作，反之，当Activity不处于栈顶位置时，激活时会创建新的实例，并压栈。
+               当发现有对应的Activity处于栈顶，则重复利用，不会生成新的实例
+    singleTask：任务栈内唯一，
+               表现为当任务栈中没有当前Activity时，会创建新的实例，并压栈，
+               反之，当任务栈中已经存在当前Activity时，不会创建新的实例，
+               原本在栈内处于该Activity偏上方的其它Activity将全部被强制出栈，使得该被激活的Activity获得栈顶位置。
+    singleInstance：实例唯一，
+               该Activity的实例最多只存在1个，该Activity将独占一个新的任务栈，且该任务栈中有且有1个Activity。
+               会启动一个新的栈结构。将Activity放入到这个新栈中，并保证不会有其他的Activity进入该栈。

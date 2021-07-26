@@ -1,0 +1,92 @@
+一、AsyncTask的用法
+AsyncTask和Handler都是起到在线程之间进行通信的作用
+
+onPreExecute	预处理
+
+
+doInBackground	子线程中运行
+
+
+onProgressUpdate	将执行进度发到UI主线程中，他们是主线程和子线程同时运行，就是并发运行
+
+
+***
+onPostExecute	这就是一种回调，当子线程运行完后，才将得到的结果，发给这个方法，这个方法在主线程中运行
+		只有doInBacakground在子线程中运行完了，onPostExecute才能在主线程中运行
+
+onCancelled	这也是一种回调，cancel取消，当doInBackground中的任务被取消，才会走这个回调
+
+
+
+
+二、回调
+model里的方法
+------------------------------------------------------------------------
+	public void findNewMusicList(final Callback callback,final int offset,final int size){
+		AsyncTask<String, String, List<Music>> task=new AsyncTask<String, String, List<Music>>() {
+
+			//工作线程中执行 发送http请求 解析List
+			@Override
+			protected List<Music> doInBackground(String... params) {
+				String path=UrlFactory.getNewMusicListUrl(offset, size);
+				Log.i("info", "findNewMusicList");
+				try {
+					InputStream is = HttpUtils.get(path);
+					List<Music> musics=XmlParser.parseMusicList(is);
+					return musics;
+				} catch (IOException e) {
+					e.printStackTrace();
+				} catch (XmlPullParserException e) {
+					e.printStackTrace();
+				}
+
+				return null;
+			}
+
+
+			//主线程中执行，调用callback的方法，执行后续操作
+			@Override
+			protected void onPostExecute(List<Music> musics) {
+				//更新UI界面
+				Log.i("info", "onPostExecute");
+				callback.onMusicListLoaded(musics);
+			}
+		}; 
+		//执行异步任务
+		task.execute();
+	}
+
+
+
+参数
+----------------------------------------------------
+AsyncTask的3个参数AsyncTask<String,int,Object>
+第一个是主线程传给子线程的参数
+第二个是任务的执行进度，最常见的是int
+第三个是任务执行完了，返回给主线程的结果，可以使任意对象，但只有一个
+
+
+callback接口
+------------------------------------------------------------------------
+
+	public interface Callback{
+		/**
+		 * 当列表加载完毕后 将会调用该方法
+		 * 在该方法的实现中需要执行列表加载完毕后的业务逻辑
+		 * @param musics
+		 */
+		void onMusicListLoaded(List<Music> musics);
+	}
+
+
+fragment的UI主线程上的具体实例
+------------------------------------------------------------------------
+	model.findNewMusicList(new MusicModel.Callback() {
+			@Override
+			public void onMusicListLoaded(List<Music> musics) {
+				//将会在列表加载完毕后执行
+				NewMusicFragment.this.musics=musics;
+				setAdapter(musics);
+			}
+
+		},0,30);

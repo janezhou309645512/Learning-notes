@@ -1,0 +1,10 @@
+1.NDKDE 开发
+---是什么？
+用于在Java环境中用c语言开发
+---用法（参照F:\projectRes2016-07-24\技术资料\ndk\NDK环境搭建）
+1）开发环境的搭建
+a.下载Cygwin，android-ndk-r5c 
+b.设置环境变量
+2)编写c程序代码放在android-ndk-r5c/samples，打开Cygwin程序c文件目录编译生成so文件
+3）在android里使用so文件
+

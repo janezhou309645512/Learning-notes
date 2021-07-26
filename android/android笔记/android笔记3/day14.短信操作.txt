@@ -1,0 +1,43 @@
+1.短信操作：
+原理：与电话类似
+用法：（系统短信写收界面也是调用系统短信服务）
+1）声明权限：
+<uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
+<uses-permission android:name="android.permission.READ_SMS"></uses-permission>
+<uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
+2）
+发送常文本短信：
+SmsManager manager = SmsManager.getDefault();  
+ArrayList<String> list = manager.divideMessage(context);//字数限制   
+for(String text:list){  
+manager.sendTextMessage(phone, null, text, null, null);} 
+接受常文本短信与号码：
+Object[] objects = (Object[]) intent.getExtras().get("pdus");
+for (Object object : objects)// 短信最多140字节,超出会分为多条数组短信发送
+｛SmsMessage message = SmsMessage.createFromPdu((byte[]) object);
+String number = message.getOriginatingAddress();// 短信来源号码
+String messageBody = message.getMessageBody();}// 短信内容
+
+ 
+
+--------------------------------------------------------------
+2.短信拦截（监听系统短信接受广播）
+原理：收到短信，会给系统发送广播，呈现内容，在这之前，写一个广播接收器，
+进行接受拦截。
+用法：
+1）注册一个广播接收器，接受短信广播
+注册：
+<intent-filter>
+    <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+</intent-filter>
+2）abortBroadcast();// 中断短信的传递, 从而系统短信app就收不到内容了
+-------------------------------------------------------------
+3.系统短信数据库的管理
+/data/data/com.android.providers.Telephony/databases/mmssms.db
+两张表：
+threads 会话表  (一)
+sms 短信表 (多)
+ thread_id(关联threads表中的id字段)
+对应的Uri:
+threads:    content://mms-sms/conversations
+sms:        content://sms/

@@ -1,0 +1,32 @@
+1.Android的四大组件都需要在清单文件中注册吗？
+答：Activity、Service、ContentProvider如果要使用则必须在AndroidManifest.xml中进行注册，
+而BroadcastReceiver则有两种注册方式，静态注册和动态注册。其中静态注册就是指在AndroidManifest.xml
+中进行注册，而动态注册是通过代码注册。
+
+2.两个Activity之间跳转时必然会执行的是哪几个方法？
+答：一般情况下比如说有两个Activity，分别叫A、B，当在A里面激活B组件的时候，A会调用onPause（）方法，
+然后B调用onCreate（），onStart（），和onResume（）方法。这个时候B覆盖了窗体，A会调用onStop（）方法，
+如果B是透明的，或者是对话框的样式，就不会调用A的onStop（）方法。
+
+3.android的数据存储的方式?
+答：Android提供了5种方式存储数据：
+（1）使用SharedPreferences存储数据；它是Android提供的用来存储一些简单配置信息的一种机制，采用了XML格式
+     将数据存储到设备中。只能在同一个包内使用，不能在不同的包之间使用。
+（2）文件存储数据；文件存储方式是一种较常用的方法，在Android中读取/写入文件的方法，与Java中实现I/O的程
+     序是完全一样的，提供了openFileInput()和openFileOutput()方法来读取设备上的文件。
+（3）SQLite数据库存储数据；SQLite是Android所带的一个标准的数据库，它支持SQL语句，它是一个轻量级的嵌入式数据库。
+（4）使用ContentProvider存储数据；主要用于应用程序之间进行数据交换，从而能够让其他的应用保存或读取
+     此Content Provider的各种数据类型。
+（5）网络存储数据；通过网络上提供给我们的存储空间来上传(存储)和下载(获取)我们存储在网络空间中的数据信息。
+
+4.启动service有几种方式，说出他们之间的主要区别.
+答：1.调用startService()：通过此种方法启动的service会一直运行在后台,直到stopService()或stopSelf()方法被调用时结束。
+    2.调用bindService()：通过此种方法启动的service会与调用者绑定，如果这个service还没有被启动，那么service启动时
+        将不会调用onStart()方法，只调用onCreate()和onBind()方法，调用者被销毁时，service也被销毁.
+        
+5.注册广播有几种方式,这些方式有何特点?
+答：1.动态代码注册不是常驻型广播，也就是说广播跟随程序的生命周期。
+    2.清单文件注册是常驻型，也就是说当应用程序关闭后，如果有信息广播来，程序也会被系统调用自动运行。
+
+
+

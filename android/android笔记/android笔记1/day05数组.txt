@@ -1,0 +1,13 @@
+循环for：固定次数
+*可变参数：String... strs
+数组是最基本的一种数据结构
+int[] a=new int[8]//声明int数组a，默认数组里的变量为0
+System arraycopy(a,2,a1,1,4);
+a,a1分别代表原数组和目标数组，后都代表各个数组的下标
+a=Arrays.copyOf(a,长度）;创建了一个新数组也为a(扩容）
+数组的排序：Arrays.sort(arr);//对arr升序排列
+冒泡原理：
+1）4个数
+
+数组工具类
+二维数组

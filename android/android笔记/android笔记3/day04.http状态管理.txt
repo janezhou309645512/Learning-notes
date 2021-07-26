@@ -1,0 +1,33 @@
+1.http状态管理
+短连接没有记录保存
+1）cookies:将数据保存在客服端
+过程：
+                          第一次发送
+客服端----------------------------------服务端（不保存数据）
+(保存数据cookie)<-------返回数据cookie
+代码：第一次获取cookie保存：
+ conn.getHeaderField("Set-Cookie")
+
+        第二次发送携带cookie信息
+客服端----------------------------服务端
+ 代码：第二次发送携带cookie信息
+ conn.setRequestProperty("Cookie", jsessionid);          
+
+
+2）session:将数据保存在服务端（基于cookies的)
+过程：
+             第一次发送
+客服端-------------------------------->服务端（保存数据）
+(保存JSESSIONID ）<--- 返回JSESSIONID
+代码：第一次获取服务端响应数据携带的JSESSIONID保存
+jsessionid = conn.getHeaderField("Set-Cookie").split(";")[0];
+
+        第二次发送携带JSESSIONID
+客服端----------------------------服务端（处理识别JSESSIONID）
+代码：第二次发送将jsessionid一起发送给服务器识别
+conn.setRequestProperty("Cookie", jsessionid);//
+             
+
+注：以上cookie都是在头部消息中传递
+练习：
+验证码的识别：在服务器保存（用session)

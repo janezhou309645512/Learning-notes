@@ -1,0 +1,35 @@
+BroadcastReceiver 广播android组件之一(广播类型：普通广播 ,有序广播,粘滞广播）
+1.普通广播 
+步骤：
+ 1）发送广播：sendBroadcast(intent);
+ 2）接收广播：写一个继承自BroadcastReceiver的类
+ 3）
+----静态注册广播接受者：（程序关闭了，也接受的到）
+在项目清单文件里注册：
+<receiver android:name="包名+类名" >
+    <intent-filter>
+    <action android:name="特定的action" />
+     </intent-filter>
+ </receiver>
+---- 动态注册广播接受者：（可注销）
+在程序中注册：
+registerReceiver(继承自BroadcastReceiver类的对象,IntentFilter的对象);
+filter.addAcction("");//广播的识别
+4）【注销unregisterReceiver(继承自BroadcastReceiver类的对象);】
+------------------------------------------------------------
+ 2.有序广播：(原理：一个广播接受器A接受了，然后由A传递给另一个广播接受器B，
+类推，依次按优先级传递，类似于传话）
+sendOrderedBroadcast(new Intent(),receiverPermission);
+
+优先级：1）先比较priority的值，大则先
+        2）priority值一样，则动态注册>静态注册
+        3）如注册方式一样，则比较谁先注册
+        4）不同应用程序，priority值一样，注册方式一样，
+        则比较包名（字典排序法）
+有序广播的拦截：abortBroadcast()
+有序广播的信息篡改：setResultData()----getResultData()
+*如何获取更高的有序广播接受者的优先级？
+//1. 使用最大的priority属性注册具体实施业务的广播接收者
+//2. 使用粘性的Service，在onCreate()时动态的注册具体实施业务的广播接收者
+//3. 使用静态的方式注册监听开机广播(BOOT_COMPLETED)的广播接收者，并在收到该广播后，使用启动模式激活Service
+如果某些版本的Android系统不允许监听开机广播，只能尽可能的监听各种系统广播。

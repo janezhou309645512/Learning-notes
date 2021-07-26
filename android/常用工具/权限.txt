@@ -1,0 +1,33 @@
+1.权限操作
+(在AndroidManifest.xml文件中<aplication>前声明)
+调用系统功能的或第三方功能的都需要加权限
+1)读取sd卡文件权限 (在内存中读取不需添加权限）
+挂载sd卡：
+<uses-permission 
+android:name="androoid.permission.MOUT_UNMOUNT_FILESYSTEMS"/>
+读取sd卡：
+<uses-permission  android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+2)网络权限：
+<uses-permission
+android:name="android.permission.INTERNET"/>
+3)拨号权限：
+<uses-permission
+android:name="android.premission.CALL_PHONE"/>
+处理拨出电话权限(拦截电话）：
+ <uses-permission 
+android:name="android.permission.PROCESS_OUTGOING_CALLS"/>
+读取监听电话状态：
+<uses-permission 
+android:name="android.permission.READ_PHONE_STATE"/>
+读取联系人：
+<uses-premission
+android:name="android.permission.READ_CONTACTS"/>
+读取通话记录：
+<uses-premission
+android:name="android.permission.READ_CALL_LOG"/>
+4）收发短信权限：
+<uses-permission android:name="android.permission.SEND_SMS"></uses-permission>
+<uses-permission android:name="android.permission.READ_SMS"></uses-permission>
+<uses-permission android:name="android.permission.RECEIVE_SMS"></uses-permission>
+
+

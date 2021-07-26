@@ -1,0 +1,57 @@
+
+  晨讲：
+	android面试题  （周彬）
+=============================================================
+
+一、抽象类和接口的区别？
+1).抽象类是abstract class修饰，接口是interface修饰。
+2).抽象类可以有任意类型的属性，接口只能有静态常量修饰的属性。
+3).抽象类可以有普通方法和抽象法方法，接口的方法都是抽象方法。
+4).抽象类和接口都不能实例化，但是抽象类有构造方法，接口没有构造方法。
+5).抽象方法要被实现，所以不能是静态的，也不能是私有的。
+6).抽象类要被子类继承，接口要被类实现。
+7).抽象类只能单根继承，接口可以多重实现。
+
+二 、描述一下Service的启动方法；以及Service的生命周期？
+通常有两种方式启动一个Service,他们对Service生命周期的影响是不一样的。
+
+1、通过startService(启动模式)启动Service
+Context.startService()方式的生命周期： 
+启动时，startService –> onCreate() –> onStartCommand()
+停止时，stopService/stopSelf –> onDestroy()
+如果调用者直接退出而没有停止Service，则Service 会一直在后台运行（粘性）
+ Context.startService()方法启动服务，在服务未被创建时，系统会先调用服务的onCreate()方法，接着调用onStart()方法。
+如果调用startService()方法前服务已经被创建，多次调用startService()方法并不会导致多次创建服务，但会导致多次调用onStart()方法。
+
+2、通过bindService(绑定模式)启动Service
+Context.bindService()方式启动：
+Context.bindService()方式的生命周期：
+ 绑定时,bindService -> onCreate() –> onBind()
+调用者退出了，即解绑定时,Srevice就会unbindService –>onUnbind() –> onDestory() 
+ Context.bindService()方式启动 Service的方法：
+绑定Service需要三个参数：bindService(intent, conn, Service.BIND_AUTO_CREATE);
+第一个：Intent对象
+第二个：ServiceConnection对象，创建该对象要实现它的onServiceConnected()和 onServiceDisconnected()来判断连接成功或者是断开连接
+第三个：如何创建Service，一般指定绑定的时候自动创建。
+使用bindService()方法启用服务，调用者与服务绑定在了一起，调用者一旦退出，服务也就终止。
+
+同时需要注意的是：使用Service之前需要在项目清单文件中注册；多次调用unbindService的话会抛出异常。
+
+三、android的数据存储的方式?
+答：Android提供了5种方式存储数据：
+（1）使用SharedPreferences存储数据；它是Android提供的用来存储一些简单配置信息的一种机制，采用了XML格式将数据存储到设备中。只能在同一个包内使用，不能在不同的包之间使用。
+（2）文件存储数据；文件存储方式是一种较常用的方法，在Android中读取/写入文件的方法，与Java中实现I/O的程序是完全一样的，提供了openFileInput()和openFileOutput()方法来读取设备上的文件。
+（3）SQLite数据库存储数据；SQLite是Android所带的一个标准的数据库，它支持SQL语句，它是一个轻量级的嵌入式数据库。
+（4）使用ContentProvider存储数据；主要用于应用程序之间进行数据交换，从而能够让其他的应用保存或读取此Content Provider的各种数据类型。
+（5）网络存储数据；通过网络上提供给我们的存储空间来上传(存储)和下载(获取)我们存储在网络空间中的数据信息。
+
+四、什么是ANR？如何避免他？
+ANR 就是application not responding 
+在android中Activity的最长执行时间是5秒.BroadcastReceiver的最长执行时间则是10秒.超出执行时间就会产生ANR.
+解决方法: 
+1.运行在主线程里的任何方法都尽可能少做事情。
+   特别是，Activity应该在它的关键生命周期方法 （如onCreate()和onResume()）里尽可能少的去做创建操作。
+  （可以采用重新开启子线程的方式，然后使用Handler+Message 的方式做一些操作，比如更新主线程中的ui等） 
+2. 应用程序应该避免在BroadcastReceiver里做耗时的操作或计算。
+   但不是在子线程里做这些任务（因为 BroadcastReceiver的生命周期短），
+   替代的是，如果响应Intent广播需要执行一个耗时的动作的话，应用程序应该启动一个 Service

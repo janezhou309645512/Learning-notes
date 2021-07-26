@@ -1,0 +1,15 @@
+1.基本画图步骤：
+Paint paint=new Paint();//创建一个画笔（只需创建一个对象画笔即可）
+paint.setColor(Color.BLACK);//设置画笔颜色
+canvas.draw()//画一个图形
+2.Paint类的方法：
+---setStyle(Pint.Style.FILL);//默认为填充式
+Pint.Style.STROKE//为线条式
+---setTextSize(float textSize)//绘制文本的大小
+---setColor(int color)//设置画笔的颜色
+---setStrokeWidth(float width)//线条的粗细
+3.Canvas的方法：
+----canvas.drawRect(0, 0,viewWidth,viewWidth,p);//左上角，右下角坐标
+----canvas.drawText("你好呀",0,0,p);//（0，0）为起始坐标
+----canvas.drawBitamp(bitmap,0,0,p);//（0，0）为起始坐标
+

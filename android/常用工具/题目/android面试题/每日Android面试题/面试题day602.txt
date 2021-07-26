@@ -1,0 +1,28 @@
+1:请解释Message,Handler,Message Queue,Looper之间的关系？
+
+答：Handler获取当前线程中的looper对象，looper用来存放Message的MessageQueue中取出的Message，再有Handler进行Message的分发和处理。
+
+MessageQueue:用来存放通过Handler发布的消息，通常附属于某个创建它的线程，用来存放Handler发布的消息，按照先进先出执行。
+Handler:是Message的主要处理者，负责Message的发送，Message内容的执行处理。消息将会只发送到与它关联的消息队列，然也只能处理该消息队列中的消息。
+Looper:是Handler和MessageQueue之间通信的桥梁，程序组件首先通过handler把消息传递给Looper，Looper把消息放入队列。Looper也把消息队列里的消息广播给所有的Handler,Handler接收到消息后通过HandlerMessage（）进行处理
+Message:Message理解为线程间交流的信息.
+
+2：概括的解释下线程的几种可用状态：
+答:  就绪（Runnable）:线程准备运行，不一定立马就能开始执行。
+     运行中（Running）:进程正在执行线程的代码
+     等待中（Waiting）:线程处于阻塞的状态，等待外部的处理结束
+     睡眠中(Sleeping ):线程被强制睡眠
+     I/O阻塞（Blocked on I/O）:等待I/O操作完成.
+     同步阻塞（Blocked on Synchronization）：等待获取锁。
+     死亡（Dead）:线程完成了执行。
+     
+3：什么是死锁（deadlock）?
+答：两个进程都在等待对方执行完毕才能继续往下执行的时候就发生了死锁。结果就是两个进程都陷入了无限的等待状态。
+
+4：final.finally.finalize的区别
+答： final用于声明属性，方法，和类。分别表示属性不可变，方法不可覆盖，类不可被继承。
+     finally是异常处理语句结构的一部分，表示总是执行。
+     finalize是Object类的一个protected方法，它是在对象被垃圾回收之前由JAVA虚拟机来调用的。
+
+
+  

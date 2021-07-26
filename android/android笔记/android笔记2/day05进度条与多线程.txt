@@ -1,0 +1,86 @@
+1.ProgressBar
+//SeekBar的父类：可拖动的
+属性：
+style="@android:style/Widget.ProgressBar.Horizontal"//水平放置
+android:progress="0"
+android:max="100"
+2.线程(线程不会随着另一个线程的关闭而关闭）
+用之前：是否能自动运行完？是否会启动多次
+ 创建(一）:继承Thread,对象调用.start()
+ 创建（二）：实现Runnable接口
+（1）因为在计算机中运行的程序比较快，
+对有需要运行程序精确时间的，就要用到sleep(休眠时间)休眠方法，耗时操作要创建子线程
+（2）在android中子线程是不能更新UI的，
+只有在子线程中使用runOnUiThread方法让UI在主线程中显示
+（3）线程安全：对同一件事使用多个线程
+用synchronized(固定对象）｛锁定的代码｝
+等待：
+// 对象锁
+public static Object objLock = new Object();
+在线程一中：
+if判断是否要等待线程二：
+synchronized (MyApplication.objLock) {
+MyApplication.objLock.wait();｝//等待线程二运行
+在线程二中：
+if判断是否要等待线程一：
+synchronized (objLock) {
+objLock.notify();//激活线程一
+}
+
+（4)线程的死锁：
+当存在锁定代码里存在另一个锁定的代码
+android里的线程：更新Ui
+
+线程通信：
+方法（一）：直接在Runnable(){｝更新UI，要递归，才能循环
+Handler handler=new Handler();
+----handler.postDelayed(new Runnable(){更新UI，递归｝，times)
+----handler.post(new Runnable(){更新UI，递归});
+//一般用于定时器
+方法（二）：
+消息机制
+1)写继承自Handler的类里的重写方法void handleMessage(Message)处理消息，
+2）在子线程中封装Message类来发送消息
+Message msg = Message.obtain();//=Meaasge.obtain(handler)
+innerHandler.sendMessage(msg);//msg.setMessageTarget()
+innerHandler.sendEmptyMessage(msg.what);
+【Message类】属性：
+int arg1---在消息中封装int类型的数据
+int what---区别消息的类型(发空消息的参数)
+msg.Object--消息的数据对象//只能传一个对象
+如果要传多个对象：用Bundl;
+
+【handler类】发送消息，以及处理消息的类
+处理消息的方法(类似线程）：
+1）继承Handler的类
+2）写一个实现Handler.CallBack接口的类.
+3）
+优先级 3>2>1
+Handler与Looper的关系
+1）在子线程中处理消息
+  Looper.parpere();
+  new Handler();
+  Looper.loop();
+2)在哪个线程处理消息，要看Looper
+
+AsyncTask<params,progress,result>:异步任务(抽象类）,线程池
+多个线程执行时，是串行执行的,内存不够，会自动销毁的
+参数泛型：
+--params:执行任务之前的参数类型（可用void)
+--progress:执行任务过程进度的数据类型
+--result:执行任务结束后结果的数据类型（可用void)
+方法：
+--doInBackground()--相当于子线程中的方法run();
+（publishProgress()用于提交进度的方法,传递的是一组数组的值）
+--onProgressUpdate()-更新进度的方法，运行在主线程里，用于更新UI
+--onPostExecute()--在主线程运行更新UI的，结果值在doInBackground()返回中
+开启：
+创建任务对象，调用esecute()方法
+取消：
+--cancle(true)//子线程还在运行，只是主线程关闭了
+
+
+
+
+
+

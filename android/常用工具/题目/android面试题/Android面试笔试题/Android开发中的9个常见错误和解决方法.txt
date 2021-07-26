@@ -1,0 +1,65 @@
+Android开发中的9个常见错误和解决方法
+
+这篇文章主要介绍了Android开发中的9个常见错误和解决方法,这是Android开发中最常见的9个错误,经过各种各样的整理,以及和热心网友讨论总结而来,需要的朋友可以参考下
+
+经过各种各样的整理，以及和热心网友讨论，终于整理出了九种android开发中最常见的问题和解决方案再次跟大家分享下！！有用的话请顶顶帖子，共同进步。好了不多说了，下面是详解！
+
+1. 如果你的项目的R文件不见的话，可以试下改版本号在保存,R文件不见一般都是布局文本出错导致.
+
+2. 布局文件不可以有大写字母
+
+3. 抛出如下错误WARNING: Application does not specify an API level requirement!，
+是由于没有指定users sdk的缘故,修改AndroidManifest.xml文件.
+加入:<uses-sdk android:minSdkVersion=”8″></uses-sdk>
+
+
+4. 机器内存的瓶颈,当apk大于我们的机器内存时,模拟器无情的抛出
+代码如下:
+Installation error: INSTALL FAILED INSUFFICIENT_STORAGE Please check logcat output for more details. Launch canceled!
+让我们无法调试，现在我们来根治这个问题，解决方法有两种
+
+第一种(仅限apk小于机器内存，并且已安装上当前apk，只是无法再次debug)
+启动模拟器，然后进入菜单
+代码如下:
+settings->applications->mange
+applications-> select the application->select “unistall”.
+这样就能彻底删除了，然后再重新安装这个apk就没问题了
+
+第二种(通用)
+代码如下:
+-partition-size 128
+Eclipse中在项目Target的Options中添加。
+
+
+5.启动android模拟器时候如果提示：Failed to install on device 'emulator-5554': timeout
+这是可能因为卡的原因导致启动超时，解决办法：eclipse -> window -> Preferences -> Android -> DDMS -> ADB connection time out(ms).把这个时间设置的长一些，默认是5秒即5000ms， 我改成10秒就ok了。
+这样就不用每次重启模拟器了。具体时间设置根据实际环境需要
+
+6. 在开发的过程中经常在安装apk到模拟器上时会报出
+ActivityManager: Error: Activity class {..} does not exist.
+这样的错误,这里总结两种解决方式：
+在AndroidManifest.xml文件中查看主Activity的名字前是否有'.'符
+
+
+7.运行Eclipse时出现了这个错误
+代码如下:
+No Launcher activity found!
+The launch will only sync the application package on the device!
+
+解决办法 
+在AndroidManifest.xml 中添加
+代码如下:
+<category android:name=”android.intent.category.LAUNCHER” />
+
+8.出现如下错误,没有写入sd卡权限 java.io.FileNotFoundException: /mnt/sdcard/update.zip (Permission denied)
+解决办法,资源文件写入如下权限
+代码如下:
+<uses-permission android:name=”android.permission.WRITEEXTERNALSTORAGE”/>
+
+9.当运行时出现Re-installation failed due to different application signatures时.
+解决办法
+（1）cmd下，进入命令行,cd到SDK下的platform-tools 下，执行命令：adb uninstall 应用程序的包名
+结果success后，重新运行就可以了
+如 E:\android\android-sdk-windows\platform-tools> adb uninstall com.wtt
+Success
+（2）卸载掉手机上已经装了的和该程序同名的应用程序即可。

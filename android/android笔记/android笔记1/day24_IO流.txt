@@ -1,0 +1,25 @@
+1.File类：封装一段
+对象：
+方法：
+2.RandomAccessFile(只读取在同一个文件）
+对象：new RandomAccessFile(File f,"rw")//在f这个文件里进行读写操作
+方法：
+.getFilePoint()此时光标的位置
+.seek()寻找光标位置
+write(int a):只输出末尾的一个字节
+wirte(byte[] b): 输入byte的全部字节
+write(byte[] b,int start,int length)
+read();读取一个字节的字节值，在前补充3个字节，int型,返回值是int值
+read(byte[] buff)：分组读取，返回一组的字节数量
+writeInt(int i) 输出int的四个字节
+writeUTF(String s)前两个字节表示长度
+read方法类似
+3.标准的读写操作：
+1）单字节读写：
+int d;
+while((d=raf.read())!=-1){raf.write(d)}
+2)多字节读写
+byte[] data=new byte[size]
+int len;//定义每次读取的字节长度，不是data数组长度
+while((len=raf.read(data))!=-1){raf.write(data,0,len)}
+

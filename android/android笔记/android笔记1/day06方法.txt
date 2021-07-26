@@ -1,0 +1,11 @@
+方法：
+新语法：
+String input=Scanner.next().toUpperCase();//强制转换成为大写
+char[] input=a.toCharArray();//字符串转换成为字符
+while(true){}//创造死循环
+"exit".equals(input)//判断一个字符串是否相等，而不是==
+新算法：开关---并非一次判断得出结果
+格式：
+1)boolean flag=false;
+2)for{if(){flag=true;break;}};
+3)if(flag==true){结果｝

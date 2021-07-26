@@ -1,0 +1,2 @@
+用法：
+1）与viewPager相似，只是不影响外部的ViewPager滑动

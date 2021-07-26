@@ -1,0 +1,69 @@
+1.SQLite3数据库（本地数据库）
+【一般不用以下方法创建数据库与表：
+openOrCreateDataBase 打开或者创建数据库，存在，则打开；没有，则创建
+createTable 一直创建表（在相同的数据库里不能建同一张表，会报异常）】
+语法：
+1）创建表：
+CREATE TABLE 表名（字段1 数据类型 约束条件，字段2 数据类型 约束条件）
+数据类型：varchar(10):可变长度为10；Integer:int型
+约束条件：not null（不为空） unique（不重复）
+【字符串要加‘’】
+2）数据操作：
+【最后都要执行db.execSQL(sql)】
+--增
+INSERT INTO 表名（字段1，字段2）VALUES(值1，值2）
+--删
+DELETE FROM 表名 where 字段的条件 and 另一字段条件
+--改
+UPDATE 表名 SET 字段赋值 WHERE 字段值
+--查
+SELECT 字段列表  FROM  表名 WHERE 字段值 ORDER BY 
+字段(空格）ASC(升序）/DESC（降序）
+ 注意的点：SQL语句不管大小写区分以及空格数，但是不管拆分怎样写，
+最后拼接起来的字符串一定是最原始的SQL语句
+--------------------------------
+2.android里的数据库API:
+都有返回值，return>0则成功
+--增
+insert("表名","字段名"（标志，无用）,ContentVaules)；
+将键值放在Map集合中（键放字段名，值放字段值）
+clear() 清除values的值
+--删
+delete("student",字段条件, 字段条件值（更方便）)
+--改
+update("student", values, whereClause, whereArgs);
+--查
+query(uri,查询的字段数据,查询的字段,查询的字段值, "date   desc");//最后排序要空格
+//多字段查询：“ziduan1=? and ziduan2=?"
+--------------------------
+问题：
+(1).如何判断在创建的表是相同的，则不创建
+(2).如何获取查询到的结果
+----问题（1）为了在activity中，一打开运行程序就建重复的表
+【a.使用继承自SQLiteOpenHelper类里的onCreat()方法里建表】
+【b.然后获取上面的对象的getWritableDatabase()方法获得SQLiteDatabase(数据库）对象】
+----问题（2）：Cursor(接口）:得到查询的结果
+查询的结果显示必须要设置_id INTEGER PRIMARY KEY AUTOINCREMENT
+（设为主键，且自动增长插入的） 
+1)move方法：默认是不指向任何一条数据的，要用之前，必须移动到指定数据上
+返回都是boolean值
+--move(int offset) 移动几条数据
+--move(int position)
+2)is方法：判断是否是第几条数据，返回都是boolean值
+--isFirst()
+--isAfterLast()//是否是最后数据的后一条数据
+3)get方法：得到那条数据
+--getInt(index)//得到下标为index的数据
+--getColumnsIndex()得到指定列的下标
+--getCounts()得到查询数据的数量(一般用于判断有无查询结果）
+4）判断有无查询结果数据
+---c.moveToNext() 
+---getCounts()
+5)遍历得到的数据
+方法（一）：while(c.moveToNext())//最先在第一条数据的上方，往后移动
+方法（二）：for (c1.moveToFirst();c1.isAfterLast(); c1.moveToNext())
+查询的结果显示：
+SimpleCursorAdapter;简单结果显示在listview上
+StudentCursorAdapter 继承自BaseAdapter的adapter显示在listview上
+
+

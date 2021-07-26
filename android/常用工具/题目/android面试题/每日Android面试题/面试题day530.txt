@@ -1,0 +1,71 @@
+ViewPager的开发步骤
+------------------------------------------------------
+	开发步骤:
+	A. 在layout中添加ViewPager控件
+	B. (常规做法)创建多个layout布局, 表示被切换显示的页面
+	C. 在Activity中, 通过getlayoutInflater()布局加载为View对象, 并封装到List集合或者数组中便于管理
+	D. 声明并初始化ViewPager控件的对象
+	E. 自定义类集成PagerAdapter, 重写抽象方法和两个必须重写的非抽象方法
+	F. 为ViewPager配置PagerAdapter
+	注意事项:
+		ViewPager本身只是容器, 需要配合PagerAdaper使用
+	PagerAdapter是重写, 除了重写抽象方法外, 还必须重写以下两个方法:
+		Object instantiateItem(ViewGroup container, int position)	
+			必须重写, 虽然不是抽象方法
+		void destroyItem(ViewGroup container, int position, Object object)
+			必须重写, 虽然不是抽象方法
+
+
+
+AsyncTask
+------------------------------------------------------
+	异步任务
+	在使用过程中, 不需要考虑线程间的通信问题
+	是一个集成了后台处理任务, 后台提交进度并前台更新进度, 前台显示任务的执行结果的类
+	Params:
+		表示执行该任务时, 需要提供的参数的数据类型
+	Progress:
+		表示执行该任务的过程中, 需要提交任务的数据类型
+	Result:
+		表示执行完成任务后, 提交结果的数据类型
+
+	重写的方法
+		doInBackground:
+			执行任务的方法, 该方法默认运行在子线程, 所以, 重写时不需要再另外开启子线程就可以直接执行耗时操作
+		onProgressUpdate:
+			更新进度的方法, 本方法默认运行在主线程, 则可以直接更新UI控件, 该方法是在子线程中调用了publishProgress()后再进行响应的方法, 如果没有调用过publishProgress(), 则本方法不会回调
+		onPostExecute:
+			处理结果的方法, 本方法默认运行在主线程, 本方法在后台任务(doInBackground)执行完毕后回调, 如果后台任务有返回值, 将体现为本方法的参数
+	注意事项:
+		异步任务是串行的, 即多个任务都被调用以后, 会按照次序, 依次执行
+		需要注意的是, 不管这些任务是不是同一个AsyncTask对象, 都会依次执行
+		所以, 如果某个时刻需要执行多种耗时操作, 且没有先后顺序的约束, 则最多只能有一种耗时操作使用AsyncTask的方法, 而其他的耗时操作都必须使用Thread进行处理
+
+
+Tween动画/补间动画
+--------------------------------------------------------------
+		alpha
+			淡入淡出
+		rotate
+			旋转
+		scale
+			缩放, 取值通常为百分比
+		translate
+			平移, 百分比相对于本身移动的百分比
+
+
+数据持久化(存储)
+----------------------------------------------------------
+	存储方案
+		1. SharedPrefenrences/偏好设置
+		2. IO/文件存储
+		3. SQLite数据库
+		4. 网络存储
+
+
+
+
+
+
+
+

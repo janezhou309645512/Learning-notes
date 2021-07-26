@@ -1,0 +1,18 @@
+1.RadioButton
+核心属性：
+1)在同一个RadioGrowp（继承自Linlayout)中,才有实现RadioButton互斥
+2）checked:是否选中
+监听：
+1）对RadioGrowp进行监听
+----实现OnCheckedChangeListener接口
+----重写 onCheckedChanged(RadioGroup group, int checkedId)
+//用switch语句判断checkedId（选中的RadioButtonid）
+2）对RadioButton进行监听
+----实现OnCheckedChangeListener接口
+----重写 onCheckedChanged(CompoundButton buttonView,boolean isChecked)
+判断这个RadioButton是否被选中 
+2.CheckBox：复选框控件：可以多选几个
+属性：android:checked -> 是否被勾选，取值为true或者false
+监听：
+----实现OnCheckedChangeListener接口
+----重写 onCheckedChanged(CompoundButton buttonView,boolean isChecked)

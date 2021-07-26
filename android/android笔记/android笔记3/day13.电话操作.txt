@@ -1,0 +1,49 @@
+1.电话操作
+原理：拨号方--->基站--->服务器--->基站---->接收方
+用法：
+Intent intent = new Intent(Intent.ACTION_CALL);
+intent.setData(Uri.parse("tel:"+number));
+startActivity(intent);
+要加权限：android.permission.CALL_PHONE
+拨打与拨号的区别：
+拨打：只是进系统的准备拨号activity，还未拨打出去，不用加权限
+拨号：电话直接拨打出去了，要加权限android.permission.CALL_PHONE
+2.电话拦截：
+原理：拨打电话时，在系统的拨打电话activity里发送号码广播
+给系统service拨打出去，与基站进行交互，所以，只要先接受系统发送的广播
+用法：
+1）注册广播接收器，接受系统的拨打电话广播
+filter.addAction(Intent.ACTION_NEW_OUTGOING_CALL)
+2）String number = getResultData();//拿到拨打的电话号码
+3）要加权限： android.permisison.PROCESS_OUTGOING_CALLS
+
+3.监听状态：
+用法：
+1）获取系统管理
+TelephonyManager manager=
+(TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+2）实现监听 
+manager.listen(listener,PhoneStateListener.LISTEN_CALL_STATE);
+3）写一个具体监听内容listener：
+继承自PhoneStateListener类，重写里面的onCallStateChanged（）方法，
+----TelephonyManager.CALL_STATE_IDLE//拨号状态
+4）要加权限 ：android.permission.READ_PHONE_STATE
+5）取消监听方法：
+manager.listen(listener, PhoneStateListener.LISTEN_NONE);
+4.电话数据库的管理(了解关系数据库的设计）
+/data/data/com.android.providers.contacts/databases/contact2.db
+contacts表：联系人表
+data表：联系人的具体信息
+calls表：通话记录表
+对应的Uri:Contacts.CONTENT_URI
+     Data.CONTENT_URI
+     Calls.CONTENT_URI;
+
+
+
+
+5.自带键盘的设计
+1)LinearLayout--包含--LinearLayout--包含--button;
+2)平移动画效果
+
+

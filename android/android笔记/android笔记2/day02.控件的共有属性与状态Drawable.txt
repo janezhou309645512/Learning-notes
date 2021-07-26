@@ -1,0 +1,31 @@
+1.去掉标题：在application中
+android:theme="@android:style/Theme.Light.NoTitleBar" 
+----------------------
+2.常用控件view的共有属性：
+1）visibility="visible"(可见）,"gone"（消失）,"invisible"（不可见）
+2）enable="true/false"(启用、禁用）
+3) backgound:背景
+4）在程序中建立控件，只要new对象即可
+例：TextView tv = new TextView(context);
+4)监听：
+--OnTouchListener()//控件触摸监听
+重写 onTouch(View view, MotionEventevent event)方法
+event.getAction()== MotionEvent.ACTION_DOWN//触摸按下事件 
+ MotionEvent.ACTION_MOVE://触摸移动事件
+ MotionEvent.ACTION_UP//触摸移除
+return true//还是执行这个方法，不会向下传播，下面的都不会实现触摸事件
+return false//会传播，都会实现触摸事件
+
+--OnClickListener()//点击事件
+------------------------
+3.Drawable布局
+getResources()//得到res资源
+.getDrawable//得到Drawable文件夹
+(R.drawable.img0)//得到Drawable下的一张图片值
+
+1）selector选择器：控件在不同的状态应用不同的图形资源：
+<selector>/<selector>
+属性：state_
+2）style(样式)是适用于控件的一系列属性的配置的集合
+3) 动画属性：
+<item drawable/duration/>

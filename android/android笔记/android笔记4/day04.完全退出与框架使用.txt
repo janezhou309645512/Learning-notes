@@ -1,0 +1,16 @@
+1.完全退出
+----退出activity集合
+----退出进程
+Process.killProcess(Process.myPid());
+2.框架的使用
+1）发get请求得到json字符串（xutils框架)
+2）将json字符串封装成实体类：
+www.bejson.com网址得到实体类
+JSON.parseObject(result,Version.class)；//封装成对象
+3.使用Bundle
+Bundle bundle=new Bundle();
+bundle.putSerializable("versionEntity", 对象);
+message.setData(bundle);
+
+
+

@@ -1,0 +1,22 @@
+1.自定义容器：
+1）继承自ViewGroup
+2)重写方法：
+----onMeasure()
+测量子控件的大小
+----onlayout()
+排列子控件的
+getChildCount()//得到子控件的数量
+getChildAt(index)//得到哪个子控件
+2.ui绘制过程
+onMeasure()→onSizeChanged()→onLayout()→onMeasure()→
+onLayout()→onDraw()
+a.先在onMeasure()里测量子控件的大小
+b.得到控件的大小，执行onSizeChanged()
+c.执行onlayout()进行绘制
+3.activity--linerlayout---shadeview-view//执行顺序
+----dispatchTouchEvent()分发事件
+----onTouchEvent()触摸事件
+从左到右依次执行dispatchTouchEvent()，然后从右到左依次执行onTouchEvent()
+（如果哪个控件的dispatchTouchEvent()不执行，则onTouchEvent()也不会执行）
+retrun true:拦截，不会往下执行
+retrue false:往下执行

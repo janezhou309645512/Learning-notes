@@ -1,0 +1,35 @@
+Object类属性:所有的父类
+1.toString()方法：返回类和引用地址
+2.equals()方法：比较两个对象的引用地址，不是内容
+注：如要比较内容或要返回内容要重写上述方法 一般系统java类都有重写这两个：toString()返回字符串，equals()比较内容
+字符串属性：
+1.字符串对象内容不可变
+2.常量池中的对象内容相同则引用同一个地址
+3.字符串已经重写toString(),比较两个字符串的内容
+字符串：
+String.valueOf()将任意的转换为字符串
+1)查找字符串内容（indexOf，charAt(int index)，startsWith,)
+2)字符之间的转换(toUpperCase,toLowerCase,substring(a,b),trim（)）
+3)字符串修改：StringBuilder类
+delete() insert() replace() reverse()翻转 setCharAt()设置字符 
+compareTo
+3.正则表达式：
+1).[]表示其中一个元素
+     [0-9A-Za-z]
+2).{m｝m个元素
+{m,n}m到n个元素
+3).？0个或1个*0个多个+1个或多个各代表的意义
+4).\\.,\\d 等转义字符的应用
+5)相关方法：matches(表达式)
+replaceAll(正则表达式，子串）替换
+spilt(正则表达式）拆分为数组
+
+4.正则表达式中的常用类：
+java.util.regex.Pattern/Matcher
+对象：Pattern p=Pattern.compile(正则表达式）
+Matcher m=p.matcher(要匹配的字符串）
+方法：find()向后一段匹配的字符串 boolean值
+ group()获取找到的子串
+start() end() 找到子串的起始结束位置
+
+ 

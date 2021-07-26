@@ -1,0 +1,24 @@
+1.基本框架：
+1)Volley:网络操作（都是异步去做的）
+用法：
+----StringRequest(get方式,post方式），发送请求
+----ImageRequest 发送请求获取一张图片（适合单张图片）
+-----ImageLoader 下载多张图片
+ImageLoader il=new ImageLoader(mQueue,new BitmapCache());
+上面这个mQueue是一个队列
+2)Xutils
+用法：（异步，都要回调）
+先在application中初始化（x.Ext.init(this)）
+----发送get请求
+RequestParams entity=new RequestParams(uri);
+x.http().get(entity, new CommonCallback<String>() {重写方法｝
+----发送post请求
+
+
+----批量下载图片
+x.image().bind(imageView, 地址);
+
+
+
+
+

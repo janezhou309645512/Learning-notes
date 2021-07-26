@@ -1,0 +1,48 @@
+1.ViewPager 容器控件
+功能：子控件为整个layout,能滑动，切换页面
+用法：
+1）在xml文件中：
+a.在XML中声明<android.support.v4.view.ViewPager/>
+b.在layout.xml中声明ViewPager容器中包含的所有xml模版
+2）在程序中（与baseadapter类似）：
+a.获取数据：List<View> 里加载xml模版(inflater.inflte)
+b.写一个继承PagerAdapter的类，重写instantiateItem（），destroyItem（）方法
+------------------------------------------
+2.Fragment (导包：import android.support.v4.app.Fragment） 
+（a.类似activity里的用法（context=getActivity()）；
+  b.onCreateView()相当于activity的onCreate()方法；
+  其他用法一致）
+功能：在一个activity中能切换多个页面：
+(与上不同：这个可以具体选中哪个页面进行切换）
+用法:（类似BaseAdapter的用法，先获取List数据，在加载adapter模版）
+1)在xml文件中：
+与上相似
+2）在程序中：(相当于显示普通adapter常用流程）
+a.写layout.xml模版里对应的继承自Fragment的类,
+重写onCreateView()方法，声明模版控件（相当于提供数据）
+b.获取List<Fragment>数据，写一个继承FragmentPagerAdapter的类，（加载模版，显示在adapter）
+c.将activity继承自FragmentActivity,fm=getSupportFragmentManager();
+d.setAdapter();
+监听器：OnPageChangeListener（）//作用：
+1)onPageScrollStateChanged(int i)
+ 页面滚动状态改变时
+2）onPageScrolled(int a, float b, int c)
+页面滚动在哪个页面
+3）onPageSelected(int i)
+页面停留在哪个页面
+---------------------------
+3.Fragment与activity的通信
+ViewlistView =getActivity().findViewById(R.id.list)//得到activity的控件
+ExampleFragment fragment =(ExampleFragment)getFragmentManager()
+.findFragmentById(R.id.example_fragment）//得到Fragment 
+4.Fragment之间的通信
+1）使用接口：
+  接口可以实现两个Fragment之间的通信，也可以实现Fragment和Activity
+之间的通信，这是用的比较多的一种方式，使用接口来实现两个Fragment之
+间通信，要通过宿主Activity中转一下，如果是Fragment和宿主Activity通
+信则直接调用即可
+2）使用广播
+不论我们有没有用ViewPager，都可以用广播实现两个Fragment之间的通信，
+广播算是这里最灵活的通信方式了
+
+

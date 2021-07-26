@@ -1,0 +1,5 @@
+1.mvp架构：易于分工
+view:接口用于实现所有视图层的内容 IView()
+presenter:定义接口实现所有除视图的内容 IPresenter()
+model:定义接口要实现的基本业务 IModel()
+**一个界面有一个View接口，一个presenter,但model可以是相同的

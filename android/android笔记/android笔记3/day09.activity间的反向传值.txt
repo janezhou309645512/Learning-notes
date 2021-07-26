@@ -1,0 +1,10 @@
+1.Activity之间的反向传值：
+1>启动目标Activity是需要使用：
+  startActivityForResult(intent，int code)
+2>在目标activity.finish()之前，调用setResult()
+  方法存储并传递参数。
+  ThirdActivity.this.setResult(RESULT_OK, intent);
+3>在AActivity重写onActivityResult()方法，接受
+  回传回来的参数，执行后续业务。
+ String name = intent.getStringExtra("name");
+ int age = intent.getIntExtra("age", 0);

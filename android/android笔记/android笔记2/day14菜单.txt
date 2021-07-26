@@ -1,0 +1,24 @@
+1.OptionsMenu选项菜单：（通过按菜单键弹出）
+1）在XML文件中menu里配置item项
+属性：
+----order 排序 从小到大，
+---showAsAction 怎么显示
+配置子菜单：在/res/menu文件中，将<item></item>里添加<menu/>子节点
+2）在程序中onCreateOptionsMenu()中的Menu对象的add()方法添加
+menu.add(groupId, itemId, order, title)
+groupId：分组Id(0）
+itemId:选项id（不同）
+order:顺序int
+title:菜单名
+配置子菜单：将add()方法改为addSubMenu()方法，调用用其返回值（SubMenu对象）的
+add()方法添加子菜单
+3）点击事件：重写onOptionsItemSelected()
+--------------------------------------------------
+2.ContextMenu上下文菜单：(通过按界面上的控件弹出菜单）
+1）为控件注册ContextMenu,方法：registerForContextMenu(View)
+2）添加菜单：与上相似，重写onCreateContextMenu()
+ContextMenuInfo menuInfo-----用于adapter显示的
+AdapterContextMenuInfo info=(AdapterContextMenuInfo)menuInfo;
+	   idPosition=info.position;//用于
+3）点击：重写onContextItemSelected()
+

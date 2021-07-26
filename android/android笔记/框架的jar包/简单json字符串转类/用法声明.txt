@@ -1,0 +1,4 @@
+只适用于简单json解析（只含一个类的）
+1.封装一个实体类
+2.Version ver=JSON.parseObject(json,Version.class);
+//将返回的json字符串封装成Version类

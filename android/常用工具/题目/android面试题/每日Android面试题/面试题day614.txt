@@ -1,0 +1,44 @@
+ 1,activity生命周期。
+  onCreate()：创建activity时调用。
+  onStart():activity变为在屏幕上对用户可见时调用。
+  onResume():activity开始与用户交互时调用
+  onPause():activity被暂停时调用。
+  onStop():activity被停止并转为不可见时调用。
+  onRestart():重新启动activity时调用。
+  onDestroy():activity被完全从系统内存中移除时调用该方法
+ 
+2,Android中4大组件有哪些？他们的作用是什么？
+  Activity：
+	Activity是Android程序与用户交互的窗口，是Android构造块中最基本的一种，它需要为保持各界面的状态，做很多持久化的事情，妥善管	理生命周期以及一些跳转逻辑。
+ 
+  service：
+	后台服务于Activity，封装有一个完整的功能逻辑实现，接受上层指令，完成相关的事务，定义好需要接受的Intent提供同步和异步的接口。
+ 
+  Content Provider：
+	是Android提供的第三方应用数据的访问方案，可以派生Content Provider类，对外提供数据，可以像数据库一样进行选择排序，屏蔽内部数	据的存储细节，向外提供统一的接口模型，大大简化上层应用，对数据的整合提 供了更方便的途径。 
+
+  BroadCast Receiver：
+	接受一种或者多种Intent作触发事件，接受相关消息，做一些简单处理，转换成一条Notification，统一了Android的事件广播模型。
+ 
+3,启动service有几种方式，说出他们之间的主要区别？
+  调用startService()：通过此种方法启动的service会一直运行在后台直到stopService()或stopSelf()方法被调用。
+  调用bindService()：通过此种方法启动的service会与调用者绑定，如果这个service还没有被启动，那么service启动时将不会调用onStart()，只调用onCreate()和onBind()，调用者被销毁时，service也被销毁
+ 
+4,数据的五种存储方式？
+  --使用SharedPreferences存储数据；
+    用来保存应用程序的一些属性设置
+  --文件存储数据:
+    文件用来存储大数量的数据采用java.io.*库所提供有I/O接口，读写文件。只有本地文件可以被访问
+  --SQLite数据库存储数据；
+    Android提供了一个名为SQLiteDatabase的类，该类封装了一些操作数据库的API，使用该类可以完成对数据进行添加(Create)、查询(Retrieve)、更新(Update)和删除(Delete)操作
+  --使用ContentProvider存储数据；
+    Content Provider是所有应用程序之间数据存储和检索的一个桥梁，它的作用就是使得各个应用程序之间实现数据共享。Android为常见的一些数据提供了ContentProvider(包括音频、视频、图片和通讯录)
+    每个Content Providers都会对外提供一个公共的URI(包装成Uri对象)，如果应用程序有数据需要共享时，就需要使用Content Providers为这些数据定义一个URI，然后其他的应用程序就可以通过Content Providers传入这个URI来对数据进行操作。URI由3个部分组成:"content://"、数据的路径、标识ID(可选)
+  --网络存储数据；
+ 
+5,什么是ANR?如何避免
+   ANR 就是application not responding
+   在android中Activity的最长执行时间是5秒.BroadcastReceiver的最长执行时间则是10秒.超出执行时间就会产生ANR
+   --解决方法: 
+   1.运行在主线程里的任何方法都尽可能少做事情。特别是，Activity应该在它的关键生命周期方法 （如onCreate()和onResume()）里尽可能少的去做创建操作。（可以采用重新开启子线程的方式，然后使用Handler+Message 的方式做一些操作，比如更新主线程中的ui等） 
+   2. 应用程序应该避免在BroadcastReceiver里做耗时的操作或计算。但不再是在子线程里做这些任务（因为 BroadcastReceiver的生命周期短），替代的是，如果响应Intent广播需要执行一个耗时的动作的话，应用程序应该启动一个 Service

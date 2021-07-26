@@ -1,0 +1,7 @@
+double a=Math.random();//范围是0.0-0.99999系统生成随机数
+循环三要素：
+break:跳出循环(只能跳出一层循环）
+continue:跳过循环里的剩余而执行下一次循环
+1)猜数字游戏 while
+2)猜数字游戏 do while
+toCharArray() 将字符串转换为字符数组

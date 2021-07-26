@@ -1,0 +1,71 @@
+图片下载及显示：
+1.原理：获取Bitmap图片的四种方法：BitmapFactory的四种静态方法
+a.BitmapFactory.decodeResource(getResrouce(), id, opts)
+//对资源id获得Bitmap
+b.BitmapFactory.decodeFile(pathName, opts)
+//对文件储存路径获得Bitmap
+c.BitmapFactory.decodeStream(is, outPadding, opts)
+//对一个网络输入流获得Bitmap
+d.BitmapFactory.decodeByteArray(data, offset, length,ops)
+//现将流数据读到字节缓冲数组中，然后对图片处理，获得Bitmap
+--------------------------------------
+2.数据库以及本地文件的图片显示（可以不用异步去开启线程）
+数据库：需要先查询数据库，获取Blob数据
+byte[] datas=c.getBlob(0);//查询数据库，获得图像字节数据
+BitmapFactory.decodeByteArray(datas,0,datas.length);
+本地文件：（最好先存入内存)
+BitmapFactory.decodeFile(pathName, opts)
+
+------------------------------------
+3.网络图片下载及显示（一定要开启异步开启线程，回调）
+原理：通过URL地址发送请求，先获取流，获取Bitmap
+用法：BitmapFactory.decodeStream(is);//不能进行压缩处理
+压缩可用：BitmapFactory.decodeStream(is, outPadding, opts)
+---------------------------------
+2.网络图片大小缩放处理
+给一张Bitmap图怎么进行缩放处理？先存吗？
+Options类:用于存放图片解码后的各种参数(opts)
+功能：通过流图片读取到byte数组中,并且压缩显示
+用法：ByteArrayOutputStream bos=new ByteArrayOutputStream();
+byte[] buffer=new byte[1024*10];
+while((len=is.read(buffer))!=-1){
+bos.write(buffer,0,len);｝
+byte[] imageInfo=bos.toByteArray();//获得图片的完整信息
+Options ops=new Options();//用于存放图片解码后的各种参数
+ops.inJustDecodeBounds=true;
+BitmapFactory.decodeByteArray(imageInfo,0,imageInfo.length, ops);
+//解码后图片没存放在内存中，但ops里存放解码后的尺寸信息
+int w=ops.outWidth;
+int h=ops.outHeight;
+ops.inSampleSize=w>h?w:h;
+//加载完整图片信息进行解码
+ops.inJustDecodeBounds=false;
+Bitmap bitmap=BitmapFactory.decodeByteArray(imageInfo, 0,imageInfo.length,ops);
+
+--------------------------
+3.listView图片显示
+网络加载：会显示错乱，重复，闪烁
+原因：当你滑到14行的时候，你重用了2行的convertView，正好加载了第二行的图片。
+解决办法：
+1）添加标记
+2）缓存（内存，文件）
+用法：1）利用软应用将Bitmap存入内存中（集合，数组中），在读取
+   强引用  Strong  Reference
+   就算出现OOM，GC也不会销毁任何强引用。
+ 软引用  Soft Reference
+   当Java所管理的内存趋于阈值时，GC将会销毁部分
+   软引用释放内存。
+ 弱引用  Weak Reference
+   引用强度弱于软引用。
+ 虚引用  
+2）将Bitmap存入文件中，在将文件读到内存中在读取到ListView中
+   将下载的图片以jpg,png,gif等格式储存：bitmap.compress(CompressFormat.JPEG, 100, 文件输出流);
+  常见的图片格式：
+JPG: 最常用的压缩格式。压缩比率较高，但是
+     不支持透明色。
+PNG: 支持透明色。
+GIF: 支持动态图。
+BMP：前54字节图片信息（18-21字节表示宽度，23-26字节表示长度）
+一个像素点有三个字节值（红绿蓝）
+
+

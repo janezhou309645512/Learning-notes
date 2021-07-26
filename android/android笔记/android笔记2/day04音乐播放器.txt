@@ -1,0 +1,11 @@
+1.播放器类：MediaPlayer
+new MediaPlayer();
+方法：
+reset();
+setDataResource(String str);//str 为文件的路径
+2.Environment类：为找到sdcard的位置
+静态方法：getExternalStorageState()
+//得到挂载的状态字符串为Environment.MEDIA_MOUNTED
+getExternalStoragePublicDirectory()得到SD卡的一个文件夹
+3.File的操作:得到的是对象还是字符串
+4.2个bug;

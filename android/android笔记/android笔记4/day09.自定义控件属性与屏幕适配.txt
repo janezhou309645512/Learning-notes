@@ -1,0 +1,19 @@
+1.自定义属性控件：
+1）写一个继承自View的类
+2）声明属性在values/attrs.xml中
+<declare-styleable name="View">
+属性名：
+    <attr name="kjcolor" format="color"/>
+    <attr name="text" format="string"/>
+3）在程序中：
+获得属性数组：
+TypedArray a=context.obtainStyledAttributes(attrs, R.styleable.View);
+得到属性值：
+float color=a.getFloat(R.styleable.kjcolor, 10);
+4)在重写onDraw()方法中，将这些属性值画出来
+5）用法：在布局文件中声明<包名+控件类名/>
+
+2.屏幕适配：
+float scaledDensity=context.getResources().getDisplayMetrics().scaledDensity;
+return (int)(scaledDensity*dp);//根据不同的手机得到像素px
+解决：在不同的的res文件下建立不同的版本值来达到适应

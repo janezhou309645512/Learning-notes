@@ -1,0 +1,55 @@
+1.linux系统目录：
+pwd:显示当前目录
+ls：查看当前目录
+cd：改变当前目录
+..向上 .向下
+绝对：cd /  在根目录 
+相对：cd 在当前目录
+-----------------------
+2.在windows中使用cmd命令行：
+d: 切换到d盘
+cd 文件名（不是完整路径）进入到该目录
+cd.. 退到上层目录
+-------------------
+3.java开发环境
+1）编译过程：.java,经过编译，生成.class字节码文件
+运行过程：在JVM虚拟机，加载.class文件----运行在windows上，.class并运行
+特点：跨平台一次编程到处使用
+2）JVM:java虚拟机
+加载.class并运行.class
+   JRE:java运行环境，除了JVM以外，还包含运行java程序的环境
+   JRE=JVM+java系统类库（java已经做好的东西）
+   JDK:java开发工具包（除了包含JRE以外，还包含开发java程序所必须的命令工具）
+   JDK=JRE+编译.运行等开发工具
+运行java程序装JRE
+开发java程序装JDK
+3)安装JDK
+配置环境变量PATH (多条路径之间加；号）： 
+JAVA_HOME:jdk目录的完整路径
+CLASSPATH: 表示类库的搜索路径.jar的完整路径
+PATH:指向jdk下的bin目录的完整路径
+4)检测路径是否安装成功：
+在cmd窗口中查看：javac 命令，java 命令
+-------------------------------------
+4.java常识：
+1)查看源码：crtl+左键
+添加源码：
+Java  Source Attachment -- External location -- External Floder
+------android-sdk------plstforms-----android.17文件夹
+2)断点调试：(非常重要，用于理清程序的运行过程，以及赋值过程）
+步骤：
+1）去除先前断点debug-->breakpoints-->remove All
+2）双击加断点：在模块入口或出错的地方
+调试：F5：逐方法调试（进到方法之内）
+F6：逐步调试（不会进到方法之内）
+F7：返回方法
+F8:跳到下一个断点
+
+
+
+
+
+
+
+                        
+

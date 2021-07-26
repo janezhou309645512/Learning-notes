@@ -1,0 +1,25 @@
+1.电商项目：
+接口地址：http://45.78.24.178:8080/dang
+2.重点：
+1）购物车的设计：
+根据购物车里面listView里的item选项设计对象
+CartItem{Book book;int count}
+List<CartItem> cartitems;
+//?购物车的根据自己的帐号进行长期存储
+2)listView里的每一个控件
+原理：listView通过adapter批量显示的控件，都是每一个独立的控件
+有规律的，可以加监听的
+a.改变listView里的item的每一个控件?
+改变每一项中的控件，不需要更新adapter;
+但如果是增删一项数据，则需要更新，或是外界影响也要更新
+b.改变listView里的item的其中一个控件？
+方法：通过对控件listView.setTag(标志）；
+拿到控件：imageView=listView.findViewByTag(标志);
+
+3)数据持久化处理
+a.存文件(以对象存）
+b.存数据库
+然后在application中读取
+4)反向传值
+
+

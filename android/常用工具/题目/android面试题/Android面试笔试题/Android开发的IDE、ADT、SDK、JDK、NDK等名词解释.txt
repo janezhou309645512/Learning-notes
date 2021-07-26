@@ -1,0 +1,22 @@
+Android开发的IDE、ADT、SDK、JDK、NDK等名词解释
+
+这篇文章主要介绍了Android开发的IDE、ADT、SDK、JDK、NDK等名词解释,对这些概念搞不清楚是一件痛苦的事,本文就简洁讲解了这些名词的含义,一起扫盲吧,需要的朋友可以参考下
+
+1. IDE：
+Intelligent Development Environm的简称。即智能开发环境。是一种开发工具。常用的IDE有adt-bundles和Android studio。两个都需要配置jdk。
+2. ADT：
+Android Development tools的简称。即Android开发工具。ADT为Eclipse的插件。在Eclipse和SDK之间起了一个桥梁的作用。
+3. SDK：
+Soft Development Kit的简称。软件开发工具包。在Android中，它为开发者提供了库文件以及其它开发所用到的工具。
+4. JDK：
+Java的开发工具包。包括了Java运行环境、Java工具和Java基础类库。
+5. NDK:
+概念： 
+(1).NDK是一系列工具的集合。帮助开发者快速开发C/C++的动态库。 
+并能自动将so和Java应用一起打包成apk。这些工具对开发者的帮助是巨大的。 
+(2).NDK将是Android平台开发支持C开发的开端。 
+作用： 
+(1).代码的保护。由于Java层代码很容易被反编译，而C/C++库反编译难度很大。 
+(2).可以方便的使用现存的开源库。大部分现存的开源库都是用C/C++代码编写的。 
+(3).提高程序的执行效率。将要求高性能的应用逻辑使用C开发，从而提高应用程序的执行效率。 
+(4).便于移植。用C/C++写的库可以方便的在其他的嵌入式平台上再次使用。

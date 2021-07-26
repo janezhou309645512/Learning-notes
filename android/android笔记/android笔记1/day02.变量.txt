@@ -1,0 +1,33 @@
+day02 变量
+驼峰命名法：多个单词拼写而成，第一个小写，第二个大写
+8种基本类型(其他都是引用类型）：
+1)整型(1字节8bit)
+byte(1字节）：-128--127
+short(2字节）：-2^15--2^15-1
+int（4字节）：两个整数相除，结果还是整数，小数直接舍弃
+Long（8字节）:直接在后面加L
+2）小数
+float(4字节）：单精度 (1.4E-4)
+double(8字节）:双精度，表示float型在后加f
+3）字符
+char(2个字节）：a=97 0=48 A=65 [0--2^16-1(25535)]
+4)boolean（1字节）:
+
+
+溢出：
+
+数据类型转换与运算：
+1)自动类型转换（小转大）
+2）强制型类型转换（大转小） .int i=(int)h
+byte,short,char型进行运算时,会自动转换为int型进行运算，与范围大int的类型一致
+Scanner的用法：
+1）在package下面：
+import java.util.Scanner;
+2)在main的大括号中：
+Scanner scan=new Scanner(System.in)
+3)在第二步下面：
+int age=scan.nextInt();
+double price=scan.nextDouble();
+练习：
+1）创建类age:接受用户输入的年龄输出
+2）创建类输入的年份year输出

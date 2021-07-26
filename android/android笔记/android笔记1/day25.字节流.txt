@@ -1,0 +1,36 @@
+1.InputStream/OutputStream:所有的字节流的父类（抽象类）
+------------------------------------------------------------
+2.基本介质流
+1.FileInputStream /FileOutputStream(文件路径，有true追加）
+//向文件中读写数据
+1)（）不管文件是否存在，都新建或者覆盖
+2）（）没，新建
+有，文件末尾追加
+2.ByteArrayInputStream/ByteArrayOutputStream（字节数组）
+//向内存中Byte数组读写数据
+str.getBytes//得到字符串的字节数组
+//读取可以得到字节数组
+
+-------------------------------------------------
+3.高级流：接介质流，在加工，操作其他流的流
+1).BufferedInputStream:提高效率
+提供字节缓冲区（在内存里，不再文件里）
+new BufferedInputStream(相接的流，缓存的数组大小）
+提高单字节读写速率
+2).DataInputStream:
+读写固定字节格式的数据
+new DataOutputStream(相接的流）
+方法：
+writeInt(int i) 输出int四个字节
+writeUTF()
+3).PrintStream
+将任何数据，转成字符串输出
+构造方法中新建文件流，并与文件流相接
+4).ObjectOutputStream
+不序列的成员：
+1）static 属于类，不随实例序列化
+2）transient 临时存在
+头部数据：
+创建流的同时就创建头部文件
+版本：
+

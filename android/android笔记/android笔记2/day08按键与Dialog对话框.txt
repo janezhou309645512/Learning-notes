@@ -1,0 +1,16 @@
+1.警示对话框：
+1)创建对话框以及对按钮加监听
+AlertDialog alertDialog=new AlertDialog.Builder(this)
+		.setIcon(R.drawable.ic_launcher)
+		.setTitle("警告")
+		.setMessage("是否要吃药?")
+		.setPositiveButton("是", 监听器)
+		.setNegativeButton("不", null)
+		.create();
+		alertDialog.show();
+   alertDialog.dismiss()//对话框消失
+2)自定义AlertDialog
+AlertDialog alertDialog=new AlertDialog.Builder(this)
+.create();
+alertDialog.setView(View);//view为一个layout布局文件
+alertDialog.show();

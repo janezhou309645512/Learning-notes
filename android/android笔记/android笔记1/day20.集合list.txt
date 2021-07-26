@@ -1,0 +1,19 @@
+1.List类：List<Integer> list=new ArrayList<Integer>();
+特点：
+1).访问任意位置效率高
+2).添加或删除数据，效率可能低
+方法：.add(index,list[]);插入元素
+.get(index);得到摸个位置的元素
+.set(a,list[]);替换
+.subList(2,8)子集合，原集合会根据子集合变化
+.remove(index);
+扩大子集
+3).排序静态方法static void sort()
+4).数组与元素之间的变换
+元素---数组：list.toArray(new String[10]);
+数组---元素：Array.asList(数组);
+2.1.Linkedlist集合：只在头尾操作
+建对象：LinkedList<String> list=new LinkedList();
+方法：add("")
+    getFirst() removeFirst()
+    remove() set(3,"3")

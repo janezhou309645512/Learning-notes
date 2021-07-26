@@ -1,0 +1,15 @@
+1.surfaceView的使用
+原理：
+使用线程画图，先存入内存，在显示在界面上
+用法：
+1）继承自surfaceView,并实现CallBack类
+2）SurfaceView.getHolder()获得SurfaceHolder对象 
+3）重写方法：
+-----surfaceChanged（）//在surface的大小发生改变时激发
+获取控件大小
+-----surfaceCreated（）//在创建时激发，调用画图的线程。
+SurfaceHolder.lockCanvas()获得Canvas对象并锁定画布
+SurfaceHolder.unlockCanvasAndPost(Canvas canvas)结束锁定画图，
+并提交改变，将图形显示
+-----surfaceDestroyed(）//销毁时激发，将画图的线程停止、释放。
+

@@ -1,0 +1,117 @@
+Android设计模式
+
+1.简单的设计模式：
+单例模式：在系统中一个类只有一个实例。 分为懒汉模式和饿汉模式。饿汉模式的代码如下：
+public class Singleten{
+private static singleten Instance = new Singleten();
+private Singleten(){}
+public static getInstance()
+{
+return Instance ;
+}
+}
+观察者模式：一个对象改变状态，则依赖它的所有对象都会得到通知并改变状态。
+迭代器模式：iterator（）；遍历元素的方法有hasNext(),first(),next(),remove()
+模版方法
+
+2.Listview列表效率优化
+（1）利用convertview回收视图
+（2）采用ViewHolder模式
+（3） 异步加载图片
+（4） 快速滑动时不加载图片
+（5） 如果自定义的item中有图片，需要处理图片（减少图片所占内存）
+1.对图片进行边界压缩 2.用option类来保存图片大小 3.避免图片的实时缩放，最好预先缩放到视图大小
+（6）尽量避免在listview适配器中使用线程，因为线程是产生内存泄露的主要原因在于线程的生命周期不可控。
+
+3.应用内存优化
+（1）bitmap设置图片大小（优化内存溢出）
+BitmapFactory.Option option = new BitmapFactory.Option();
+option.inSampleSize = 2; //将视图宽、高都变为原来的1/2
+（2）bitmap对象销毁，可以借助recycle（）方法让GC回收bitmap对象。
+（3）尽量避免static成员变量引用资源消耗过多的实例，如：context
+（4）使用Application的context
+（5）及时关闭资源，如在查询数据库时需要及时关闭cursor
+（6）对经常使用的图片使用软引用保存
+（7）线程也是造成内存泄露的一个重要原因，在于线程的生命周期不可控制，解决方法：
+1.将线程内部类改为静态内部类
+2.用弱引用来保存context引用
+（8）使用.9图片
+
+4.Handler与Handler Thread关系
+android消息处理机制：handler、Looper、MessageQueue、Message
+将一个线程变为looper线程的方法： Looper.prepare; //初始化MessageQueue与Looper
+Looper.loop();//消息循环
+
+5.异常处理
+IoException异常是编译器异常，在编译时就会报错
+ANR异常解决方法：尽量在主线程只做少量工作，比较耗时的工作单独在一个子线程中完成（或使用异步请求）
+
+6.数据库的优化
+1.使用索引
+2.使用事务
+3.查询时返回更少的结果集和字段
+
+7.数据存储的方法
+sharedpreference存储、文件存储、SQLite存储、contentprovide存储、网络存储数据
+
+8.启动服务的两种方法：startservice 和bindservice
+使用startservice（）启动服务，调用者和服务之间没有关联，即使调用者退出了，服务仍然运行；使用bindservice（）启动服务，调用者和服务绑定在一起，调用者一旦退出，服务也终止；采用startservice启动服务，只能调用stopservice终止服务。
+
+startservice（）启动服务的生命周期：oncreat（）、onstart（），ondestroy（） ；第一次startservice（）启动服务会调用oncreat（）、onstart（）；后面再使用startservice（）启动服务，只会调用onstart（）
+
+bindservice（）启动服务的生命周期：oncreat（）、onbind（）、omunbind（）、ondestroy（）；第一次 bindservice（）启动服务调用oncreat（）、onbind（），多次调用 bindservice（）并不会多次创建服务及绑定，如果调用者希望与正在绑定的服务解除绑定，可以调用unbindservice（）方法。
+
+8.set、List的区别：Set中元素不重复
+
+9.contentprovide如何实现数据共享
+如果想使应用程序的数据公开化：1.自己创建一个contentprovide 2.将数据添加到一个已经存在的contentprovide上
+如何获取数据： 外界程序可以通过contextResolver接口访问contentprovide提供的数据
+contentprovide的优点为：为其他程序提供了一个对数据访问的接口，从而实现对数据进行访问和更新的操作
+
+10.在某个activity界面按Home键走的生命周期：onpause(),onstop(),onsaveinstanceState()
+在某个activity界面按Home键再点击应用图标走的生命周期:onRestart().onStart(),onResume()
+
+11.在android中的4种Activity启动模式：SingleTask、standard、SingleTop、SingleInstance
+
+12.Http协议 HttpClient类 Jeson包解析
+
+13.socket协议
+android客户端实现：
+try{
+socket = new Socket(“192.168.1.32″,1989);
+InputStream inputStream = new FileInputStream (“e://a.txt”);
+OutputStream outputStream = socket.getoutputStream() ;
+byte buffer[] = new byte[4*1024];
+int temp = 0;
+while((temp = inputStream .read(buffer))!=-1){
+outputStream.write(buffer,0,temp);
+}
+outputStream.flush();
+}
+服务器端:
+try{
+serverSocket = new serverSocket (989);
+Socket socket = serverSocket.accept();
+
+InputStream inputStream = new FileInputStream (“e://a.txt”);
+InputStream inputStream = socket.getinputStream() ;
+byte buffer[] = new byte[4*1024];
+int temp = 0;
+while((temp = inputStream .read(buffer))!=-1){
+system.out.println(new String(buffer,0,temp));
+}
+serverSocket.close();
+}
+
+14.AIDL android内部进程通信接口的描述语言
+
+15.强引用：内存不足时，不会回收强引用的对象
+软引用：内存不足时，会回收软引用的对象
+弱引用：垃圾回收每次都会回收弱引用的对象
+
+16.android view的刷新机制
+
+17.静态内部类
+（1）非静态内部类中bunengdingy静态成员变量和方法
+（2）外部类和非静态内部类之间可以互相访问自己的私有成员
+（3）静态内部类只能访问外部类的静态成员

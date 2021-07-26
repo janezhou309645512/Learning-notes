@@ -1,0 +1,2 @@
+1.界面延迟跳转：广告进入
+ 用handler.sendEmptyMessage(msg.shat,long time);

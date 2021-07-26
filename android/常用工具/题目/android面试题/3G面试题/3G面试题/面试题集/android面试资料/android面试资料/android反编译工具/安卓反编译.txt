@@ -1,0 +1,45 @@
+安卓环境变量的配置：
+
+   ANDROID_SDK_HOME   D:\...\android-sdk-windows
+
+   PATH  ;%ANDROID_SDK_HOME%\platform-tools
+
+*************************************************
+
+XML反编译：
+工作准备：
+1.将apktool拷贝到C盘目录下
+2.将目标apk文件放到apktool的目录下
+工作步骤：
+cmd命令行操作：
+
+   c:
+
+   cd c:\apktool
+
+   dir
+
+   adb install cn.goapk.market.apk（安装apk软件）
+
+   apktool.bat d cn.goapk.market.apk
+
+**********************************************
+
+classes.dex文件反编译：
+工具准备：
+1、把dex文件反编译为jar文件的工具。（dex2jar） 
+
+2、把jar反编译为java的工具。（JD-GUI） 
+工作准备：
+1.把两个工具拷贝到C盘目录下
+
+2.用RAR解压目标apk，获取classes.dex文件
+
+3.将其放到dex2jar的目录下
+工作步骤：
+1.命令行：cmd
+cd c:\dex2jar
+dir
+dex2jar.bat classes.dex
+生成classes.dex.dex2jar.jar文件
+2.运行JD-GUI工具，打开上面的jar文件，即可看到源代码

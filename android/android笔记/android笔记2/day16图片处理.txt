@@ -1,0 +1,17 @@
+1.图片显示：
+
+位图
+屏幕尺寸：px 135dp
+像素：dp      不同的密度对应不同的值
+Options opts=new Options();
+opts.inSampleSize=rate;//是将图片的长宽等比例的缩小
+Bitmap bm=BitmapFactory.decodeFile(image.getPath(),opts);
+//将图片文件的路径解析成位图
+
+2.滑动效果
+
+4.容器控件：SwitcherView
+
+
+
+

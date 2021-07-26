@@ -1,0 +1,34 @@
+1.什么是java序列化，如何实现java序列化？
+
+    序列化就是一种用来处理对象流的机制，所谓对象流也就是将对象的内容进行流化。
+可以对流化后的对象进行读写操作，也可将流化后的对象传输于网络之间。序列化是为
+了解决在对对象流进行读写操作时所引发的问题。序列化的实现：将需要被序列化的类
+实现Serializable接口，该接口没有需要实现的方法，implements Serializable只是
+为了标注该对象是可被序列化的，然后使用一个输出流(如：FileOutputStream)来构造
+一个ObjectOutputStream(对象流)对象，接着，使用ObjectOutputStream对象的writeO
+bject(Object obj)方法就可以将参数为obj的对象写出(即保存其状态)，要恢复的话则
+用输入流。
+
+2.Android中Serializable 和Parcelable的联系？
+相同点：都是Android中自定义对象的序列化
+不同点：
+1）Serializable序列化时会产生大量临时变量，因而频繁调用GC,使用内存时Parcelable比Serializable性能高
+2）Parcelable不能使用在要将数据存储在磁盘上的情况，因为p不能很好的保证数据的持续
+性在外界有变化的情况下。尽管Serializable 效率低，也不提出，但是这种情况下，还是建议使用Serializable 
+3）Serializable的实现只需要实现Serializable接口即可，Parcelable的实现需要在类中实现writeToParcel,describeContents
+方法以及静态成员变量CREATOR,这个变量需要继承Parcelable.Creator接口
+4）Serializable的作用是为了保存对象的属性到本地文件，数据库，网络流，rmi以方便数据的传递，当然
+这种传递可以是在程序内的也可以是两个两个程序之间的。而Android的Parcelable的设计初衷是因为
+Serializable效率过慢，为了在程序内不同组件以及不同程序之间高效的传输数据而设计的，这些数据仅在
+内存中存在。
+
+
+3.什么是值传递和引用传递？
+
+对象被值传递，意味着传递了对象的一个副本。因此，就算是改变了对象副本，也不会影响源对象的值。
+
+对象被引用传递，意味着传递的并不是实际的对象，而是对象的引用。因此，外部对引用对象所做的改变会反映到所有的对象上。
+
+4.Context里面主要包含什么具体的东西？
+Context提供了应用环境全局信息的接口，他是一个抽象类，它的执行被Android系统所提供.它允许获得取以应用为特征的资源和
+类型。同时启动应用级的操作，如启动Activity,broadcasting和接收intent。

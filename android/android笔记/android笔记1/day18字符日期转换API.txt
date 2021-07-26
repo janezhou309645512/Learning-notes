@@ -1,0 +1,15 @@
+1.Date类：表示时间
+构造方法：new Date();表示系统当前时间
+new Date(60000000L):表示
+方法：getTime()得到毫秒值
+long 表示从1970经历的时间秒
+2.SimpleDateFormat类
+建对象：SimpleDateFormat a=new SimpleDateFormat("yyyy-MM--dd");//指定格式
+.parse()将上式格式字符串---时间Date
+.format()将时间Date----具体格式的时间的字符串
+3.Calendar类计算时间
+Calendar a=getInstance();
+.getTime();获取当时时间
+.setTime(Date date);设置date的时间
+.set(Calendar.DAY_OF_WEEK,int x);设置时间中的变量，星期会随着改变
+.add(Calendar.DAY_OF_YEAR,+-int x);增减么个值

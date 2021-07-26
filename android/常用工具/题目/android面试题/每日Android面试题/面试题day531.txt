@@ -1,0 +1,102 @@
+***Socket通信编程
+ 
+客户端编程步骤：
+1、 创建客户端套接字(指定服务器端IP地址与端口号)
+2、 连接(Android 创建Socket时会自动连接)
+3、 与服务器端进行通信
+4、 关闭套接字
+ 
+服务器端:
+1.创建一个ServerSocket，用于监听客户端Socket的连接请求
+2.采用循环不断接受来自客户端的请求
+3.每当接受到客户端Socket的请求，服务器端也对应产生一个Socket。
+
+
+ava中有几种类型的流？JDK为每种类型的流提供了一些抽象类以供继承，请说出他们分别是哪些类？
+字节流，字符流。字节流由InputStreamOutputStream派生出来，字符流由Reader、Writer派生出来。在java.io包中还有许多其他的流，主要是为了提高性能和使用方便。
+
+
+字节流与字符流的区别
+字节流和字符流区别非常简单，它们的用法几乎完全一样，区别在于字节流和字符流所操作的数据单元不同：字节流操作的数据单元是8位的字节，而字符流操作的数据单元是16位的字符。
+字节流主要由InputStream和OutputStream作为基类，而字符流则主要由Reader和Writer作为基类。
+字节流直接是基于字节进行输入、输出的，因此它的适用性更广。字符流则在处理文本内容的的输入、输出时更加方便——不会出现读取半个字符的情形。
+
+
+
+List 和 Map 区别?
+表面来看，List是一个只是存放单个元素的集合，List集合所包含的元素可以重复，元素按放入的先后顺序来存放，程序可以通过元素的索引来读取元素，因此List相当于一个动态数组；Map则是一个存放key-value对的集合，Map里存放的key-value对是无需的，Map包含的key是不允许重复的。程序可以key来取出该key对应的value。
+深入阐述：如果换个角度来看，我们可以把List当成Map来看，List相当于一个key都是值的Map，程序通过元素的索引读取List集合的元素时，完全也可以当成Map根据key来读取value。从另一个角度来看，Map也可以当成元素索引可以是任意类型的List集合。
+
+
+ViewHolder通常出现在适配器里，为的是listview滚动的时候快速设置值，而不必每次都重新创建很多对象，从而提升性能。
+
+在android开发中Listview是一个很重要的组件，它以列表的形式根据数据的长自适应展示具体内容,用户可以自由的定义listview每一列的布局，但当listview有大量的数据需要加载的时候，会占据大量内存，影响性能，这时候就需要按需填充并重新使用view来减少对象的创建。
+
+
+黑马软件工程师-java基础-深入解析IO流，附相关面试题
+www.MyException.Cn  网友分享于：2015-06-12  浏览：0次
+黑马程序员----java基础-----深入解析IO流，附相关面试题
+------Java培训、Android培训、iOS培训、.Net培训、期待与您交流！ -------
+
+IO流(掌握)
+(1)IO用于在设备间进行数据传输的操作
+
+(2)分类：
+A:流向
+输入流 读入数据 InputStream
+输出流 写出数据OutputStream
+补充：这里的流向是相对于java程序来说的，从硬盘读取数据就是在往java上读入，输出到硬盘就是在写出。
+B:数据类型
+字节流 
+字节输入流 读入数据 InputStream
+字节输出流 写出数据OutputStream
+字符流
+字符输入流 读入数据Reader
+字符输出流 写出数据Writer
+注意：
+a:如果我们没有明确说明按照什么分，默认按照数据类型分。
+b:除非文件用windows自带的记事本打开我们能够读懂，才采用字符流，否则建议使用字节流.
+IO流分类
+字节流：
+InputStream
+FileInputStream
+BufferedInputStream
+OutputStream
+FileOutputStream
+BufferedOutputStream
+
+字符流：
+Reader
+FileReader
+BufferedReader
+Writer
+FileWriter
+BufferedWriter
+
+(3)FileOutputStream写出数据
+A:操作步骤
+a:创建字节输出流对象
+b:调用write()方法
+c:释放资源
+
+B:代码体现：
+FileOutputStream fos = new FileOutputStream("fos.txt");
+fos.write("hello".getBytes());
+fos.close();//释放资源是为了关闭输出流，并释放与此流相关的所有系统资源
+
+C:要注意的问题?
+a:创建字节输出流对象做了几件事情?
+1，调用系统功能去创建文件
+2，创建输出流对象
+3，把输出流对象指向这个文件
+b:为什么要close()?
+1，关闭输出流，让流对象作为垃圾回收
+2，通知系统去释放相关资源
+c:如何实现数据的追加写入?
+FileOutputStream fos = new FileOutputStream("fos.txt",true);
+//这里的参数true,代表再写数据是可以从结尾处追加，如果没有true说明是从开头写出的。
+(4)FileInputStream读取数据
+A:操作步骤
+a:创建字节输入流对象
+b:调用read()方法
+c:释放资源

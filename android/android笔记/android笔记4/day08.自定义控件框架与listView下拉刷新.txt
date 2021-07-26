@@ -1,0 +1,6 @@
+1.自定义控件的框架的使用
+学习：开源控件ViewPagerIndicator的使用（百度一下）
+1）在自己的项目中导入lib库
+右键项目—Properties—Android选项卡—Add—选择library库工程—OK
+***必须保证library库与项目文件在同一个目录下
+2）

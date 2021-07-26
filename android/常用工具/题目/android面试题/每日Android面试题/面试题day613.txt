@@ -1,0 +1,34 @@
+一.switch语句能否作用在byte上，能否作用在long上，能否作用在string上？
+byte的存储范围小于int，可以向int类型进行隐式转换，所以switch可以作用在byte上.
+long的存储范围大于int，不能向int进行隐式转换，只能强制转换，所以switch不可以作用在long..
+string在1.7版本之前不可以，1.7版本之后switch就可以作用在string上了。
+
+
+
+二.注册广播有几种方式,这些方式有何特点?
+1)动态代码注册不是常驻型广播，也就是说广播跟随程序的生命周期。
+2)清单文件注册是常驻型，也就是说当应用程序关闭后，如果有信息广播来，程序也会被系统调用自动运行。
+
+
+
+三、数组,String有没有length()这个方法? 
+数组没有length()这个方法，有length的属性。
+
+String有有length()这个方法。
+
+
+
+四、Collection 和 Collections的区别。 
+
+　　Collection是集合类的上级接口，继承与他的接口主要有Set 和List.
+Collections是针对集合类的一个帮助类，他提供一系列静态方法实现对各种集合的搜索、排序、线程安全化等操作。
+
+
+五、Android中常用的五种布局？
+1) FrameLayout 框架布局,放入其中的所有元素都被放置在最左上的区域，而且无法为这些元素指定一个确切的位置,下一个子元素会重叠覆盖上一个子元素，适合浏览单张图片。
+	2) LinearLayout 线性布局,是应用程序中最常用的布局方式，主要提供控件水平或者垂直排列的模型，每个子组件都是以垂直或水平的方式来定位.(默认是垂直)
+	3) AbsoluteLayout 绝对定位布局,采用坐标轴的方式定位组件，左上角是（0，0）点，往右x轴递增，往下Y轴递增,组件定位属性为android:layout_x 和 android:layout_y来确定坐标。
+	4) RelativeLayout 相对布局,根据另外一个组件或是顶层父组件来确定下一个组件的位置。和CSS里面的类似。
+	5) TableLayout 表格布局,使用TableRow来布局，其中TableRow代表一行，TableRow的每一个视图组件代表一个单元格。
+
+

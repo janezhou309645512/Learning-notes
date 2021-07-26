@@ -1,0 +1,30 @@
+1.Collection类 Collection c=new ArrayList();
+  方法：.add();
+ .isEmpty();
+ .remove();
+ .size();
+ .contains(E e);
+ .clear();
+ .addAll();
+ .containsAll();
+  removeAll();
+
+2.集合遍历的三种方式：
+1)for循环
+2)for each语句
+int i=0;
+foreach(File file:files(数组或集合）)｛i++}
+3)迭代器：Iterator<String> it=list.iterator();
+while(it.hasNext()){
+String s=it.next();}
+
+3.对集合进行排序：
+ 1) Collections.sort(list(一种集合），new compartor(){｝）；
+ 2) 在集合的实体类中实现compreable接口，重写compareTo方法
+
+4.可变长参数 int... a(三个点表示数组的可变长度0到多个）
+
+5.枚举：
+enum WeaponType{COLD,HEAT,NUCLEAR}
+每个选项都是WeaponType类型的实例
+

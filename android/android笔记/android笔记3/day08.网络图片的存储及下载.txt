@@ -1,0 +1,35 @@
+1.图片缓存：
+1）存：（先存内存，后存文件）
+----内存缓存：
+HashMap<path,SoftRefenrence<Bitmap>> cache; 
+cache.put(url, new SoftReference(bitmap));//url是唯一存取标志
+-----文件缓存(下载）
+String filename = path.substring(path.lastIndexOf("/") + 1);
+ File file = new File(context.getCacheDir(), filename);
+//getCacheDir()方法用于获取/data/data/应用程序包名/cache目录
+if(!file.getParentFile().exists()){  //父目录不存在
+file.getParentFile().mkdirs();}
+FileOutputStream fos = new FileOutputStream(file);
+bitmap.compress(CompressFormat.JPEG, 100, fos);}//以哪种格式存储
+-----------------------------------------
+2）取时：（因为在内存中读取文件是最快的）
+判断：内存---（无）文件---（无）下载---（下载完）存内存，存文件
+-------内存取：
+SoftRefenece ref=cache.get(url);
+if(ref!=null){
+Bitmap bitmap = ref.get();
+if(bitmap!=null){
+设置imageView}}
+-------文件取：判断内存没有，如文件有，也要存入内存
+BitmapFactory.decodeFile(file.getAbsolutePath());
+cache.put(url, new SoftReference(bitmap));
+2.歌词缓存
+
+
+
+
+
+
+3.歌曲下载
+IntentService--
+onHandleIntent(Intent intent)//在工作线程中运行

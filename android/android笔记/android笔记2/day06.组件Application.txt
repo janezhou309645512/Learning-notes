@@ -1,0 +1,7 @@
+1.Application 
+特点：一个应用程序有且只有一个Application
+     运行在程序最初，销毁最晚
+     如要提供一些全局变量（先获取，会一直存在，然后其他调用）
+用法：1）写一个继承application的类，全局变量获取在onCreate()中
+      2)注册在application中注册name
+      3）其调用用(InnerApplication)getApplication()方法获取InnerApplication对象

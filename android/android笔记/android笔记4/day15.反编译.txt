@@ -1,0 +1,33 @@
+1.反编译作用：用于编译签名的apk文件，将其转换为源代码
+1）工具介绍：
+apktool  
+     作用：资源文件获取，可以提取出图片文件和布局文件进行使用查看
+dex2jar
+     作用：将apk反编译成java源码（classes.dex转化成jar文件）
+jd-gui
+     作用：查看APK中classes.dex转化成出的jar文件，即源码文件
+2）步骤：
+a.将apk文件用apktool工具反编译可到到res文件
+b.将apk文件后缀名改为.zip文件解压，后将classes.dex复制
+到dex2jar-0.0.7.9-SNAPSHOT中，
+c.利用命令行进入到dex2jar-0.0.7.9-SNAPSHOT目录下，
+写下dex2jar.bat classes.dex运行
+d.得到classes.dex.dex2jar.jar文件后，打开jd-gui程序查看源码
+
+2.防范反编译：
+1）在proguard-project.txt中后加：
+-dontwarn com.aliyun.**  
+-keep class com.aliyun.** { *;}
+  
+-dontwarn com.alibaba.**  
+-keep class com.alibaba.** { *;} 
+
+-dontwarn com.baidu.**  
+-keep class com.baidu.** { *;} 
+
+-dontwarn net.youmi.**  
+-keep class net.youmi.** { *;} 
+2）在project.properties中的
+proguard.config前去掉#
+这样编译出的源码就是abcd了
+3）破解：怎样在防编译的文件中改程序

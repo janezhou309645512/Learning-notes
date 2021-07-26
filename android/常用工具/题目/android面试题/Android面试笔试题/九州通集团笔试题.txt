@@ -1,0 +1,103 @@
+九州通集团笔试题(安卓)
+
+一、填空题（2*10）
+1.Android SDK 5.0的版本英文全称是（     ），对应的API Level是（    ）。
+2.Android四大组件分别为（    ）、（    ）、（    ）和（    ）。
+3.Activity的启动模式，分为（      ）、（    ）、（    ）和（    ）。
+4.结束Activity，常用的调用方法是（     ）。
+5.启动Service，有两种方法，分别为（    ）和（     ）。
+6.Android序列化有两种方式，实现（    ）和（     ）接口即可。
+7.Android存储方式，分为（     ）、（     ）、（     ）和（     ）。
+8.Android中常用的布局有（     ）、（     ）、（     ）、（     ）、（      ）。
+9.EditText文本内容监听器是（       ）。
+10.AIDL的全称是（       ）。
+
+二、判断题（1*10）
+（  ）1、每一个Android应用程序都运行在系统的进程中，并共享一个Dalvik虚拟机实例。
+（  ）2、绑定Service启动service，Client每次发起绑定Service请求时，都会重新创建新的Connect。
+（  ）3、adb push和adb install两种方式均可安装apk应用程序。
+（  ）4、Service不管以何种方式启动，都会调用onBind方法。
+（  ）5、ContentProvider只能提供外部程序访问，本程序内部不能通过其访问数据库。
+（  ）6、Sqlite为轻量级数据库，器能提供简单的增、删、查、改操作。
+（  ）7、git commit命令可以把提交的文件上传到远程服务器上。
+（  ）8、android binder机制是linux IPC通讯的一种方式。
+（  ）9、android平台支持shell功能。
+（  ）10、android源码编译的核心部分在build目录下。
+
+三、简答题
+1.画出Android框架结构图，并对每层作简要的描述。
+
+2.举例说明显示Intent和隐式Intent，两者有何区别？
+
+3.简要描述下，以下过程中Activity A和B的生命周期变化（OnCreate、OnStart、OnResume、OnPause、OnStop、OnRestart、OnDestory）
+a）启动Activity A，显示在UI界面
+b）从Activity A跳转到Activity B
+c）按Back按钮，从Activity B返回到Activity A
+
+4.URI为content://com.archermind.test/contacts，请简要的解释此URI的各组成部分。
+
+5.AndroidMainFest.xml配置文件如下“
+  <activity android:name=".NextActivity">
+	<intent-filter>
+		<action android:name="android.intent.action.TIGERTIAN"></action>
+		<category android:name="com.archermind.trainning"></category>
+	</intent-filter>
+</activity>
+请代码描述：如何通过Intent的方式去启动该Activity。
+
+6.请简要说明“实现监听开机广播，并启动一个应用程序”的步骤。（已知开机广播的Activity为"android.intent.action.BOOT_COMPLETED"）。
+
+7.有学生信息数据库，包含name,age,phone,address,employNum字段，已知这个数据库的URI为Uri URI=Uri.parse("cotent://com.archermind.test/TRAIN_TABLE")，请代码块实现添加一个学生信息到该数据库中。
+
+8.现有某一应用程序，其包含自身数据库data.db，其包名为com.archermind.test，请说明data.db文件的绝对路径。
+
+9.Handler机制的原理
+
+10.Android ANR异常及解决方法
+
+四、改错题
+指出下列不符合编程规范的地方，并修正。
+1 public class NextActivity extends Activity{
+2
+3	private static final String Log_Tag="NextActivity";
+4	private String age="age";
+5	private int i=0,j=0;
+6
+7	private Button button;
+8	public void onCreate(Bundle savedinstanceState){
+9		super.onCreate(savedinstanceState);
+10		setContentView(R.layout.next);
+11
+12		SharedPreferences prefs=getSharedPreferences("activityTest",Context,MODE_PRIVATE);
+13		String name=prefs.getString("name","zhangsan");
+14		Log.v(Log_Tag,"name is:"+name);
+15
+16		Intenet intent2=getIntent();
+17		if(intent2!=null)
+18		{
+19			try{
+20				Bundle bundle=intent2.getBundleExtra("bundle");
+21				String value2=bundle.getString("key");
+22				Log.v(Log_Tag,"value:"+value2);
+23			}catch(Exception e){
+24
+25			}
+26		}
+27	}
+28	private void query(){
+29		StringBuffer sbf=new StringBuffer();
+30		db=CacheDBHelper.getSQLiteDatabase(this);
+31		Cursor cur=db.query(CacheDBHelper.TABLE_NAME, new String[]{"name"}, null, null, null, null, null);
+32		if(cur.getCount()>0){
+33			for(cur.moveToFirst();!cur.isAfterLast();cur.moveToNext()){
+34				sbf.append(cur.getString(0));
+35				sbf.append("  ");
+36			}
+37		}
+38
+39		String text=sbf.toString();
+40		Log.i(Log_Tag,"query result is:"+text);
+41
+42	}
+43}
+

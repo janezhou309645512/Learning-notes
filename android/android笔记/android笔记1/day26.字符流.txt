@@ -1,0 +1,25 @@
+1.编码：
+中：GBK:中文二个字节(win7系统默认），英文字母为一个字节
+Unicode 统一码，万国码
+java中char两字节
+UTF-8:英文字符：单字节
+中文字符：三字节
+其他字符：两个字节
+----------------------------------
+2.字符流：父类：Reader / Writer（抽象类）
+--------------------------------------
+3.字节字符转换流（介质流）
+InputStreamReader（InputStream in) //字节流转字符流
+OutputStreamWriter(OutputStream out) //字符流转字节流
+--------------------------------------
+4.字符介质流
+1）FileReader / FileWriter（File/OutputStreamWriter(FileOutputStream))
+//接编码转换流或者文件
+------------------------------
+5.字符高级流
+一般后要接介质流）
+BufferedReader / BufferedWriter  //字符缓冲，
+----readLine()//一行一行的读
+PrintReader/PrintWriter(outputStream, true);//与 PrintStream 相同
+----println(data)//换行输出
+

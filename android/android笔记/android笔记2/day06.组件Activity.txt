@@ -1,0 +1,12 @@
+1.activity的生命周期
+退出与返回桌面是两个不同的动作
+a.当activity开启时 onCreat()--onStart()--onResume()（可见并可控）
+b.当activity返回桌面时  onPause()（activity部分可见）--onStop()（activity置于后台）;
+c.当activity从桌面重新开启时 onRestart()--onStart()--onResume
+(重新启动时是同一个activity)
+d.当activity销毁时 onPause()--onStop()--onDestory();
+e.当activity重新启动时 onCreat()--onStart()--onResume();(不是同一个activity)
+2.activity启动模式
+1）standard:标准模式，激活activity都会创建新的
+3.activity的正向，反向传值
+startActivityForResult()

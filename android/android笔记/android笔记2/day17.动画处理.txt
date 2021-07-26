@@ -1,0 +1,70 @@
+1.android中的动画（帧动画，补间动画，属性动画）
+getResources()//得到res资源
+.getDrawable//得到Drawable文件夹
+(R.drawable.img0)//得到Drawable下的一张图片值
+1）帧动画：
+原理：多张不同图片变化的实现动画效果（动画过程图片变化）
+用法：
+a.在配置文件中实现：
+I.在res/drawable文件中添加xml文件，根节点为animation-list,
+子节点<item/>里添加drawable（图片），duration(显示时间）属性
+II.在控件中声明src="@drawable/xml"
+III.最后在程序中：
+AnimationDrawable ad=(AnimationDrawable)getResources().
+getDrawable(R.drawable.frame_item);//加载资源文件
+ivShow.setImageDrawable(ad);//为控件设置动画
+ad.start();
+b.在程序中实现：
+AnimationDrawable ad2 = new AnimationDrawable();
+ad2.addFrame(getResources().
+getDrawable(R.drawable.img13), duration)；//加载资源文件
+ivShow.setImageDrawable(ad2);//为控件设置动画
+ad2.start();
+
+------------------
+2）补间动画
+原理：动画过程图片不变，属性也不变，最后还是处于原始状态
+动画分类：
+1.Alpha/淡入淡出动画--透明度发生变化
+2.Rotate/旋转动画
+3.Scale/缩放动画
+4.Translate/平移动画
+*****默认控件左顶点为原点（0，0），100%为一个长或宽的高度
+【Alpha动画属性】
+fromAlpha / toAlpha -> 透明度的值，取值为float类型，取值范围在0~1之间，其中0表示完全透明，1表示完全不透明
+【Rotate动画属性】
+fromDegrees / toDegrees -> 旋转角度，取值为float类型，如果toDegrees的值大于fromDegress，表示顺时针旋转，反之，则逆时针旋转，取值可以是负数，也可以大于360
+pivotX / pivotY -> 中心点坐标位置，取值使用百分比
+【Scale动画属性】
+fromXScale / fromYScale / toXScale / toYScale -> 缩放的尺寸，取值使用百分比，注意：以上4个属性都是必要属性
+pivotX / pivotY -> 中心点坐标位置，取值使用百分比
+【Translate动画属性】
+fromXDelta / toXDelta / fromYDelta / toYDelta -> 移动的位置，取值使用百分比，以X轴的属性为例，如果toXDelta的值大于fromXDelta，则表现为从左至右平移，反之，表现为从右至左平移，取值也可以是负数。如果只需要水平移动，则可以不指定fromYDelta和toYDelta属性，同理，如果只需要垂直方向移动，则可以不指定fromXDelta和toXDelta属性。
+【动画通用属性】
+duration -> 动画的持续时长，取值为int类型，以毫秒为单位，例如动画持续5秒，则取值为5000
+repeatCount -> 重复次数，即可以设置动画被执行多次，如果希望动画执行2次，则取值为1，即重复的次数是1次，原始的执行不计入重复次数之内
+repeatMode -> 重复模式，取值为restart或reverse，取值为restart时，表示每次重复时，都从头开始执行动画，取值为reverse时，表示每次重复时，都会逆向执行前一次的动画。注意：该属性仅当repeatCount属性的值大于或等于1时有效。
+startOffset -> 动画开始执行的时间偏移量，即过多久以后再开始执行动画，取值为以毫秒为单位的数值
+【根节点属性】
+fillAfter -> 取值为true表示控件将停留在动画之后的状态
+用法：
+（一）.在配置文件中实现：
+I.在res里新建Tween Animation XML文件，设置动画效果的根节点，
+后在其下设置其属性
+II.然后在程序中：
+Animation alphaAnim = AnimationUtils.loadAnimation(this, R.anim.alpha);
+控件.startAnimation(alphaAnim);
+（二）.在程序中实现：
+TranslateAnimation anim = new TranslateAnimation(0, 0, 0, llKeyboard.getHeight());
+anim.setDuration(400);//以上两项设置属性（配置文件）
+llKeyboard.startAnimation(anim);
+
+-------------
+3)属性动画
+原理：动画过程改变属性，比如位置，x，y位置
+用法：1）在程序中
+ObjectAnimator anim=ObjectAnimator.ofFloat(view,属性值,0,200);
+anim.setDuration(3000);
+anim.start();
+要设置两个属性，要添加监听
+

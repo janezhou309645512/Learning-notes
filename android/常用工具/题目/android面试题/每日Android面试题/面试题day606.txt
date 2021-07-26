@@ -1,0 +1,57 @@
+1.Android客户端程序的 MVC架构
+
+View  视图层
+  用户界面的呈现. 
+  收集用户数据并且把用户数据交给控制器.
+  接收控制器的调用,展现相应的UI.
+
+Controller  控制器
+  接收view层传来的参数,根据业务流程,调用业务层.
+  获取业务层代码执行结果,根据不同的结果,显示
+  不同的view.
+
+Model  模型层
+  完成业务.
+
+
+2.启动service有几种方式，说出他们之间的主要区别
+答：
+调用startService()：通过此种方法启动的service会一直运行在后台
+直到stopService()或stopSelf()方法被调用。
+调用bindService()：通过此种方法启动的service会与调用者绑定，
+如果这个service还没有被启动，
+那么service启动时将不会调用onStart()，只调用onCreate()和onBind()，
+调用者被销毁时，service也被销毁。
+
+3.  handler机制的原理
+答：android提供了handler和looper来满足线程间的通信。Handler先进先出原则。
+		looper用来管理特定线程内对象之间的消息交换（message Exchange）.
+    1)looper:一个线程可以产生一个looper对象，
+    由它来管理此线程里的message queue(消息队列)
+    2)handler:你可以构造一个handler对象来与looper沟通，
+    以便push新消息到messagequeue里；
+    或者接收looper（从messagequeue里取出）所送来的消息。
+    3)messagequeue:用来存放线程放入的消息。
+    4)线程：UI thread 通常就是main thread,
+    而android启动程序时会为它建立一个messagequeue.
+
+
+4.Android中Activity跳转过程中的反向传值:
+如何实现?
+由AActivity启动BActivity,然后再BActivity
+finish()之后,把相关的数据回传给AActivity.
+并且在AActivity中执行后续操作.
+
+AActivity:
+1>
+启动BActivity需要使用下列方法:
+startActivityForResult(intent)
+2>
+BActivity:
+执行完业务,finish时,调用下列方法给AActivity回传数据:
+setResult(intent)
+3>
+在AActivity中重写父类的方法: 
+onActivityResult(),一旦BActivity销毁,那么
+将会自动执行onActivityResult方法,并且获取
+BActivity回传的intent对象.

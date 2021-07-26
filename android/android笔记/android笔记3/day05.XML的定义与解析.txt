@@ -1,0 +1,51 @@
+1.xml（w3c网站学习）
+1）功能：用于传输数据的
+2）语法：
+a.注释：<!-- 注释 -->
+b.属性：lan="cn"
+   值：<isbn>值</isbn>
+c.纯文本：<![CDATA[ 文本内容 ]]>
+d.实体引用：
+< (&lt;)	
+> (&gt;) 	
+& (&amp;)
+' (&apos;)
+" (&quot;)
+
+
+*命名空间：
+1）防止标签命名冲突重复
+2）用法：标签加android：
+xmlns:android="http://schemas.android.com/apk/res/android"
+*DTD:定义xml的规则，哪些标签与属性
+用于ALT+/能自动获取的，也用于检验
+--------------------------
+2.xml解析：
+1）dom4j解析：(要导入jar包，要将文件先加载在内存中)
+用法：a.导入java包
+      b.读取本地文件
+      c.得到根节点
+      d.遍历得到子节点
+
+
+
+2）pull解析:(android里自带解析器,边读取，边解析，只要输入流即可)
+用法：
+a.获取输入流InputStream
+b.得到解析器，读取流
+XmlPullParser parser=Xml.newPullParser();
+parser.setInput(is,"UTF-8");
+c.得到解析事件类型
+int type=parser.getEventType();
+4.判断解析事件类型输出内容
+while(type!=XmlPullParser.END_DOCUMENT){
+switch(type){解析的内容}
+type=parser.next();//向后驱动解析文本｝
+解析标签的api:XmlPullParser.START_TAG（开始标签）
+XmlPullParser.END_TAG（结束标签）
+解析内容的api:parser.getName()（标签名）
+parser.getAttributeValue(0)（第一个属性值）
+parser.nextText()（下一个文本值）
+
+
+

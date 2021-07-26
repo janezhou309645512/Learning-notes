@@ -1,0 +1,17 @@
+1.网络（每一台机器连接在交换机上，分配一个ip号(255.255.255.255)）
+---IP：通过cmd窗口ipconfig看到，与域名绑定在一起
+---端口号：客服端访问到服务端（通过ip)
+的哪一台应用程序（通过端口号，max=65535)获取数据
+2.服务端：
+1）怎样创建一个服务端？：
+ServerSocket ss=new ServerSocket(8888)
+2）要实现一个服务端接受多个客服端：
+while(true){ss.accept()（接受scoket对象的，可以通过List集合存储起来）;
+new Thread(socket);}//获取一个Socket对象就开启一个线程，分开执行
+3.客服端：
+Socket socket=new Socket(ip,8888);//连接服务端
+socket.getInputStream()//获取网络输入流
+5.网络编程注意两点：
+1）网络操作（耗时）都要在线程里处理（比如：连接服务器，读写操作等）；
+2）网络权限声明
+

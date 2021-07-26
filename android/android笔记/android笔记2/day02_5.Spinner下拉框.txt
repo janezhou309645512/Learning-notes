@@ -1,0 +1,19 @@
+1.在xml文件中配置
+1）在布局文件中声明 android:entries="@array/spingarr"
+2）在values中新建array.xml文件，配置
+<resources>
+    <string-array name="spingarr">
+    <item>深圳</item>  
+    </string-array>
+</resources>
+----------------------
+2.在程序中自定义的
+ //适配器
+adapter= new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, data_list);
+ //设置样式
+adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+ //加载适配器
+spinner.setAdapter(arr_adapter);
+3.监听器：
+OnItemSelectedListener（）
+        

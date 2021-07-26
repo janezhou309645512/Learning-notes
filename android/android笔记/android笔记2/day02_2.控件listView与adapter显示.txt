@@ -1,0 +1,36 @@
+1.ListView控件
+
+1)监听
+a.列表项点击事件监听
+onItemClickListener()
+b.滚动事件监听
+OnScrollListener()
+重写方法：
+---onScrollStateChanged（)//滚动状态改变
+OnScrollListener.SCROLL_STATE_IDLE://空闲状态 
+OnScrollListener.SCROLL_STATE_FLING://滚动状态
+OnScrollListener.SCROLL_STATE_TOUCH_SCROLL://触摸后滚动
+---onScroll(AbsListView view, //正在滚动中
+ int firstVisibleItem,//第一个Item的位置
+ int visibleItemCount,//可见的Item的数量 
+ int totalItemCount)//item的总数 
+
+2)adapter显示的总结：
+a.ArrayAdapter
+b.SimpleArrayAdapter
+c.BaseAdapter
+3）显示原理与优化：
+convertView=null:convertView的复用
+ViewHolder:避免findViewById每次运行
+4)ListView界面的更新
+list = getUpdateList();//得到更新后的集合数据
+adapter.notifyDataSetChanged();
+
+5)设置头部View（可以自定义一个layout）：
+listView.addHeadView(view);为ListView列表的第一项
+
+2.GridView控件(继承自ListView控件）
+核心属性：numColumns:设置列的数目
+ columnWidth:设置列的宽度
+ verticalSpacing:行之间的垂直间距
+ horizontalSpacing:列之间的水平间距

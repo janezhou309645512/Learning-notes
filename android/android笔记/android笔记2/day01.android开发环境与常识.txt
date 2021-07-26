@@ -1,0 +1,46 @@
+开发环境：1.JDK 1.7版本
+2.eclipse
+3.android sdk
+安装android sdk manager
+sdk 管理器用来安装删除开发工具，开发库，扩展工具
+环境变量 ANDROID_SDK_HOME
+配置android sdk的安装路径
+4.AVD安卓虚拟设备
+5.ADT
+android开发工具
+是一个eclipse插件，使用eclipse平台，来开发安卓应用
+安装方法：
+在eclipse\dropins\目录下新建adt目录
+复制adt 离线安装包中的plugins和features目录到adt目录下,
+下载删除adt文件即可
+6.在eclipse中配置sdk
+7.android studio
+新的android开发工具
+eclipse+adt开发工具将被淘汰
+安装绑定android sdk的集成版（1G)
+第一次启动会联网更新
+--------------------
+常识：
+1.颜色值 
+00-ff  黑--白  透明--不透明
+8位16进制表示
+2.LogCat日志：
+vdiwe 低到高
+3.adb启动（经常运行程序问题：端口被占用）
+**如果要去启动夜神模拟器adb（进去platform-tools目录下，
+执行adb connet 127.0.0.1:62001)
+步骤：
+1）判断是否有应用程序(360手机助手等）占用端口
+a.进入cmd--->netstat -ano命令行查看5037端口下的LISTENING PID?
+b.打开任务管理器-->查看-->选择列-->勾选PID选项--->
+查看5037的PID是否为adb.exe占用，如其他（kadb.exe,tadb.exe等），则关闭
+c.再重启ecliplse,或者再重启avd
+2)使用adb命令重启adb
+a.利用cd命令进入android-sdk目录下的platform-tools目录
+b.执行以下两条命令：adb kill-server  adb start-server
+c.如出现daemon start successfully 则正常工作
+d.在执行adb devices  出现offline,则需先重启ecliplse,或者再重启avd
+e.最后还不行，则也需先重启ecliplse,或者再重启avd
+4.学习资料：
+博客：android开发的Blog推荐（各位大神的bolg)
+安卓巴士网站

@@ -1,0 +1,9 @@
+1.首先在第三方分享导入些包后，导入以上两个文件
+初始化：ShareSDK.initSDK(this);
+【具体仿照LoginActivity类进行仿写】
+2.对登录里的方法进行说明：
+--authorize(new QQ(this));//进行授权处理
+--if(plat.isValid()) {plat.removeAccount();}//如果授权，取消授权
+--onComplete()方法是Callback登录后回调的接口，由于获取用户信息，在res里
+  			
+  			

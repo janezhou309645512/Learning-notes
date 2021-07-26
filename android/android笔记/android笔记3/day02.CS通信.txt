@@ -1,0 +1,38 @@
+1.C/S通信
+          传输数据协议
+（客服端）-----------（服务端）
+｛Tomcat(封装了接受客服端，输出输入流等），本地数据｝
+2.Tomcat目录结构
+   bin:程序文件
+ startup.bat 开启服务（闪退：JAVA_HOME环境变量）
+   webapps:放项目文件
+3.访问服务器Uri：
+ http://ip地址：端口号/项目文件名
+4.jsp 网页生成技术
+ 原因：在服务端的java类编写太麻烦
+做法：1）在eclipse中新建web project项目;
+2）为其配置Tomcat路径
+3）new web File
+4)导出web war文件
+5）将导出的文件放在Tomcat中的项目文件中，开启服务 
+jsp语法：
+1）JSP指令 <%@ %> 
+2）<% java代码 %>
+3）普通文本（jsp会直接输出文本）
+4）JSP表达式 <%= %> 
+5）写xml文本时，将<?xml version="1.0" encoding="UTF-8"?>插入指令后
+总结：与java类似，首先按照java代码写好再来组织，普通文本相当于System.out.println();
+Java语法代码写在<% %>,合起来就是java通顺的代码即可
+5.客服端传递请求参数
+http://ip:port/app/flight.jsp?a=b&c=d(参数）
+ 服务端接受请求参数
+String from=request.getParameter("a");
+服务端返回数据格式：XML/JSON
+ 
+练习：
+模拟登录注册
+
+
+
+
+ 

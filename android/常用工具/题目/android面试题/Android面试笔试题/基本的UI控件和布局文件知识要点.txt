@@ -1,0 +1,127 @@
+基本的UI控件和布局文件知识要点
+
+文本控件
+
+- TextView
+
+- EditText
+
+按钮控件
+
+- Button
+
+- ImageButton
+
+状态开关按钮
+
+- ToggleButton
+
+单选与复选按钮
+
+- CheckBox
+
+- RadioButton
+
+图片控件
+
+- ImageView
+
+时钟控件
+
+- AnalogClock
+
+- DigitalClock
+
+日期与时间选择控件
+
+- DataPicker
+
+- TimePicker
+
+ 
+
+布局文件：
+
+LinearLayout和RelativeLayout
+
+共有属性：
+java代码中通过btn1关联次控件
+android:id=”@+id/btn1″
+
+控件宽度
+android:layout_width=”80px”    //”80dip”或“80dp”
+android:layout_width =“wrap_content”
+android:layout_width =“match_parent”
+
+控件高度
+android:layout_height=”80px”    //”80dip”或“80dp”
+android:layout_height =“wrap_content”
+android:layout_height =“match_parent”
+
+控件排布
+android:orientation=”horizontal”
+android:orientation=”vertical“
+
+控件间距
+android:layout_marginLeft=”5dip”      //距离左边
+android:layout_marginRight=”5dip”      //距离右边
+android:layout_marginTop=”5dip”      //距离上面
+android:layout_marginRight=”5dip”      //距离下面
+
+控件显示位置
+android:gravity=”center”    //left,right, top, bottom
+android:gravity=”center_horizontal”
+
+android:layout_gravity是本元素对父元素的重力方向。
+android:layout_gravity属性则设置控件本身相对于父控件的显示位置
+android:gravity是本元素所有子元素的重力方向。
+
+android:layout_gravity=”center_vertical”
+android:layout_gravity=”left”
+android:layout_gravity=”left|bottom”
+TextView中文本字体
+android:text=”@String/text1″    //在string.xml中定义text1的值
+android:textSize=”20sp”
+android:textColor=”#ff123456”
+android:textStyle=”bold”    //普通（normal）， 斜体（italic），粗斜体（bold_italic）
+
+定义控件是否可见
+android:visibility=”visible”     //可见
+android:visibility=”invisible”　　//不可见，但是在布局中占用的位置还在
+android:visibility=”gone”　　　//不可见，完全从布局中消失
+
+定义背景图片
+android:background=”@drawable/img_bg”    //img_bg为drawable下的一张图片
+
+seekbar控件背景图片及最大值
+android:progressDrawable=”@drawable/seekbar_img”
+android:thumb=”@drawable/thumb”
+android:max = ”60″
+
+ 
+
+仅在RelativeLayout中有效：
+在父亲布局的相对位置
+android:layout_alignParentLeft=”true”     //在布局左边
+android:layout_alignParentRight=”true”    //在布局右边
+android:layout_alignParentTop=”true”     //在布局上面
+android:layout_alignParentBottom=”true ”  //在布局的下面
+
+在某个控件的相对位置
+android:layout_toRightOf=”@id/button1″  //在控件button1的右边，不仅仅是紧靠着
+android:layout_toLeftOf=”@id/button1″   //在控件button2的左边，不仅仅是紧靠着
+android:layout_below=”@id/button1 ”     //在控件button1下面，不仅仅是正下方
+android:layout_above=“@id/button1”   //在控件button1下面,不仅仅是正下方
+
+定义和某控件对奇
+android:layout_alignTop=”@id/button1”  //和控件button1上对齐
+android:layout_alignBottom=”@id/button1”  //和控件button1下对齐
+android:layout_alignLeft=”@id/button1”  //和控件button1左对齐
+android:layout_alignRight=”@id/button1”  //和控件button2右对齐
+android:layout_centerHorizontal=”true”        //水平居中
+android:layout_centerVertical=”true”
+android:layout_centerInParent=”true”
+
+仅在LinearLayout中有效
+设置控件在一排或一列中所占比例值
+android:layout_weight=”1″

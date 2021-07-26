@@ -1,0 +1,34 @@
+1.mvc架构
+view:视图层
+model:业务层
+util:工具层（经常用的）
+
+
+2.音乐播放器技术难点：
+1）怎样在xml中帅选出有效信息，封装成类
+2）Fragment的用法与activity类似（context=getActivity)
+onCreateView()相当于activity的onCreate()方法，其他用法一致
+fragment与activity之间传递参数用法：
+设为成员变量
+3) callback回调模式
+在异步线程中，获得数据后要更新UI，但是没UI控件定义
+步骤：
+a.定义回调接口： interface CallBack{方法｝
+b.在开启异步线程AtyncTask中的方法参数中加入（CallBack）
+c.在ui界面中调用方法是重写CallBack接口中的方法。
+4）关于线程,service,activity的理解
+activity关掉不代表service关掉
+service停掉也不代表线程停掉
+异步的没返回值，不要每次都启动线程
+AtyncTask 与Thread的各自区别
+AtyncTask是线程池
+5)GC垃圾回收机制
+1）内存使用频率越高，GC也越高
+2）GC线程使用时，其他线程都停止
+
+3.作业：
+完成这两天的代码
+整理之前笔记
+往前写音乐播放器（至少多写一节）
+?1）网络下载图片并显示图片
+2）第二个播放信息界面

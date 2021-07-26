@@ -1,0 +1,44 @@
+1.Intent的显隐式应用
+1）显式Intent：只能激活在本应用中的activity,service
+例：startActivity(this,anotherActivity.class)
+2）隐式Intent：激活其他应用程序中的activity,service(跨进程）
+要加标志action:
+intent.setAction(intent.ACTION_DEFAULT)
+--------------------------------------
+2.Intent属性：
+---ComponentName:组件名（激活组件）
+用法：new Intent(this, MainActivity.class)
+---Action:用于隐式激活指定的系统组件
+用法：setAction(String)/getAction()
+---Data:数据，Uri类型的
+用法：Uri.parse(“http://www.tedu.cn”)
+---Category：分类用于IntentFilter的匹配
+用法：addCategory(String)
+默认添加："android.intent.category.DEFAULT"
+---Flag:用于激活的组件指定一定的标志性属性
+用法：setFlags()或addFlags()配置该属性
+---Extras:用于Intent传递数据（各个组件之间）
+用法：传：intent.putExtra("标志字符串",数据）；
+接：intent=getIntent();
+intent.getIntExtra("标志字符串")
+如果是对象：intent.getSerializableExtra("book");
+
+---------------------------------------
+3.Parcelable/Serializable:类的序列化接口
+原理：如果传递的是一个对象，则要对象的类要实现Parcelable/Serializable接口
+用法(一）：直接在类中实现Serializable接口即可
+用法(二）：
+1）在要传递的类中实现Parcelable接口
+2) 重写接口两个方法
+-----void writeToParcel(Parcel dest, int flags) {
+dest.writeString(title);....//将类成员变量写入容器中}
+-----int describeContents() {return 0;}
+3）要声明public final static Parcelable.Creator<T> (接口常量）
+重写接口中两个方法：
+-----Music createFromParcel(Parcel source) {
+source.readString(title);......//将容器中变量读到类中｝
+-----Music[] newArray(int size) {return new Music[size];｝
+
+
+
+

@@ -1,0 +1,10 @@
+1.ANR?
+Application not responing
+原因：主线程耗时
+解决：开启线程
+2.OOM:内存溢出
+图片缩小处理
+new Thread(){
+run{确保run方法能正常运行完毕｝
+}
+

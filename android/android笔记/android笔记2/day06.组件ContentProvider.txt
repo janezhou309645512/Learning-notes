@@ -1,0 +1,17 @@
+1.ContentProvider:
+提供共享的数据，供其他应用程序增删改数据
+写一个继承自ContentProvider的类
+由于这个组件是不继承自context的,可以用方法getContext()得到context值
+在清单文件里注册：
+authorities :域名
+exported:true
+
+2.ContentResolver:
+可以增删改查访问提供数据方的数据
+1）准备ContentResolver对象
+ContentResolver cr = context.getContentResolver();
+2）Uri url = Uri.parse("content://域名");
+sd卡下存储的媒体文件，数据在系统里的.provider里，在MediaStore.
+3）在用cr对象调用ContentProvider里的增删改吃查方法进行数据操作
+
+

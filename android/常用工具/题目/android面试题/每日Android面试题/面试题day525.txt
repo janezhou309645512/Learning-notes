@@ -1,0 +1,41 @@
+一. 请说出Java中5种最常见的异常。
+
+1.Java.lang.NullPointerException这个异常大家肯定都经常碰到，
+异常的解释是"程序遇上了空指针"，简单地说就是调用了未经初始化的对象或者是不存在的对象。
+2.Java.lang.ClassNotFoundException这个异常是无法加载相关的类。
+3.Java.lang.ArithmeticException 这个异常的解释是"数学运算异常"，
+比如程序中出现了除以零这样的运算就会出这样的异常。
+4.Java.lang.ArrayIndexOutOfBoundsException这个异常是"数组下标越界"。
+5.Java.lang.IllegalArgumentException这个异常的解释是"方法的参数错误"，方法传递参数不正确。
+
+二.请简要说明Java中使用泛型的好处和规则。
+ Java语言引入泛型的好处是安全简单。泛型的好处是在编译的时候检查类型安全，
+ 并且所有的强制转换都是自动和隐式的，提高代码的重用率。
+ 
+ 泛型在使用中还有一些规则和限制：
+1、泛型的类型参数只能是类类型（包括自定义类），不能是简单类型。
+2、同一种泛型可以对应多个版本（因为参数类型是不确定的），不同版本的泛型类实例是不兼容的。
+3、泛型的类型参数可以有多个。
+4、泛型的参数类型可以使用extends语句，例如<T extends superclass>。习惯上成为“有界类型”。
+5、泛型的参数类型还可以是通配符类型。
+
+三.请简述单例模式的解决方案。
+单例模式即指在程序运行时只能有一个实例存在。
+首先要把类的构造方法私有化，这样就无法再随意创建对象了。
+定义一个静态成员，为单例实例的引用，自己new一个实例。
+用静态公开的方法，返回值类型为单例类型，把new出实例返回，此方法供外界访问，来获取单一的实例。
+
+四.Collection 和 Collections的区别。 
+
+Collection是集合类的上级接口，继承与他的接口主要有Set 和List.
+Collections是针对集合类的一个帮助类，他提供一系列静态方法实现对各种集合的搜索、排序、线程安全化
+等操作。
+
+五.请描述下Activity的生命周期.
+onCreate(Bundle savedInstanceState)： 创建activity时调用。
+onStart()：activity变为在屏幕上对用户可见时调用。
+onResume()：activity开始与用户交互时调用（无论是启动还是重新启动一个活动，该方法总是被调用的）。
+onPause()：activity被暂停或收回cpu和其他资源时调用，该方法用于保存活动状态的，也是保护现场。
+onStop()：activity被停止并转为不可见阶段及后续的生命周期事件时调用。
+onRestart()：重新启动activity时调用。该活动仍在栈中，而不是启动新的活动。
+OnDestroy()：activity被完全从系统内存中移除时调用该方法

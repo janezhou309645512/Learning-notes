@@ -1,0 +1,29 @@
+1.父类Number
+数据类型Integer,Double的父类
+方法：intvalue() 对一个数据对象进行取值
+2. 子类Integer
+  建对象：Integer.valueOf(int a);//数据----对象
+  方法：intvalue()       取值：数据对象---数据
+           Integer. parseInt()    字符串---数据
+  3.子类BigDecimal：进行浮点精确计算 BigInteger :大整数运算
+  对象：a=BigDecimal.valueOf(int a)
+  方法：add(BigDecimal  a);
+        subtract(BigDecimal a)
+        multiply(BigDecimal a)
+          divide(BigDecimal a)
+          divide(BigDecimal bd, 保留位数, 舍入方式)
+          舍入运算： setScale(保留位数, 舍入方式)
+          注： 结果都是BigDecimal对象
+      取值：doubleValue()或者toString()
+    
+   4.Math类 
+ 方法：max(a,b)
+       ceil(参数）返回一个不小于参数的最小整数
+        floor(参数） 大于
+           pow(n,m) 返回n的m方
+           sqrt(n) n的平方艮
+    5.DecimalFormat类：数字格式化工具
+对象：DecimalFormat f=new DecimalFormat(格式）
+   方法：format(数字）数字-----格式化字符串
+         parse(字符串） 字符串---数字对象
+         applyPattern(格式） 修改格式

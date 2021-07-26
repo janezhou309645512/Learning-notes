@@ -1,0 +1,5 @@
+1.用于json复杂解析(包含一层一层的类）
+1)先写实体类
+一层一层的往下写类（一个Object一个类）
+2）Gson gson=new Gson();
+Root root=gson.fromJson(result,Root.class);//Root为根类

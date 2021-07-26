@@ -1,0 +1,50 @@
+1.偏好存储：（在程序的内存中）
+原理：储存位置在data/data/程序包名/目录名，以xml文件方式储存
+用法：
+SharedPreferences s= getSharedPreferences("文件名", Context.MODE_PRIVATE); //私有数据
+存放数据或修改数据：
+Editor editor = s.edit();//获取编辑器
+editor.putString("name", "wujaycode");
+editor.putInt("age", 4);
+editor.commit();//提交修改
+得到数据：
+int i=s.getInt("i",默认值);
+String str=s.getString("str",默认值);
+---------------------------------------
+2.怎样偏好存储一个对象？
+存：
+ByteArrayOutputStream baos = new ByteArrayOutputStream();  
+  //创建字节对象输出流  
+ ObjectOutputStream out = null;  
+  //然后通过将字对象进行64转码，写入key值为key的sp中  
+ out = new ObjectOutputStream(baos);  
+out.writeObject(object);  
+ String objectVal = new String(Base64.encode(baos.toByteArray(), Base64.DEFAULT));  
+ SharedPreferences.Editor editor = sp.edit();  
+ editor.putString(key, objectVal);  
+ editor.commit(); 
+取：
+String objectVal = sp.getString(key, null);  
+ byte[] buffer = Base64.decode(objectVal, Base64.DEFAULT);  
+ //一样通过读取字节流，创建字节流输入流，写入对象并作强制转换  
+ByteArrayInputStream bais = new ByteArrayInputStream(buffer);  
+ ObjectInputStream ois = null;  
+ ois = new ObjectInputStream(bais);  
+ T t = (T) ois.readObject();
+-------------------------------- 
+3.存储一个对象改善方法：（利用io存储对象）
+ 存：
+File file = new File(MyApplication.getContext().getCacheDir(), GlobalConsts.CART_CACHE_FILE_NAME);
+ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
+oos.writeObject(this);
+oos.flush();
+oos.close();
+取：
+File file = new File(MyApplication.getContext().getCacheDir(), GlobalConsts.CART_CACHE_FILE_NAME);
+ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+Cart cart = (Cart) ois.readObject();
+if(cart == null){
+return new Cart();}
+
+  
+

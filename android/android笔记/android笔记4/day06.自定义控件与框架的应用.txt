@@ -1,0 +1,25 @@
+自定义控件框架的学习资料
+GitHub上史上最全的Android开源项目分类汇总 IT（百度一下）
+----------------------------------------
+1.自定义控件，继承自View的
+用法:
+1)构造方法里写要运行的
+2）重写方法
+----onMeasure()//测量得到控件的大小,进行设置（set)
+设置：setMeasuredDimension(宽,高);
+----onSizeChanged()//得到控件的大小，默认得到(get)
+得到：宽=w；高=h;
+----onDraw()//画图
+Paint paint=new Paint();//创建一个画笔
+paint.setColor(Color.BLACK);//设置画笔颜色
+canvas.draw()//画一个图形
+一般先画个矩形，代表控件的宽高
+----onTouchEvent()//对控件执行触摸监听
+MotionEvent.ACTION_DOWN://按下
+MotionEvent.ACTION_MOVE://移动
+MotionEvent.ACTION_UP://抬起
+3)要实现动画效果，启动线程
+postInvalidate();//工作线程中调onDraw（）多次绘图
+--------------------------------
+2.图表的框架使用：
+

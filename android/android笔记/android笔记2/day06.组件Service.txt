@@ -1,0 +1,35 @@
+1.进程的优先级：（内存不足，会按优先级依次销毁进程）
+前台进程：有界面的
+服务进程：service组件里运行的
+后台进程：处于后台
+空进程：无组件运行
+2.Service(不能发生界面改变的后台进程)
+***如果调用者开启服务后，程序关闭时没关闭服务，则服务会一直进行下去
+3.粘性：表现为开启服务后会自动在重新启动
+
+4.(1)启动服务 startService(intent)
+停止服务 stopService(intent)
+启动服务的生命周期：
+-- onCreate() -> 当第1次创建Service对象时被调用（一次调用）
+-- onStartCommand() -> 每次激活Service组件时被调用(多次调用）
+只要service开启后没停掉，下次在开启时只会执行 onStartCommand()
+而不会执行onCreate()
+-- onDestroy()
+(2)绑定服务：（服务与activity之间互相通信）
+bindService(intent, new InnerServiceConnection(),BIND_AUTO_CREATE)
+activity退出时解除绑定:
+unbindService(new InnerServiceConnection())
+绑定模式的Service的生命周期:
+--onCreat()
+--onBind()//返回一个继承Binder类的实例，里面包含通信的调用的功能
+--onDestory()
+绑定步骤：
+1）bindService（显式的new Intent(), new InnerServiceConnection()
+(实现ServiceConnection接口的类), BIND的常量);
+2) 写一个继承自Service类的类(服务组件类,要注册）；
+3）写一个获取数据方法的接口用于继承Binder类的实现；
+4）定义通信的接口变量
+5) 最后在ondetory里unbindService
+注：结合图书馆管理系统
+
+.

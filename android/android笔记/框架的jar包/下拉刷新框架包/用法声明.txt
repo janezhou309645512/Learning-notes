@@ -1,0 +1,10 @@
+自定义ListView控件
+实现功能：下拉刷新
+用法：
+1）导入上文件（改包名）
+2）在xml声明控件（改包名加控件类名）
+3）对控件监听
+-----setOnRefreshListener（OnRefreshListener）{
+onRefresh(刷新内容)}//
+刷新完成 
+------refreshComplete()；

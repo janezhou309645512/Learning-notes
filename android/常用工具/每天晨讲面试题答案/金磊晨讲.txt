@@ -1,0 +1,50 @@
+1.关于堆栈的理解：
+
+栈：存放基本类型的变量数据和对象的引用，但对象本身不存放在栈中，而是存放在堆（  new 出来的对象）或者常量池中（字符串常量对象存放在常量池中。）
+
+堆：存放所有new出来的对象。
+
+静态域（属于方法区） ：存放静态成员（static定义的）
+常量池 （属于方法区）：存放字符串常量和基本类型常量（public static final）。
+
+在函数中定义的一些基本类型的变量数据和对象的引用变量都在函数的栈内存中分配  当在一段代码块定义一个变量时，Java在栈中为这个变量分配内存空间，当该变量退出其作用域后，Java会自动释放掉为该变量所分配的内存空间，该内存空间可以立即被另作他用。
+
+引用变量是普通的变量，定义时在栈中分配，引用变量在程序运行到其作用域之外后被释放。而数组和对象本身在堆中分配，即使程序运行到使用 new 产生数组或者对象的  语句所在的代码块之外，数组和对象本身占据的内存不会被释放，数组和对象在没有引用变量指向它的时候，才变为垃圾不能在被使用但仍然占据内存空间不放，在随后的一个不确定的时间被垃圾回收器收走（释放掉）。这也是 Java 比较占内存的原因。
+
+优点和缺点：
+堆是由垃圾回收来负责的，堆的优势是可以动态地分配内存 大小，生存期也  不必事先告诉编译器，因为它是在运行时动态分配内存的，Java的垃圾收集器会自动收走这些不再使用的数据。但缺点，由于要在运行时动态 分配内存，存取速度较慢。 
+
+栈的优势是，存取速度比堆要快，仅次于寄存器，栈数据可以共享。但缺点是，存在栈中的 数据大小与生存期必须是确定的，缺乏灵活性。栈中主要存放一些基本类型的变量数据（int, short,long, byte,float, double, boolean, char）和对象句柄(引用)。
+
+2.异步任务的理解：
+
+AsyncTask主要用来更新UI线程，比较耗时的操作可以在AsyncTask中使用。
+AsyncTask是个抽象类，使用时需要继承这个类，然后调用execute()方法。注意继承时需要设定三个泛型Params，Progress和Result的类型，如AsyncTask<Void,Inetger,Void>：
+Params是指调用execute()方法时传入的参数类型和doInBackgound()的参数类型
+Progress是指更新进度时传递的参数类型，即publishProgress()和onProgressUpdate()的参数类型
+Result是指doInBackground()的返回值类型
+
+上面的说明涉及到几个方法：
+onPreExecute()运行在UI线程中，在调用doInBackground()之前执行的方法
+doInBackgound() 这个方法是继承AsyncTask必须要实现的，运行于后台，耗时的操作可以在这里做
+publishProgress() 更新进度，给onProgressUpdate()传递进度参数
+onProgressUpdate() 在publishProgress()调用完被调用，更新进度
+onPostExecute()运行在主线程，其参数即为doInBackground（）方法的返回值
+调用cancle(boolean)方法取消还在执行的异步任务，调用该方法后将会回调isCancelled()方法返回true,保证当前任务尽快被取消；在调用该方法后，onCancelled(Object)代替了onPostExecute(Object)在执行完doInBackground(Object[])后回调。
+还应补充一点异步任务是才串行的；
+
+3.单线程中关于Message，MessageQueue，Looper，Handler的理解：
+
+Message：消息，其中包含了消息ID，消息处理对象以及处理的数据等，由MessageQueue统一列队，终由	Handler处理，通常附属与创建它的某一个线程。
+
+Handler：处理者，负责Message的发送及处理，只能将消息发送到与他关联的队列中，也只能处理该消息队	列中的消息。使用Handler时，需要实现handleMessage(Message msg)方法来对特定的Message进行处理，例如更新UI等。
+
+MessageQueue：消息队列，用来存放Handler发送过来的消息，并按照FIFO规则执行。当然，存放Message并	非实际意义的保存，而是将Message以链表的方式串联起来的，等待Looper的抽取。
+
+Looper：消息泵，不断地从MessageQueue中抽取Message执行。因此，一个MessageQueue需要一个Looper，他是Handler和消息队列的桥梁，程序组件首先通过Handler把消息传递给Looper，Looper把消息放入队列。
+
+Thread：线程，负责调度整个消息循环，即消息循环的执行场所。
+
+Android系统的消息队列和消息循环都是针对具体线程的，一个线程可以存在（当然也可以不存在）一个消息队列和一个消 息循环（Looper），特定线程的消息只能分发给本线程，不能进行跨线程，跨进程通讯。但是创建的工作线程默认是没有消息循环和消息队列的，如果想让该 线程具有消息队列和消息循环，需要在线程中首先调用Looper.prepare()来创建消息队列，然后调用Looper.loop()进入消息循环。
+
+Activity是一个UI线程，运行于主线程中，Android系统在启动的时候会为默认Activity创建一个消息队列和消息循环（Looper）。

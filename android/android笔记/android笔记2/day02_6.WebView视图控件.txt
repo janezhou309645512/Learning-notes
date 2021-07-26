@@ -1,0 +1,16 @@
+1.WebView视图（显示网页）
+用法：
+1）加载网页
+wb.loadUrl("http://www.baidu.com")
+2）不用浏览器打开网页
+wb.setWebViewClient(new WebViewClient())
+3)让WebView视图支持脚本和缩放功能
+WebSettings ws=wvNew.getSettings();
+ws.setJavaScriptEnabled(true);
+ws.setBuiltInZoomControls(true);
+4）点击超链接后不执行网页要指向的内容，而自己设置点击监听
+setWebViewClient(new WebViewClient()//重写下面这个方法
+@Override
+public boolean shouldOverrideUrlLoading(WebView view, String url) {
+//判断这个url来点击哪个超链接
+				

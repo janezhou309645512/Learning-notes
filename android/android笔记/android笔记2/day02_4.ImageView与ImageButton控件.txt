@@ -1,0 +1,8 @@
+1.ImageView控件
+属性：
+android:src -> 需要显示的图片，取值为@drawable/
+android:contentDescription -> 对图片进行文字描述
+android:scaleType -> 图片的缩放模式，取值为枚举值
+//具有一般控件的监听设置：OnClickListener/OntouchListener
+2.ImageButton
+继承自ImageView控件
