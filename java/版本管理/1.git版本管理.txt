@@ -16,7 +16,7 @@ $ git config --global user.email test@runoob.com
 要检查已有的配置信息 ：$ git config --list
 
 2）连接github 配置SSH
-$ ssh-keygen -t rsa -C "youremail@example.com"
+$ ssh-keygen -t rsa -C "309645512@qq.com"
 cd  ~/.ssh
 less id_rsa.pub
 复制 key

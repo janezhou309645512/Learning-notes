@@ -1,0 +1,7 @@
+1.网络图片框架对比：
+   1)    imageloader
+   2)    Picasso
+   3)    Glide
+   4)    Fresc
+   
+2.最好glide的使用

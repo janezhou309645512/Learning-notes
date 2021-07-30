@@ -1,45 +1,45 @@
-1.Æ«ºÃ´æ´¢£º£¨ÔÚ³ÌĞòµÄÄÚ´æÖĞ£©
-Ô­Àí£º´¢´æÎ»ÖÃÔÚdata/data/³ÌĞò°üÃû/Ä¿Â¼Ãû£¬ÒÔxmlÎÄ¼ş·½Ê½´¢´æ
-ÓÃ·¨£º
-SharedPreferences s= getSharedPreferences("ÎÄ¼şÃû", Context.MODE_PRIVATE); //Ë½ÓĞÊı¾İ
-´æ·ÅÊı¾İ»òĞŞ¸ÄÊı¾İ£º
-Editor editor = s.edit();//»ñÈ¡±à¼­Æ÷
+1.åå¥½å­˜å‚¨ï¼šï¼ˆåœ¨ç¨‹åºçš„å†…å­˜ä¸­ï¼‰
+åŸç†ï¼šå‚¨å­˜ä½ç½®åœ¨data/data/ç¨‹åºåŒ…å/ç›®å½•åï¼Œä»¥xmlæ–‡ä»¶æ–¹å¼å‚¨å­˜
+ç”¨æ³•ï¼š
+SharedPreferences s= getSharedPreferences("æ–‡ä»¶å", Context.MODE_PRIVATE); //ç§æœ‰æ•°æ®
+å­˜æ”¾æ•°æ®æˆ–ä¿®æ”¹æ•°æ®ï¼š
+Editor editor = s.edit();//è·å–ç¼–è¾‘å™¨
 editor.putString("name", "wujaycode");
 editor.putInt("age", 4);
-editor.commit();//Ìá½»ĞŞ¸Ä
-µÃµ½Êı¾İ£º
-int i=s.getInt("i",Ä¬ÈÏÖµ);
-String str=s.getString("str",Ä¬ÈÏÖµ);
+editor.commit();//æäº¤ä¿®æ”¹
+å¾—åˆ°æ•°æ®ï¼š
+int i=s.getInt("i",é»˜è®¤å€¼);
+String str=s.getString("str",é»˜è®¤å€¼);
 ---------------------------------------
-2.ÔõÑùÆ«ºÃ´æ´¢Ò»¸ö¶ÔÏó£¿
-´æ£º
+2.æ€æ ·åå¥½å­˜å‚¨ä¸€ä¸ªå¯¹è±¡ï¼Ÿ
+å­˜ï¼š
 ByteArrayOutputStream baos = new ByteArrayOutputStream();  
-  //´´½¨×Ö½Ú¶ÔÏóÊä³öÁ÷  
+  //åˆ›å»ºå­—èŠ‚å¯¹è±¡è¾“å‡ºæµ  
  ObjectOutputStream out = null;  
-  //È»ºóÍ¨¹ı½«×Ö¶ÔÏó½øĞĞ64×ªÂë£¬Ğ´ÈëkeyÖµÎªkeyµÄspÖĞ  
+  //ç„¶åé€šè¿‡å°†å­—å¯¹è±¡è¿›è¡Œ64è½¬ç ï¼Œå†™å…¥keyå€¼ä¸ºkeyçš„spä¸­  
  out = new ObjectOutputStream(baos);  
 out.writeObject(object);  
  String objectVal = new String(Base64.encode(baos.toByteArray(), Base64.DEFAULT));  
  SharedPreferences.Editor editor = sp.edit();  
  editor.putString(key, objectVal);  
  editor.commit(); 
-È¡£º
+å–ï¼š
 String objectVal = sp.getString(key, null);  
  byte[] buffer = Base64.decode(objectVal, Base64.DEFAULT);  
- //Ò»ÑùÍ¨¹ı¶ÁÈ¡×Ö½ÚÁ÷£¬´´½¨×Ö½ÚÁ÷ÊäÈëÁ÷£¬Ğ´Èë¶ÔÏó²¢×÷Ç¿ÖÆ×ª»»  
+ //ä¸€æ ·é€šè¿‡è¯»å–å­—èŠ‚æµï¼Œåˆ›å»ºå­—èŠ‚æµè¾“å…¥æµï¼Œå†™å…¥å¯¹è±¡å¹¶ä½œå¼ºåˆ¶è½¬æ¢  
 ByteArrayInputStream bais = new ByteArrayInputStream(buffer);  
  ObjectInputStream ois = null;  
  ois = new ObjectInputStream(bais);  
  T t = (T) ois.readObject();
 -------------------------------- 
-3.´æ´¢Ò»¸ö¶ÔÏó¸ÄÉÆ·½·¨£º£¨ÀûÓÃio´æ´¢¶ÔÏó£©
- ´æ£º
+3.å­˜å‚¨ä¸€ä¸ªå¯¹è±¡æ”¹å–„æ–¹æ³•ï¼šï¼ˆåˆ©ç”¨ioå­˜å‚¨å¯¹è±¡ï¼‰
+ å­˜ï¼š
 File file = new File(MyApplication.getContext().getCacheDir(), GlobalConsts.CART_CACHE_FILE_NAME);
 ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(file));
 oos.writeObject(this);
 oos.flush();
 oos.close();
-È¡£º
+å–ï¼š
 File file = new File(MyApplication.getContext().getCacheDir(), GlobalConsts.CART_CACHE_FILE_NAME);
 ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
 Cart cart = (Cart) ois.readObject();

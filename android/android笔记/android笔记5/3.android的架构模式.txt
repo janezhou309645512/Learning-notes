@@ -1,0 +1,517 @@
+1.具体到Android开发中，开发架构就是描述 视图层、逻辑层、数据层 三者之间的关系和实施：
+
+
+
+视图层：用户界面，即界面的展示、以及交互事件的响应。
+
+逻辑层：为了实现系统功能而进行的必要逻辑。
+
+数据层：数据的获取和存储，含本地、server。
+
+
+正常的开发流程中，开始写代码之前 都会有架构设计这一过程。这就需要你选择使用何种架构模式了。
+
+
+
+我的Android开发之路完整地经过了 MVC、MVP、MVVM，相信很多开发者和我一样都是这样一个过程，先来回顾下三者。
+
+
+
+2.1 MVC
+
+
+MVC，Model-View-Controller，职责分类如下：
+
+
+
+Model，模型层，即数据模型，用于获取和存储数据。
+
+View，视图层，即xml布局
+
+Controller，控制层，负责业务逻辑。
+
+
+View层 接收到用户操作事件，通知到 Controller 进行对应的逻辑处理，然后通知 Model去获取/更新数据，Model 再把新的数据 通知到 View 更新界面。这就是一个完整 MVC 的数据流向。
+
+
+
+但在Android中，因为xml布局能力很弱，View的很多操作是在Activity/Fragment中的，而业务逻辑同样也是写在Activity/Fragment中。
+
+
+
+图片
+MVC
+
+
+所以，MVC 的问题点 如下：
+
+
+
+Activity/Fragment 责任不明，同时负责View、Controller，就会导致其中代码量大，不满足单一职责。
+
+Model耦合View，View 的修改会导致 Controller 和 Model 都进行改动，不满足最少知识原则。
+
+2.2 MVP
+
+
+MVP，Model-View-Presenter，职责分类如下：
+
+
+
+Model，模型层，即数据模型，用于获取和存储数据。
+
+View，视图层，即Activity/Fragment
+
+Presenter，控制层，负责业务逻辑。
+
+
+MVP解决了MVC的问题：
+
+
+
+View责任明确，逻辑不再写在Activity中，而是在Presenter中;
+
+
+
+Model不再持有View。
+
+
+
+View层 接收到用户操作事件，通知到Presenter，Presenter进行逻辑处理，然后通知Model更新数据，Model 把更新的数据给到Presenter，Presenter再通知到 View 更新界面。
+
+
+
+图片
+MVP
+
+
+MVP的实现思路：
+
+
+
+UI逻辑抽象成IView接口，由具体的Activity实现类来完成。且调用Presenter进行逻辑操作。
+
+业务逻辑抽象成IPresenter接口，由具体的Presenter实现类来完成。逻辑操作完成后调用IView接口方法刷新UI。
+
+
+MVP 本质是面向接口编程，实现了依赖倒置原则。MVP解决了View层责任不明的问题，但并没有解决代码耦合的问题，View和Presenter之间相互持有。
+
+
+
+所以 MVP 有问题点 如下：
+
+
+
+会引入大量的IView、IPresenter接口，增加实现的复杂度。
+
+View和Presenter相互持有，形成耦合。
+
+2.3 MVVM
+
+
+MVVM，Model-View-ViewModel，职责分类如下：
+
+
+
+Model，模型层，即数据模型，用于获取和存储数据。
+
+View，视图，即Activity/Fragment
+
+ViewModel，视图模型，负责业务逻辑。
+
+注意，MVVM这里的ViewModel就是一个名称，可以理解为MVP中的Presenter。不等同于上一篇中的 ViewModel组件 ，Jetpack ViewModel组件是 对 MVVM的ViewModel 的具体实施方案。
+
+
+
+MVVM 的本质是 数据驱动，把解耦做的更彻底，viewModel不持有view 。
+
+
+
+View 产生事件，使用 ViewModel进行逻辑处理后，通知Model更新数据，Model把更新的数据给ViewModel，ViewModel自动通知View更新界面，而不是主动调用View的方法。
+
+
+
+图片
+MVVM
+
+
+MVVM在Android开发中是如何实现的呢？接着看~
+
+
+
+到这里你会发现，所谓的架构模式本质上理解很简单。比如MVP，甚至你都可以忽略这个名字，理解成 在更高的层面上 面向接口编程，实现了 依赖倒置 原则，就是这么简单。
+
+
+3
+MVVM 的实现 - Jetpack MVVM
+
+
+前面提到，架构模式选择适合自己项目的即可。话虽如此，但Google官方推荐的架构模式 是适合大多数情况，是非常值得我们学习和实践的。
+
+
+
+好了，下面我们就来详细介绍 Jetpack MVVM 架构。
+
+
+
+3.1 Jetpack MVVM 理解
+
+
+Jetpack MVVM 是 MVVM 模式在 Android 开发中的一个具体实现，是 Android中 Google 官方提供并推荐的 MVVM实现方式。
+
+
+
+不仅通过数据驱动完成彻底解耦，还兼顾了 Android 页面开发中其他不可预期的错误，例如Lifecycle 能在妥善处理 页面生命周期 避免view空指针问题，ViewModel使得UI发生重建时 无需重新向后台请求数据，节省了开销，让视图重建时更快展示数据。
+
+
+
+首先，请查看下图，该图显示了所有模块应如何彼此交互：
+
+
+
+图片
+Jetpack MVVM标准推荐架构
+
+
+各模块对应MVVM架构：
+
+
+
+View层：Activity/Fragment
+
+ViewModel层：Jetpack ViewModel + Jetpack LivaData
+
+Model层：Repository仓库，包含 本地持久性数据 和 服务端数据
+
+
+View层 包含了我们平时写的Activity/Fragment/布局文件等与界面相关的东西。
+
+
+
+ViewModel层 用于持有和UI元素相关的数据，以保证这些数据在屏幕旋转时不会丢失，并且还要提供接口给View层调用以及和仓库层进行通信。
+
+
+
+仓库层 要做的主要工作是判断调用方请求的数据应该是从本地数据源中获取还是从网络数据源中获取，并将获取到的数据返回给调用方。本地数据源可以使用数据库、SharedPreferences等持久化技术来实现，而网络数据源则通常使用Retrofit访问服务器提供的Webservice接口来实现。
+
+
+
+另外，图中所有的箭头都是单向的，例如View层指向了ViewModel层，表示View层会持有ViewModel层的引用，但是反过来ViewModel层却不能持有View层的引用。除此之外，引用也不能跨层持有，比如View层不能持有仓库层的引用，谨记每一层的组件都只能与它相邻层的组件进行交互。
+
+
+
+这种设计打造了一致且愉快的用户体验。无论用户上次使用应用是在几分钟前还是几天之前，现在回到应用时都会立即看到应用在本地保留的数据。如果此数据已过期，则应用的Repository将开始在后台更新数据。
+
+
+
+3.2 实施
+
+
+我们来举个完整的例子 - 在页面中显示用户信息列表，来说明 Jetpack MVVM 的具体实施。
+
+
+
+3.2.1 构建界面
+
+
+首先创建一个列表页面 UserListActivity，并且知道页面所需要的数据是，用户信息列表。
+
+那么 用户信息列表 如何获取呢？根据上面的架构图，就是ViewModel了，所以我们创建 UserListViewModel 继承自 ViewModel，并且把 用户信息列表 以 LiveData呈现。
+
+
+
+public class UserListViewModel extends ViewModel {
+    //用户信息
+    private MutableLiveData<List<User>> userListLiveData;
+    //进条度的显示
+    private MutableLiveData<Boolean> loadingLiveData;
+
+    public UserListViewModel() {
+        userListLiveData = new MutableLiveData<>();
+        loadingLiveData = new MutableLiveData<>();
+    }
+
+    public LiveData<List<User>> getUserListLiveData() {
+        return userListLiveData;
+    }
+    public LiveData<Boolean> getLoadingLiveData() {
+        return loadingLiveData;
+    }
+    ...
+}
+
+LiveData 是一种可观察的数据存储器。应用中的其他组件可以使用此存储器监控对象的更改，而无需在它们之间创建明确且严格的依赖路径。LiveData 组件还遵循应用组件（如 Activity、Fragment 和 Service）的生命周期状态，并包括清理逻辑以防止对象泄漏和过多的内存消耗。
+
+
+
+将 UserListViewModel 中的字段类型更改为 MutableLiveData<List>。现在，更新数据时，系统会通知 UserListActivity。此外，由于此 LiveData 字段具有生命周期感知能力，因此当不再需要引用时，会自动清理它们。
+
+
+
+另外，注意到暴露的获取LiveData的方法 返回的是LiveData类型，即不可变的，而不是MutableLiveData，好处是避免数据在外部被更改。（参见LivaData篇文章）
+
+
+
+现在，我们修改 UserListActivity 以观察数据并更新界面：
+
+
+
+//UserListActivity.java
+...
+//观察ViewModel的数据，且此数据 是 View 直接需要的，不需要再做逻辑处理
+private void observeLivaData() {
+    mUserListViewModel.getUserListLiveData().observe(this, new Observer<List<User>>() {
+        @Override
+        public void onChanged(List<User> users) {
+            if (users == null) {
+                Toast.makeText(UserListActivity.this, "获取user失败！", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            //刷新列表
+            mUserAdapter.setNewInstance(users);
+        }
+    });
+
+    mUserListViewModel.getLoadingLiveData().observe(this, new Observer<Boolean>() {
+        @Override
+        public void onChanged(Boolean aBoolean) {
+         //显示/隐藏加载进度条
+            mProgressBar.setVisibility(aBoolean? View.VISIBLE:View.GONE);
+        }
+    });
+}
+
+每次更新用户列表信息数据时，系统都会调用 onChanged() 回调并刷新界面，而不需要 ViewModel主动调用View层方法刷新，这就是 数据驱动 了 —— 数据的更改 驱动 View 自动刷新。
+
+
+
+因为LiveData具有生命周期感知能力，这意味着，除非 Activity 处于活跃状态，否则它不会调用 onChanged() 回调。当调用 Activity 的 onDestroy() 方法时，LiveData 还会自动移除观察者。
+
+
+
+另外，我们也没有添加任何逻辑来处理配置更改（例如，用户旋转设备的屏幕）。
+
+
+
+UserListViewModel 会在配置更改后自动恢复，所以一旦创建新的 Activity，它就会接收相同的 ViewModel 实例，并且会立即使用当前的数据调用回调。鉴于 ViewModel 对象应该比它们更新的相应 View 对象存在的时间更长，因此 ViewModel 实现中不得包含对 View 对象的直接引用，包括Context。
+
+
+
+3.2.2 获取数据
+
+
+现在，我们已使用 LiveData 将 UserListViewModel 连接到UserListActivity，那么如何获取用户个人信息列表数据呢？
+
+
+
+实现 ViewModel 的第一个想法可能是 使用Retrofit/Okhttp调用接口 来获取数据，然后将该数据设置给 LiveData 对象。这种设计行得通，但如果采用这种设计，随着应用的扩大，应用会变得越来越难以维护。这样会使 UserListViewModel 类承担太多的责任，这就违背了单一职责原则。
+
+
+
+ViewModel 会将数据获取过程委派给一个新的模块，即Repository。
+
+
+
+Repository模块会处理数据操作。它们会提供一个干净的 API，以便应用内其余部分也可以轻松获取该数据。数据更新时，它们知道从何处获取数据以及进行哪些 API 调用。您可以将Repository视为不同数据源（如持久性模型、网络服务和缓存）之间的媒介。
+
+
+
+public class UserRepository {
+
+private static UserRepository mUserRepository;
+public static UserRepository getUserRepository(){
+    if (mUserRepository == null) {
+        mUserRepository = new UserRepository();
+    }
+    return mUserRepository;
+}
+
+//(假装)从服务端获取
+public void getUsersFromServer(Callback<List<User>> callback){
+    new AsyncTask<Void, Void, List<User>>() {
+        @Override
+        protected void onPostExecute(List<User> users) {
+            callback.onSuccess(users);
+            //存本地数据库
+            saveUsersToLocal(users);
+        }
+        @Override
+        protected List<User> doInBackground(Void... voids) {
+            try {
+                Thread.sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            //假装从服务端获取的
+            List<User> users = new ArrayList<>();
+            for (int i = 0; i < 20; i++) {
+                User user = new User("user"+i, i);
+                users.add(user);
+            }
+            return users;
+        }
+    }.execute();
+}
+    
+
+虽然Repository模块看起来不必要，但它起着一项重要的作用：它会从应用的其余部分中提取数据源。现在，UserListViewModel 是不知道数据来源的，因此我们可以为ViewModel提供从几个不同的数据源获取数据。
+
+
+
+3.2.3 连接 ViewModel 与存储区
+
+
+我们在UserListViewModel 提供一个方法，用户Activity获取用户信息。此方法就是调用Repository来执行，并且把数据设置到LiveData。
+
+
+
+public class UserListViewModel extends ViewModel {
+    //用户信息
+    private MutableLiveData<List<User>> userListLiveData;
+    //进条度的显示
+    private MutableLiveData<Boolean> loadingLiveData;
+
+    public UserListViewModel() {
+        userListLiveData = new MutableLiveData<>();
+        loadingLiveData = new MutableLiveData<>();
+    }
+
+    /**
+     * 获取用户列表信息
+     * 假装网络请求 2s后 返回用户信息
+     */
+    public void getUserInfo() {
+
+        loadingLiveData.setValue(true);
+
+        UserRepository.getUserRepository().getUsersFromServer(new Callback<List<User>>() {
+            @Override
+            public void onSuccess(List<User> users) {
+                loadingLiveData.setValue(false);
+                userListLiveData.setValue(users);
+            }
+
+            @Override
+            public void onFailed(String msg) {
+                loadingLiveData.setValue(false);
+                userListLiveData.setValue(null);
+            }
+        });
+    }
+
+    //返回LiveData类型
+    public LiveData<List<User>> getUserListLiveData() {
+        return userListLiveData;
+    }
+    public LiveData<Boolean> getLoadingLiveData() {
+        return loadingLiveData;
+    }
+}
+
+在Activity中，就要获取UserListViewModel实例，获取用户信息：
+
+
+
+//UserListActivity.java
+public class UserListActivity extends AppCompatActivity {
+private UserListViewModel mUserListViewModel;
+private ProgressBar mProgressBar;
+private RecyclerView mRvUserList;
+private UserAdapter mUserAdapter;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_user_list);
+
+    initView();
+    initViewModel();
+    getData();
+    observeLivaData();
+}
+private void initView() {...}
+
+private void initViewModel() {
+    ViewModelProvider viewModelProvider = new ViewModelProvider(this);
+    mUserListViewModel = viewModelProvider.get(UserListViewModel.class);
+}
+
+/**
+ * 获取数据，调用ViewModel的方法获取
+ */
+private void getData() {
+    mUserListViewModel.getUserInfo();
+}
+
+private void observeLivaData() {...}
+
+3.2.4 缓存数据
+
+
+现在UserRepository 有个问题是，它从后端获取数据后，不会将缓存该数据。因此，如果用户在离开页面后再返回，则应用必须重新获取数据，即使数据未发生更改也是如此。这就浪费了宝贵的网络资源，迫使用户等待新的查询完成。所以，我们向 UserRepository 添加了一个新的数据源，本地缓存。缓存实现 可以是 数据库、SharedPreferences等持久化技术。（具体实现就不再写了）
+
+
+
+//UserRepository.java
+
+    //从本地数据库获取
+    public void getUsersFromLocal(){
+        // TODO: 2021/1/24 从本地数据库获取
+    }
+
+    //存入本地数据库 (从服务端获取数据后可以调用)
+    private void saveUsersToLocal(List<User> users){
+        // TODO: 2021/1/24 存入本地数据库
+    }
+
+到这里，Jetpack MVVM 就介绍完了。
+
+
+
+实际上只要前面介绍的 Lifecycle、LivaData、ViewModel 熟练掌握的话，这里是十分好理解的。
+
+
+
+3.3 注意点
+
+
+在应用的各个模块之间设定明确定义的职责界限。
+
+
+
+ViewModel 不能持有 View层引用，包括Context也不能持有。
+
+
+
+将一个数据源指定为单一可信来源。每当需要访问数据时，都应一律源于此单一可信来源。例如 UserRepository会将网络服务响应保存在数据库中。这样一来，对数据库的更改将触发对活跃 LiveData 对象的回调。数据库会充当单一可信来源。
+
+
+
+保留尽可能多的相关数据和最新数据。这样，即使用户的设备处于离线模式，他们也可以使用您应用的功能。请注意，并非所有用户都能享受到稳定的高速连接。
+
+
+
+显示页面状态。例如例子中的加载进度条，就是观察 ViewModel中的MutableLiveDataloadingLiveData 进行操作的。
+
+
+
+3.4 MVP改造MVVM
+
+
+了解了Jetpack MVVM的实现，再来改造 MVP 是很简单的了。
+
+
+
+步骤如下：
+
+
+
+1. 去除Presener 对View、context的引用。
+
+2. Presener 替换成ViewModel的实现，获取的数据以 LivaData呈现。
+
+3. 删除定义的IView等接口，Activity/Fragment中 获取ViewModel实例，调用其方法获取数据。
+
+4. Activity/Fragment 观察需要的 LivaData 然后刷新UI。
+
+这样就已经成为了MVVM。当然也要检查下 原MVP的 Model层的实现，是否满足上面的要求。

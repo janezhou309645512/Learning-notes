@@ -1,0 +1,6 @@
+https://blog.csdn.net/qq_25955641/article/details/89790669
+1.MediaPlayer+SurfaceView
+
+2.VideoView
+
+3.Vitamio框架

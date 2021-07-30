@@ -1,0 +1,147 @@
+1.https://blog.csdn.net/eastmoon502136/article/details/50596806
+
+1.目录结构
+
+
+manifests：
+     build.gradle为项目的gradle配置文件：
+	 
+	 apply plugin: 'com.android.application'//说明module的类型，com.android.application为应用程序，com.android.library为类库
+
+android {
+
+    compileSdkVersion 25//编译的SDK版本，最佳选择为最新的API级别
+
+    buildToolsVersion "25.0.2"//编译的Tools版本，最佳选择为最新的API级别
+
+    defaultConfig {//默认配置
+
+        applicationId "com.bignerdranch.android.criminalintent"//应用程序的包名
+
+        minSdkVersion 16 //支持的最低版本，操作系统会拒绝将应用安装在系统版本低于此标准的设备上
+
+        targetSdkVersion 25 //支持的目标版本，最佳选择为最新的API级别
+
+        versionCode 1 //版本号
+
+        versionName "1.0"//版本名
+
+    }    
+
+    buildTypes {//build类型
+
+        release {//发布
+
+            minifyEnabled false //混淆开启
+
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'//指定混淆规则文件 
+}
+}
+}
+
+dependencies { //依赖配置，类似mavean
+
+compile fileTree(include: ['*.jar'], dir: 'libs')//依赖lib目录下的.jar文件
+androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    exclude group: 'com.android.support', module: 'support-annotations'
+})  
+compile 'com.android.support:appcompat-v7:25.1.0'//依赖的基础库
+testCompile 'junit:junit:4.12'  //测试需要的依赖包
+compile 'com.android.support:support-v4:25.1.0' //依赖的第三方开源库
+}
+————————————————
+版权声明：本文为CSDN博主「编程序的艺术家」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/m0_37222746/article/details/54376592
+	 
+
+
+         AndroidManifest.xml：APP的配置信息
+
+java：主要为源代码和测试代码
+
+res：主要是资源目录，存储所有的项目资源
+
+        drawable：存储一些xml文件，-*dpi表示存储分辨率的图片，用于适配不同的屏幕。
+
+                           -mdpi:320x480
+
+                           -hdpi:480x800、480x854
+
+                           -xhdpi:至少960x720
+
+                           -xxhdpi:1280x720
+
+        layout：存储布局文件
+
+        mipmap：存储原声图片资源
+
+        values：存储app引用的一些值
+
+                     - colors.xml：  存储了一些color的样式
+
+                     - dimens.xml：存储了一些公用的dp值                       
+
+                     - strings.xml： 存储了引用的string值
+
+                     - styles.xml：   存储了app需要用到的一些样式
+
+         Gradle Scripts:build.gradle为项目的gradle配置文件
+		 
+2.
+build：系统生成的文件目录，最后生成的apk文件就在这个目录，这里是app-debug.apk
+
+libs：为项目需要添加的*.jar包或*.so包等外接库
+
+src：项目的源代码，其中android test为测试包，main里为主要的项目目录和代码，test为单元测试代码
+
+3. AndroidManifext
+
+描述了package中暴露的组件像activity，serveice等，他们各自的实现类，各种能被处理的数据和启动位置。此外还能声明程序中的contentproviers，intentreceivers，还能指定permissions和instrumentation等等。
+
+    xmlns:android：定义android的命名空间。
+
+    package：指定本应用内java主程序的包名，这里就是com.example.jared.hello了。
+
+    application：声明了每一个应用程序的组件及其属性。
+
+    android:allowBackup：将程序加入到系统的备份和恢复架构中。
+
+    android:icon：显而易见表示APP的图标了。
+
+    android:label：许可列表。
+
+    android:supportsRtl：启用各种RTLAPI来用RTL布局显示应用，这个是android4.2的新特性。     android:theme：android的主题。
+
+    activity：android:name表示当前的activity的名字，因为工程为MainActivity，所以这个名字就为这个，之后有新的activity的话，也需要添加才可以使用。
+
+    intent-filter：包含了action，data和category三种。
+
+                          action：只有android:name属性，常见的是android.intent.action.MAIN，表示此activity是作为应用程序的入口。  
+
+                          data：指定了希望接受的intent请求的数据URI和数据类型。
+
+                          category：android:name属性，常见的是android.intent.category.LAUNCHER，决定应用程序是否显示在程序列表里。
+
+ 4.layout的activity_main.xml
+ RelativeLayout：相对布局
+
+xmlns:android定义：android命名空间。
+
+xmlns:tools：tools命名空间，用来预览一些布局属性的添加和删除后的效果。
+
+android:layout_width：指定了控件的宽度，可选择match_parent，fill_parent，wrap_content，其中match_parent和fill_parent的意思相同，官方更加推荐使用match_parent。match_parent表示让当前控件的大小和父布局的大小一样，也就是由父布局来决定当前控件的大小。wrap_content表示让当前控件的大小能够刚好包含住里面的内容，也就是由控件内容决定当前控件的大小。
+
+android:layout_height:同上。
+
+android:paddingLeft，android:paddingRight，android:paddingTop，android:paddingBottom：站在父view的角度描述问题，它规定它里面的内容必须与这个父view边界的距离。此外还有margin，它是站在自己的角度描述问题，规定自己喝其他的view之间的距离，如果同一级只有一个view，那么它的效果基本上就和padding一样了。
+
+TextView：android的控件。
+
+                android:text：textview显示的内容，这里就是hello world了。
+
+
+
+
+
+		 
+
