@@ -1,3 +1,4 @@
+数据存储(Application,SharePreference,文件存储，数据库,ContentProvider)
 1.偏好存储：（在程序的内存中）
 原理：储存位置在data/data/程序包名/目录名，以xml文件方式储存
 用法：

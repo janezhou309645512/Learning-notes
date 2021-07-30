@@ -1,17 +1,20 @@
 1.ContentProvider:
-�ṩ���������ݣ�������Ӧ�ó�����ɾ������
-дһ���̳���ContentProvider����
-�����������ǲ��̳���context��,�����÷���getContext()�õ�contextֵ
-���嵥�ļ���ע�᣺
-authorities :����
+实现各个应用程序之间的（跨应用）数据共享，
+比如联系人应用中就使用了ContentProvider,你在自己的应用中可以读取和修改联系人的数据，不过需要获得相应的权限。
+所以组件之间也可以通过ContentProvider来进行数据通信，本质是通过数据库文件实现通信。
+提供共享的数据，供其他应用程序增删改数据
+写一个继承自ContentProvider的类
+由于这个组件是不继承自context的,可以用方法getContext()得到context值
+在清单文件里注册：
+authorities :域名
 exported:true
 
 2.ContentResolver:
-������ɾ�Ĳ�����ṩ���ݷ�������
-1��׼��ContentResolver����
+可以增删改查访问提供数据方的数据
+1）准备ContentResolver对象
 ContentResolver cr = context.getContentResolver();
-2��Uri url = Uri.parse("content://����");
-sd���´洢��ý���ļ���������ϵͳ���.provider���MediaStore.
-3������cr�������ContentProvider�����ɾ�ĳԲ鷽���������ݲ���
+2）Uri url = Uri.parse("content://域名");
+sd卡下存储的媒体文件，数据在系统里的.provider里，在MediaStore.
+3）在用cr对象调用ContentProvider里的增删改吃查方法进行数据操作
 
 

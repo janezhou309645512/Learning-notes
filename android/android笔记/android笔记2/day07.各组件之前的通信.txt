@@ -1,0 +1,22 @@
+1. Activity-Activity
+    传递数据的通信方式就是Intent，Intent可以携带的数据类型包括基本数据类型
+	（boolean, byte, char, double, float, int, long, short）
+	以及基本类型数组，CharSequence以及CharSequence数组，String以及String数组，
+	Parcelable以及Parcelable数组，Serializable和Bundle。
+2. 单向通信（Activity--->Service）
+
+
+3.（Service--->Activity)
+
+
+4. broadcast 广播  1.接受自己 2.监听
+
+
+5.ContentProvider它主要的作用是：实现各个应用程序之间的（跨应用）数据共享，
+比如联系人应用中就使用了ContentProvider,你在自己的应用中可以读取和修改联系人的数据，
+不过需要获得相应的权限。所以组件之间也可以通过ContentProvider来进行数据通信，
+本质是通过数据库文件实现通信
+
+
+
+
