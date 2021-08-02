@@ -1,23 +1,37 @@
-1.更新代码
+1.本地代码上传到Github
+1)项目文件下，git init 进行本地仓库的创建
+2)第二步是进行本地仓库与github上面的远程仓库进行连接
+(在命令行中输入git remote add origin git@github.com:coderXuXiang/test2.git,
+如果连接错了 $ git remote rm origin(删除关联的origin的远程库)) 
+3)输入 git add . (此处add . 是指将目录下所有文件加到暂存区中)
+4)输入git commit -m '说明信息'(将暂存区中的操作提交的本地仓库中)
+5)输入 git push -u origin  master  
+
+
+
+
+
+
+2.更新代码
 git branch        -----查看当前分支
 
 git pull             -----更新代码到本地 
 
-2.提交代码：
+3.提交代码：
 
-1、在本地修改相应文件（或者文件新旧替换）
+1)、在本地修改相应文件（或者文件新旧替换）
 
-2、git add **/**/文件名    （文件修改路径）
+2)、git add **/**/文件名    （文件修改路径）
 
 （注意路径要写对）
 
-3、git status         ----查看当前本地文件信息
+3)、git status         ----查看当前本地文件信息
 
 
-4、 git commit -m "更改信息备注"
+4)、 git commit -m "更改信息备注"
 
 
-5、git push               --------提交代码到当前分支
+5)、git push               --------提交代码到当前分支
 
 （我一般git push 之前会看一下commit状态：git status）
 

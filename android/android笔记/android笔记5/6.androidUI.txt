@@ -1,0 +1,10 @@
+1.常见UI控件(https://blog.csdn.net/sinat_33585352/article/details/88825720)
+
+
+2.自定义VIEW的绘制
+
+常见的自定义View 是继承自View，ViewGroup ，LinearLayout ,RelativeLayout等（本文着重以ViewGroup为例）
+https://www.jianshu.com/p/a09a0a1f33aa
+
+
+
