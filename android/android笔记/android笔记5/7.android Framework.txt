@@ -4,3 +4,5 @@
   LIBRARIES(共享库，以及android运行时库)，
   APPLICATION FRAMEWORK(应用框架层)，
   APPLICATION(应用程序)
+  
+2.

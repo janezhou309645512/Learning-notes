@@ -1,0 +1,9 @@
+1.JDK=开发工具+JRE(JVM+java.exe)
+2.
+      编译         运行
+.java------.class-------JVM
+
+3.
+
+
+
